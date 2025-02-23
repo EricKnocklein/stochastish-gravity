@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Stochastic Gravity</title>
     <link rel="stylesheet" href="index.css" />
-    <script src="index.js" defer type="module"></script>
+    <script src="index.js" type="module"></script>
   </head>
-  <body></body>
+  <body>
+    Here is the first similation, which has one thread that is more likely to update tiles on the left side of the sim, basically forming a temporal gradient.
+    <div id="gradient" class="sim"></div>
+    This second gradient is run by multiple threads, but each square has an equal chance of getting selected for an update. It's just that squares with more particles will take longer to update.
+    <div id="constant" class="sim"></div>
+  </body>
 </html>

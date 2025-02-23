@@ -1,25 +1,30 @@
-import Particle from "./particle";
-import Square from "./square";
+import Particle from "./particle.js";
+import Square from "./square.js";
 
 class Space {
   constructor(element, width, height, squareSelector) {
     this.squareHolder = document.createElement('div');
     this.particleHolder = document.createElement('div');
 
+    element.style.width = `${Square.SQUARE_WIDTH * width}px`;
+    element.style.height =  `${Square.SQUARE_WIDTH * height}px`;
+
     element.appendChild(this.squareHolder);
     element.appendChild(this.particleHolder);
+    this.setupParticleHolder();
+    this.setupSquareHolder();
 
     this.squareSelector = squareSelector;
     this.width = width;
     this.height = height;
     this.particles = [];
     this.squares = [];
-    for (let x = 0; x < width; x++) {
-      this.squares[x] = [];
-      for (let y = 0; y < height; y++) {
-        const square = new Square(this.particles, { x: x, y: y });
+    for (let i = 0; i < width; i++) {
+      this.squares[i] = [];
+      for (let j = 0; j < height; j++) {
+        const square = new Square(this.particles, { x: i, y: j });
         this.squareHolder.appendChild(square.elem);
-        this.squares[x][y] = square
+        this.squares[i][j] = square;
       }
     }
   }

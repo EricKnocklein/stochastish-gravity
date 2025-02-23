@@ -1,0 +1,22 @@
+.square {
+  height: 10px;
+  width: calc(var(--width) * 1px);
+  position: absolute;
+  left: calc(var(--x) * 1px);
+  top: calc(var(--y) * 1px);
+  border: 1px solid #00000012;
+}
+
+.particle {
+  left: calc(var(--x) * 1px);
+  top: calc(var(--y) * 1px);
+  width: 5px;
+  height: 5px;
+  border-radius: 100%;
+  background-color: red;
+  position: absolute;
+}
+
+.sim {
+  position: relative;
+}

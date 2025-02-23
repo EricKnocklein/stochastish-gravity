@@ -15,7 +15,6 @@ class Particle {
     this.elem.id = `particle_${id}`;
     this.elem.classList.add("particle");
     this.updateElemPosition();
-    return elem;
   }
 
   updateElemPosition() {
