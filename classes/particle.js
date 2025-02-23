@@ -3,7 +3,7 @@ const repulsionStrength = 1.0;
 const equilibriumDistance = 20;
 
 class Particle {
-  constructor(pos, v, id, interactions) {
+  constructor(pos, v, id) {
     this.position = { x: pos.x, y: pos.y };
     this.velocity = { x: v.x, y: v.y };
     this.mass = 1;
@@ -34,7 +34,7 @@ class Particle {
     this.velocity.y += acc.y;
   }
 
-  takeStep(force) {
+  update(force) {
     this.updateParticlePosition();
     const acc = force.map((dir) => {
       return dir / this.mass;
@@ -73,3 +73,5 @@ class Particle {
     return { x: forceX, y: forceY };
   }
 }
+
+export default Particle;
