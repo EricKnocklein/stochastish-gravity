@@ -2,7 +2,13 @@ import Particle from "./particle";
 import Square from "./square";
 
 class Space {
-  constructor(width, height, squareSelector) {
+  constructor(element, width, height, squareSelector) {
+    this.squareHolder = document.createElement('div');
+    this.particleHolder = document.createElement('div');
+
+    element.appendChild(this.squareHolder);
+    element.appendChild(this.particleHolder);
+
     this.squareSelector = squareSelector;
     this.width = width;
     this.height = height;
@@ -11,15 +17,31 @@ class Space {
     for (let x = 0; x < width; x++) {
       this.squares[x] = [];
       for (let y = 0; y < height; y++) {
-        this.squares[x][y] = new Square(this, { x: x, y: y });
+        const square = new Square(this.particles, { x: x, y: y });
+        this.squareHolder.appendChild(square.elem);
+        this.squares[x][y] = square
       }
     }
   }
 
+  setupParticleHolder() {
+    const elem = this.particleHolder;
+    elem.classList.add('particle_holder');
+  }
+
+  setupSquareHolder() {
+    const elem = this.squareHolder;
+    elem.classList.add('square_holder');
+  }
+
   addParticle(x, y) {
-    this.particles.push(
-      new Particle({ x: x, y: y }, { x: 0, y: 0 }, this.particles.length)
+    const particle = new Particle(
+      { x: x, y: y },
+      { x: 0, y: 0 },
+      this.particles.length
     );
+    this.particles.push(particle);
+    this.particleHolder.appendChild(particle.elem)
   }
 
   update() {
