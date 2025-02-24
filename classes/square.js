@@ -15,27 +15,30 @@ class Square {
     elem.style.setProperty('--y', this.y);
     elem.style.setProperty('--width', this.width);
     this.elem = elem;
-
-    return elem;
   }
 
   getParticles() {
     const particles = this.particles;
-    return particles.filter((particle) => {
+    const insideParticles = particles.filter((particle) => {
       const x = particle.position.x;
       const y = particle.position.y;
       const isInX =  x >= this.x && x < (this.x + this.width);
-      const isInY =  x >= this.y && y < (this.y + this.width);
+      const isInY =  y >= this.y && y < (this.y + this.width);
       return isInX && isInY;
-    })
+    });
+    return insideParticles;
   }
 
   update() {
+    this.elem.classList.add('updating');
     const particles = this.getParticles();
     for (let particle of particles) {
       const force = particle.getForce(this.particles);
       particle.update(force);
     }
+    window.requestAnimationFrame(() => {
+      this.elem.classList.remove('updating');
+    })
   }
 }
 

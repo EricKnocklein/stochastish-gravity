@@ -35,9 +35,11 @@ class Particle {
 
   update(force) {
     this.updateParticlePosition();
-    const acc = force.map((dir) => {
-      return dir / this.mass;
-    });
+    const acc = {
+      x: force.x / this.mass,
+      y: force.y / this.mass
+    }
+    this.updateParticlePosition(acc);
     this.updateParticleVelocity(acc);
   }
 

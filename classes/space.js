@@ -50,9 +50,9 @@ class Space {
   }
 
   update() {
-    const { xq, yq } = this.squareSelector();
-    const x = Math.floor(xq * this.width);
-    const y = Math.floor(yq * this.height);
+    const selection = this.squareSelector();
+    const x = Math.floor(selection.x * this.width);
+    const y = Math.floor(selection.y * this.height);
 
     const square = this.squares[x][y];
     square.update();

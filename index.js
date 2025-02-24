@@ -9,7 +9,7 @@ const gradientSelector = () => {
   return {x: x, y: y};
 }
 
-const space = new Space(gradientSim, 55, 30, gradientSelector, 10);
+const space = new Space(gradientSim, 6, 3, gradientSelector, 100);
 
 for (let i = 0; i < 5; i++) {
   for (let j = 0; j < 5; j++) {
@@ -18,3 +18,7 @@ for (let i = 0; i < 5; i++) {
     space.addParticle(x, y);
   }
 }
+
+gradientSim.addEventListener('click', () => {
+  space.update();
+})
