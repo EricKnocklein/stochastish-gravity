@@ -1,10 +1,9 @@
 class Square {
-  static SQUARE_WIDTH = 10;
-
-  constructor(particles, indeces) {
+  constructor(particles, indeces, width) {
     this.particles = particles;
-    this.x = indeces.x * Square.SQUARE_WIDTH;
-    this.y = indeces.y * Square.SQUARE_WIDTH;
+    this.x = indeces.x * width;
+    this.y = indeces.y * width;
+    this.width = width;
     this.createElement(`${this.x}_${this.y}`);
   }
 
@@ -14,7 +13,7 @@ class Square {
     elem.classList.add("square");
     elem.style.setProperty('--x', this.x);
     elem.style.setProperty('--y', this.y);
-    elem.style.setProperty('--width', Square.SQUARE_WIDTH);
+    elem.style.setProperty('--width', this.width);
     this.elem = elem;
 
     return elem;
@@ -25,8 +24,8 @@ class Square {
     return particles.filter((particle) => {
       const x = particle.position.x;
       const y = particle.position.y;
-      const isInX =  x >= this.x && x < (this.x + Square.SQUARE_WIDTH);
-      const isInY =  x >= this.y && y < (this.y + Square.SQUARE_WIDTH);
+      const isInX =  x >= this.x && x < (this.x + this.width);
+      const isInY =  x >= this.y && y < (this.y + this.width);
       return isInX && isInY;
     })
   }

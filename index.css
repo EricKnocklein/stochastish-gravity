@@ -5,16 +5,23 @@
   left: calc(var(--x) * 1px);
   top: calc(var(--y) * 1px);
   border: 1px solid #00000012;
+  box-sizing: border-box;
 }
 
 .particle {
   left: calc(var(--x) * 1px);
   top: calc(var(--y) * 1px);
+  position: absolute;
+}
+
+.particle::after {
+  content: '';
   width: 5px;
   height: 5px;
   border-radius: 100%;
   background-color: red;
-  position: absolute;
+  display: block;
+  transform: translate(-50%, -50%);
 }
 
 .sim {

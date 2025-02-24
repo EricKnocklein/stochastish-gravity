@@ -9,7 +9,7 @@ const gradientSelector = () => {
   return {x: x, y: y};
 }
 
-const space = new Space(gradientSim, 55, 30, gradientSelector);
+const space = new Space(gradientSim, 55, 30, gradientSelector, 10);
 
 for (let i = 0; i < 5; i++) {
   for (let j = 0; j < 5; j++) {
