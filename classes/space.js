@@ -19,6 +19,7 @@ class Space {
     this.squareSelector = squareSelector;
     this.width = width;
     this.height = height;
+    this.squareWidth = squareWith;
     this.particles = [];
     this.squares = [];
     for (let i = 0; i < width; i++) {
@@ -59,6 +60,34 @@ class Space {
 
     const square = this.squares[x][y];
     square.update();
+
+    const sqW = this.squareWidth;
+
+    for (const particle of this.particles) {
+      const pos = particle.position;
+      let hitWall = false;
+
+      if (pos.x < sqW / 2) {
+        pos.x = sqW / 2;
+        hitWall = true;
+      } else if (pos.x > (this.width * sqW) - (sqW / 2)) {
+        pos.x = (this.width * sqW) - sqW / 2;
+        hitWall = true;
+      }
+
+      if (pos.y < sqW / 2) {
+        pos.y = sqW / 2;
+        hitWall = true;
+      } else if (pos.y >= (this.height * sqW) - (sqW / 2)) {
+        pos.y = (this.height * sqW) - sqW / 2;
+        hitWall = true;
+      }
+
+      if (hitWall) {
+        particle.updateElemPosition();
+      }
+    }
+
     this.updateCenterOfGravity();
   }
 

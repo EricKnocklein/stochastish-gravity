@@ -34,6 +34,10 @@
   background-color: blue;
 }
 
+.particle.centerOfGravity.original::after {
+  background-color: green;
+}
+
 .particle.centerOfGravity {
   z-index: 1;
 }

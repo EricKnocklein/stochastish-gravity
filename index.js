@@ -3,7 +3,7 @@ import Space from "./classes/space.js";
 const gradientSim = document.getElementById('gradient');
 
 const gradientSelector = () => {
-  const x = 1 - Math.random() ** 2;
+  const x = Math.random() ** 2;
   // const x = Math.random();
   const y = Math.random();
 
@@ -20,6 +20,9 @@ for (let i = 0; i < 30; i++) {
   }
 }
 
+const originalCneter = space.center.cloneNode();
+originalCneter.classList.add('original');
+space.particleHolder.appendChild(originalCneter);
 window.particles = space.particles;
 
 let runSim = false;
