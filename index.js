@@ -3,22 +3,39 @@ import Space from "./classes/space.js";
 const gradientSim = document.getElementById('gradient');
 
 const gradientSelector = () => {
-  const x = Math.random() ** 2;
+  const x = 1 - Math.random() ** 2;
+  // const x = Math.random();
   const y = Math.random();
 
   return {x: x, y: y};
 }
 
-const space = new Space(gradientSim, 6, 3, gradientSelector, 100);
+const space = new Space(gradientSim, 60, 30, gradientSelector, 10);
 
-for (let i = 0; i < 5; i++) {
-  for (let j = 0; j < 5; j++) {
-    const x = (i * 100) + 50;
-    const y = (j * 50) + 50;
+for (let i = 0; i < 30; i++) {
+  for (let j = 0; j < 14; j++) {
+    const x = (i * 10) + 150;
+    const y = (j * 10) + 80;
     space.addParticle(x, y);
   }
 }
 
+window.particles = space.particles;
+
+let runSim = false;
+const runner = () => {
+  if (!runSim) {
+    return;
+  }
+  for (let i = 0; i < 50; i++) {
+    space.update();
+  }
+  window.requestAnimationFrame(() => {
+    runner();
+  })
+}
+
 gradientSim.addEventListener('click', () => {
-  space.update();
+  runSim = !runSim;
+  runner();
 })

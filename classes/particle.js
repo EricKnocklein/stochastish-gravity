@@ -1,6 +1,5 @@
-const attractionStrength = 0.1;
-const repulsionStrength = 1.0;
-const equilibriumDistance = 20;
+const attractionStrength = 10;
+const repulsionStrength = 20;
 
 class Particle {
   constructor(pos, v, id) {
@@ -23,7 +22,7 @@ class Particle {
   }
 
   updateParticlePosition() {
-    this.position.x += this.velocity.y;
+    this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
     this.updateElemPosition();
   }
@@ -37,10 +36,10 @@ class Particle {
     this.updateParticlePosition();
     const acc = {
       x: force.x / this.mass,
-      y: force.y / this.mass
-    }
-    this.updateParticlePosition(acc);
+      y: force.y / this.mass,
+    };
     this.updateParticleVelocity(acc);
+    this.updateParticlePosition(acc);
   }
 
   getForce(particles) {
@@ -54,15 +53,12 @@ class Particle {
       let dy = other.position.y - this.position.y;
       let distSq = dx * dx + dy * dy;
 
-      if (distSq === 0) continue;
+      if (distSq < 10) continue;
 
       let dist = Math.sqrt(distSq);
-      let normalizedDist = dist / equilibriumDistance;
 
-      // Attraction dominates at long range, repulsion dominates at short range
-      let forceMagnitude =
-        attractionStrength * (normalizedDist - 1) -
-        repulsionStrength / (normalizedDist * normalizedDist);
+      let forceMagnitude = attractionStrength * (1 / distSq) - repulsionStrength * (1 / dist ** 3);
+
 
       let fx = (forceMagnitude / dist) * dx;
       let fy = (forceMagnitude / dist) * dy;

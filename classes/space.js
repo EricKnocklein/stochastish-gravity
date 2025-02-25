@@ -14,6 +14,8 @@ class Space {
     this.setupParticleHolder();
     this.setupSquareHolder();
 
+    this.createCenterOfGravity();
+
     this.squareSelector = squareSelector;
     this.width = width;
     this.height = height;
@@ -47,6 +49,7 @@ class Space {
     );
     this.particles.push(particle);
     this.particleHolder.appendChild(particle.elem)
+    this.updateCenterOfGravity();
   }
 
   update() {
@@ -56,6 +59,29 @@ class Space {
 
     const square = this.squares[x][y];
     square.update();
+    this.updateCenterOfGravity();
+  }
+
+  createCenterOfGravity() {
+    this.center = document.createElement('div');
+    this.center.classList.add('particle', 'centerOfGravity');
+
+    this.particleHolder.appendChild(this.center);
+  }
+
+  updateCenterOfGravity() {
+    const xTotal = this.particles.reduce((acc, cur) => {
+      return acc + cur.position.x;
+    }, 0);
+    const yTotal = this.particles.reduce((acc, cur) => {
+      return acc + cur.position.y;
+    }, 0);
+
+    const x = xTotal / this.particles.length;
+    const y = yTotal / this.particles.length;
+
+    this.center.style.setProperty('--x', x);
+    this.center.style.setProperty('--y', y);
   }
 }
 
