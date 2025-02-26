@@ -3,7 +3,7 @@ import Space from "./classes/space.js";
 const gradientSim = document.getElementById('gradient');
 
 const gradientSelector = () => {
-  const x = Math.random() ** 2;
+  const x = 1 - Math.random() ** 2;
   // const x = Math.random();
   const y = Math.random();
 

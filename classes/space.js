@@ -84,6 +84,8 @@ class Space {
       }
 
       if (hitWall) {
+        particle.velocity.x = 0;
+        particle.velocity.y = 0;
         particle.updateElemPosition();
       }
     }
