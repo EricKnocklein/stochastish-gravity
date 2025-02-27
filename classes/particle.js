@@ -39,7 +39,7 @@ class Particle {
       y: force.y / this.mass,
     };
     this.updateParticleVelocity(acc);
-    this.updateParticlePosition(acc);
+    this.updateParticlePosition();
   }
 
   getForce(particles) {
