@@ -1,5 +1,5 @@
 const attractionStrength = 10;
-const repulsionStrength = 20;
+const repulsionStrength = 15;
 
 class Particle {
   constructor(pos, v, id) {
