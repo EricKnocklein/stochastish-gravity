@@ -5,6 +5,18 @@ class Square {
     this.y = indeces.y * width;
     this.width = width;
     this.createElement(`${this.x}_${this.y}`);
+
+    this.isUpdating = false;
+  }
+
+  set isUpdating(newVal) {
+    if (newVal) {
+      this.elem.classList.toggle('updating');
+    } else {
+      window.requestAnimationFrame(() => {
+        this.elem.classList.remove('updating');
+      });
+    }
   }
 
   createElement(id) {
@@ -29,16 +41,23 @@ class Square {
     return insideParticles;
   }
 
-  update() {
+  update(updateWrapper, callbackFunc) {
+    this.isUpdating = true;
     this.elem.classList.add('updating');
     const particles = this.getParticles();
-    for (let particle of particles) {
-      const force = particle.getForce(this.particles);
-      particle.update(force);
+    const runUpdate = () => {
+      for (let particle of particles) {
+        const force = particle.getForce(this.particles);
+        particle.update(force);
+      }
+      callbackFunc();
+      this.isUpdating = false;
     }
-    window.requestAnimationFrame(() => {
-      this.elem.classList.remove('updating');
-    })
+    if (typeof updateWrapper === 'function') {
+      updateWrapper(runUpdate, particles);
+    } else {
+      runUpdate();
+    }
   }
 }
 

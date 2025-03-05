@@ -53,44 +53,64 @@ class Space {
     this.updateCenterOfGravity();
   }
 
-  update() {
-    const selection = this.squareSelector();
-    const x = Math.floor(selection.x * this.width);
-    const y = Math.floor(selection.y * this.height);
+  getParticle() {
+    let square;
+    let count = 20;
+    while (!square || count < 0) {
+      const selection = this.squareSelector();
+      const x = Math.floor(selection.x * this.width);
+      const y = Math.floor(selection.y * this.height);
 
-    const square = this.squares[x][y];
-    square.update();
+      square = this.squares[x][y];
+      if (square.isUpdating) {
+        square = null;
+      }
+      count--;
+    }
+    return square;
+  }
+
+  update(updateFunc) {
+
+    const square = this.getParticle();
+    if (!square) {
+      return;
+    }
+
 
     const sqW = this.squareWidth;
 
-    for (const particle of this.particles) {
-      const pos = particle.position;
-      let hitWall = false;
+    const callback = () => {
+      for (const particle of this.particles) {
+        const pos = particle.position;
+        let hitWall = false;
 
-      if (pos.x < sqW / 2) {
-        pos.x = sqW / 2;
-        hitWall = true;
-      } else if (pos.x > (this.width * sqW) - (sqW / 2)) {
-        pos.x = (this.width * sqW) - sqW / 2;
-        hitWall = true;
-      }
+        if (pos.x < sqW / 2) {
+          pos.x = sqW / 2;
+          hitWall = true;
+        } else if (pos.x > (this.width * sqW) - (sqW / 2)) {
+          pos.x = (this.width * sqW) - sqW / 2;
+          hitWall = true;
+        }
 
-      if (pos.y < sqW / 2) {
-        pos.y = sqW / 2;
-        hitWall = true;
-      } else if (pos.y >= (this.height * sqW) - (sqW / 2)) {
-        pos.y = (this.height * sqW) - sqW / 2;
-        hitWall = true;
-      }
+        if (pos.y < sqW / 2) {
+          pos.y = sqW / 2;
+          hitWall = true;
+        } else if (pos.y >= (this.height * sqW) - (sqW / 2)) {
+          pos.y = (this.height * sqW) - sqW / 2;
+          hitWall = true;
+        }
 
-      if (hitWall) {
-        particle.velocity.x = 0;
-        particle.velocity.y = 0;
-        particle.updateElemPosition();
+        if (hitWall) {
+          particle.velocity.x = 0;
+          particle.velocity.y = 0;
+          particle.updateElemPosition();
+        }
       }
+      this.updateCenterOfGravity();
     }
 
-    this.updateCenterOfGravity();
+    square.update(updateFunc, callback);
   }
 
   createCenterOfGravity() {

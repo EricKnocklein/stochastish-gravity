@@ -1,4 +1,4 @@
-const attractionStrength = 10;
+const attractionStrength = 25;
 const repulsionStrength = 15;
 
 class Particle {

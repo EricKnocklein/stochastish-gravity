@@ -21,13 +21,13 @@ const setUpGradientSim = () => {
   const gradientSim = document.getElementById("gradient");
 
   const gradientSelector = () => {
-    const x = highBias();
-    const y = outBias();
+    const x = noBias();
+    const y = noBias();
 
     return { x: x, y: y };
   };
 
-  const space = new Space(gradientSim, 60, 30, gradientSelector, 10);
+  const space = new Space(gradientSim, 30, 15, gradientSelector, 20);
 
   for (let i = 0; i < 30; i++) {
     for (let j = 0; j < 14; j++) {
@@ -47,10 +47,11 @@ const setUpGradientSim = () => {
     if (!runSim) {
       return;
     }
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 25; i++) {
       space.update();
     }
     window.requestAnimationFrame(() => {
+      // runSim = false;
       runner();
     });
   };
@@ -62,3 +63,56 @@ const setUpGradientSim = () => {
 };
 
 setUpGradientSim();
+
+const setUpComputeSim = () => {
+  const computeSim = document.getElementById("constant");
+
+  const gradientSelector = () => {
+    const x = noBias();
+    const y = noBias();
+
+    return { x: x, y: y };
+  };
+
+  const space = new Space(computeSim, 30, 15, gradientSelector, 20);
+
+  for (let i = 0; i < 30; i++) {
+    for (let j = 0; j < 14; j++) {
+      const x = i * 10 + 150;
+      const y = j * 10 + 80;
+      space.addParticle(x, y);
+    }
+  }
+
+  const originalCneter = space.center.cloneNode();
+  originalCneter.classList.add("original");
+  space.particleHolder.appendChild(originalCneter);
+  window.particles = space.particles;
+
+  const updateFunc = (runner, particles) => {
+    setTimeout(()=>{
+      runner();
+    }, 1000 * particles.length);
+  }
+
+  let runSim = false;
+  const runner = () => {
+    if (!runSim) {
+      return;
+    }
+    for (let i = 0; i < 25; i++) {
+      space.update(updateFunc);
+    }
+    window.requestAnimationFrame(() => {
+      // runSim = false;
+      runner();
+    });
+  };
+
+  computeSim.addEventListener("click", () => {
+    runSim = !runSim;
+    runner();
+  });
+};
+
+setUpComputeSim();
