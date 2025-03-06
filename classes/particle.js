@@ -4,6 +4,16 @@ const repulsionStrength = 0;
 const equilibriumDistance = 150;
 const K = .00001;
 
+const DAMP = 0.995;
+const TEMP = .02;
+
+function getRandomBetweenMinusOneAndOne() {
+  let num;
+  do {
+    num = Math.random() * 2 - 1; // Generates between -1 and 1
+  } while (num === -1 || num === 1); // Excludes -1 and 1
+  return num;
+}
 class Particle {
   constructor(pos, v, id) {
     this.position = { x: pos.x, y: pos.y };
@@ -33,6 +43,12 @@ class Particle {
   updateParticleVelocity(acc) {
     this.velocity.x += acc.x;
     this.velocity.y += acc.y;
+
+    this.velocity.x *= DAMP;
+    this.velocity.y *= DAMP;
+
+    this.velocity.x += getRandomBetweenMinusOneAndOne() * TEMP;
+    this.velocity.y += getRandomBetweenMinusOneAndOne() * TEMP;
   }
 
   update(force) {

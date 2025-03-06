@@ -18,8 +18,8 @@ const outBias = () => {
 };
 
 const gradientSelector = () => {
-  const x = highBias();
-  const y = outBias();
+  const x = noBias();
+  const y = noBias();
 
   return { x: x, y: y };
 };
@@ -60,6 +60,8 @@ const setUpGradientSim = () => {
     runSim = !runSim;
     runner();
   });
+
+  window.gParicles = space.particles;
 };
 
 setUpGradientSim();
@@ -106,6 +108,8 @@ const setUpComputeSim = () => {
     runSim = !runSim;
     runner();
   });
+
+  window.cParicles = space.particles;
 };
 
 setUpComputeSim();
