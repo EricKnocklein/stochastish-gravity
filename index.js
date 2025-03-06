@@ -17,17 +17,17 @@ const outBias = () => {
   return x < 0.5 ? x * x * 2 : 1 - (1 - x) * (1 - x) * 2;
 };
 
+const gradientSelector = () => {
+  const x = highBias();
+  const y = outBias();
+
+  return { x: x, y: y };
+};
+
 const setUpGradientSim = () => {
   const gradientSim = document.getElementById("gradient");
 
-  const gradientSelector = () => {
-    const x = noBias();
-    const y = noBias();
-
-    return { x: x, y: y };
-  };
-
-  const space = new Space(gradientSim, 30, 15, gradientSelector, 20);
+  const space = new Space(gradientSim, 24, 12, gradientSelector, 25);
 
   for (let i = 0; i < 30; i++) {
     for (let j = 0; j < 14; j++) {
@@ -47,7 +47,7 @@ const setUpGradientSim = () => {
     if (!runSim) {
       return;
     }
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 150; i++) {
       space.update();
     }
     window.requestAnimationFrame(() => {
@@ -67,14 +67,7 @@ setUpGradientSim();
 const setUpComputeSim = () => {
   const computeSim = document.getElementById("constant");
 
-  const gradientSelector = () => {
-    const x = noBias();
-    const y = noBias();
-
-    return { x: x, y: y };
-  };
-
-  const space = new Space(computeSim, 30, 15, gradientSelector, 20);
+  const space = new Space(computeSim, 24, 12, gradientSelector, 25);
 
   for (let i = 0; i < 30; i++) {
     for (let j = 0; j < 14; j++) {
@@ -92,7 +85,7 @@ const setUpComputeSim = () => {
   const updateFunc = (runner, particles) => {
     setTimeout(()=>{
       runner();
-    }, 1000 * particles.length);
+    }, 100 * particles.length);
   }
 
   let runSim = false;
@@ -100,7 +93,7 @@ const setUpComputeSim = () => {
     if (!runSim) {
       return;
     }
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 50; i++) {
       space.update(updateFunc);
     }
     window.requestAnimationFrame(() => {

@@ -6,10 +6,11 @@ class Square {
     this.width = width;
     this.createElement(`${this.x}_${this.y}`);
 
-    this.isUpdating = false;
+    this._isUpdating = false;
   }
 
   set isUpdating(newVal) {
+    this._isUpdating = newVal;
     if (newVal) {
       this.elem.classList.toggle('updating');
     } else {
@@ -17,6 +18,10 @@ class Square {
         this.elem.classList.remove('updating');
       });
     }
+  }
+
+  get isUpdating() {
+    return this._isUpdating;
   }
 
   createElement(id) {

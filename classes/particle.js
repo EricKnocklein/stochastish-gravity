@@ -1,5 +1,8 @@
 const attractionStrength = 25;
-const repulsionStrength = 15;
+const repulsionStrength = 0;
+
+const equilibriumDistance = 150;
+const K = .00001;
 
 class Particle {
   constructor(pos, v, id) {
@@ -57,7 +60,7 @@ class Particle {
 
       let dist = Math.sqrt(distSq);
 
-      let forceMagnitude = attractionStrength * (1 / distSq) - repulsionStrength * (1 / dist ** 3);
+      let forceMagnitude = K * (dist - equilibriumDistance);
 
 
       let fx = (forceMagnitude / dist) * dx;
