@@ -8,9 +8,9 @@
     <script src="index.js" type="module"></script>
   </head>
   <body>
-    Here is the first similation, which has one thread that is more likely to update tiles on the left side of the sim, basically forming a temporal gradient.
+    Here is the first simulation, which has one thread that is more likely to update tiles on the left side of the sim, basically forming a temporal gradient.
     <div id="gradient" class="sim"></div>
-    This second gradient is run by multiple threads, but each square has an equal chance of getting selected for an update. It's just that squares with more particles will take longer to update.
-    <div id="constant" class="sim"></div>
+    This second gradient is similar, but the particles are updated in circles instead of in squares. Each time they update, a random circle is chosen with a random position and a random radius. All particles within that circle are updated.
+    <div id="circle" class="sim"></div>
   </body>
 </html>

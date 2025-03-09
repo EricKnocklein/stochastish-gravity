@@ -30,6 +30,10 @@
   transform: translate(-50%, -50%);
 }
 
+.particle.updating::after {
+  background-color: rgb(189, 71, 71);
+}
+
 .particle.centerOfGravity::after {
   background-color: blue;
 }

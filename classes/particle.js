@@ -5,7 +5,7 @@ const equilibriumDistance = 100;
 const K = .00001;
 
 const DAMP = 0.995;
-const TEMP = 0;
+const TEMP = 0.1;
 
 function getRandomBetweenMinusOneAndOne() {
   let num;
@@ -20,6 +20,21 @@ class Particle {
     this.velocity = { x: v.x, y: v.y };
     this.mass = 1;
     this.createElement(id);
+  }
+
+  set isUpdating(newVal) {
+    this._isUpdating = newVal;
+    if (newVal) {
+      this.elem.classList.toggle('updating');
+    } else {
+      window.requestAnimationFrame(() => {
+        this.elem.classList.remove('updating');
+      });
+    }
+  }
+
+  get isUpdating() {
+    return this._isUpdating;
   }
 
   createElement(id) {
@@ -51,14 +66,23 @@ class Particle {
     this.velocity.y += getRandomBetweenMinusOneAndOne() * TEMP;
   }
 
-  update(force) {
-    this.updateParticlePosition();
-    const acc = {
-      x: force.x / this.mass,
-      y: force.y / this.mass,
-    };
-    this.updateParticleVelocity(acc);
-    this.updateParticlePosition();
+  update(force, updateWrapper) {
+    this.isUpdating = true;
+    const runUpdate = () => {
+      this.updateParticlePosition();
+      const acc = {
+        x: force.x / this.mass,
+        y: force.y / this.mass,
+      };
+      this.updateParticleVelocity(acc);
+      this.updateParticlePosition();
+      this.isUpdating = false;
+    }
+    if (typeof updateWrapper === 'function') {
+      updateWrapper(runUpdate, particles);
+    } else {
+      runUpdate();
+    }
   }
 
   getForce(particles) {

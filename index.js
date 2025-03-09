@@ -45,8 +45,8 @@ const outBias = () => {
 };
 
 const gradientSelector = () => {
-  const x = noBias();
-  const y = noBias();
+  const x = highBias();
+  const y = outBias();
 
   return { x: x, y: y };
 };
@@ -54,7 +54,7 @@ const gradientSelector = () => {
 const setUpGradientSim = () => {
   const gradientSim = document.getElementById("gradient");
 
-  const space = new Space(gradientSim, 12, 6, gradientSelector, 50);
+  const space = new Space(gradientSim, 24, 12, gradientSelector, 25);
 
   for (let i = 0; i < 30; i++) {
     for (let j = 0; j < 14; j++) {
@@ -141,4 +141,4 @@ const setUpComputeSim = () => {
   window.cParicles = space.particles;
 };
 
-setUpComputeSim();
+// setUpComputeSim();
