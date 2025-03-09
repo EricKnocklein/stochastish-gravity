@@ -77,40 +77,42 @@ class Space {
       return;
     }
 
-
-    const sqW = this.squareWidth;
-
     const callback = () => {
-      for (const particle of this.particles) {
-        const pos = particle.position;
-        let hitWall = false;
-
-        if (pos.x < sqW / 2) {
-          pos.x = sqW / 2;
-          hitWall = true;
-        } else if (pos.x > (this.width * sqW) - (sqW / 2)) {
-          pos.x = (this.width * sqW) - sqW / 2;
-          hitWall = true;
-        }
-
-        if (pos.y < sqW / 2) {
-          pos.y = sqW / 2;
-          hitWall = true;
-        } else if (pos.y >= (this.height * sqW) - (sqW / 2)) {
-          pos.y = (this.height * sqW) - sqW / 2;
-          hitWall = true;
-        }
-
-        if (hitWall) {
-          particle.velocity.x = 0;
-          particle.velocity.y = 0;
-          particle.updateElemPosition();
-        }
-      }
-      this.updateCenterOfGravity();
+      this.postUpdateNormalize();
     }
 
     square.update(updateFunc, callback);
+  }
+
+  postUpdateNormalize() {
+    const sqW = this.squareWidth;
+    for (const particle of this.particles) {
+      const pos = particle.position;
+      let hitWall = false;
+
+      if (pos.x < sqW / 2) {
+        pos.x = sqW / 2;
+        hitWall = true;
+      } else if (pos.x > (this.width * sqW) - (sqW / 2)) {
+        pos.x = (this.width * sqW) - sqW / 2;
+        hitWall = true;
+      }
+
+      if (pos.y < sqW / 2) {
+        pos.y = sqW / 2;
+        hitWall = true;
+      } else if (pos.y >= (this.height * sqW) - (sqW / 2)) {
+        pos.y = (this.height * sqW) - sqW / 2;
+        hitWall = true;
+      }
+
+      if (hitWall) {
+        particle.velocity.x = 0;
+        particle.velocity.y = 0;
+        particle.updateElemPosition();
+      }
+    }
+    this.updateCenterOfGravity();
   }
 
   createCenterOfGravity() {

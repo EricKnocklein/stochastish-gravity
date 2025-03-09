@@ -85,7 +85,6 @@ const setUpGradientSim = () => {
   gradientSim.addEventListener("click", () => {
     runSim = !runSim;
     console.log('Gradient Stats');
-    console.log(calculateStats(space.particles));
     runner();
   });
 
