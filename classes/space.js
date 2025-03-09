@@ -53,7 +53,7 @@ class Space {
     this.updateCenterOfGravity();
   }
 
-  getParticle() {
+  getSquare() {
     let square;
     let count = 20;
     while (!square || count < 0) {
@@ -71,8 +71,7 @@ class Space {
   }
 
   update(updateFunc) {
-
-    const square = this.getParticle();
+    const square = this.getSquare();
     if (!square) {
       return;
     }
@@ -82,6 +81,10 @@ class Space {
     }
 
     square.update(updateFunc, callback);
+  }
+
+  updateCicle(updateFunc) {
+    
   }
 
   postUpdateNormalize() {
