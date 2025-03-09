@@ -1,5 +1,32 @@
 import Space from "./classes/space.js";
 
+function calculateStats(particles) {
+  function getStats(values) {
+    values.sort((a, b) => a - b);
+    const sum = values.reduce((acc, v) => acc + v, 0);
+    const avg = sum / values.length;
+    const min = values[0];
+    const max = values[values.length - 1];
+    const median =
+      values.length % 2 === 0
+        ? (values[values.length / 2 - 1] + values[values.length / 2]) / 2
+        : values[Math.floor(values.length / 2)];
+    const variance =
+      values.reduce((acc, v) => acc + (v - avg) ** 2, 0) / values.length;
+    const stdDev = Math.sqrt(variance);
+
+    return { avg, median, min, max, stdDev };
+  }
+
+  const xValues = particles.map((p) => p.position.x);
+  const yValues = particles.map((p) => p.position.y);
+
+  return {
+    xStats: getStats(xValues),
+    yStats: getStats(yValues),
+  };
+}
+
 const noBias = () => {
   return Math.random();
 };
@@ -27,7 +54,7 @@ const gradientSelector = () => {
 const setUpGradientSim = () => {
   const gradientSim = document.getElementById("gradient");
 
-  const space = new Space(gradientSim, 24, 12, gradientSelector, 25);
+  const space = new Space(gradientSim, 12, 6, gradientSelector, 50);
 
   for (let i = 0; i < 30; i++) {
     for (let j = 0; j < 14; j++) {
@@ -40,7 +67,6 @@ const setUpGradientSim = () => {
   const originalCneter = space.center.cloneNode();
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
-  window.particles = space.particles;
 
   let runSim = false;
   const runner = () => {
@@ -58,6 +84,8 @@ const setUpGradientSim = () => {
 
   gradientSim.addEventListener("click", () => {
     runSim = !runSim;
+    console.log('Gradient Stats');
+    console.log(calculateStats(space.particles));
     runner();
   });
 
@@ -69,7 +97,7 @@ setUpGradientSim();
 const setUpComputeSim = () => {
   const computeSim = document.getElementById("constant");
 
-  const space = new Space(computeSim, 24, 12, gradientSelector, 25);
+  const space = new Space(computeSim, 12, 6, gradientSelector, 50);
 
   for (let i = 0; i < 30; i++) {
     for (let j = 0; j < 14; j++) {
@@ -82,20 +110,19 @@ const setUpComputeSim = () => {
   const originalCneter = space.center.cloneNode();
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
-  window.particles = space.particles;
 
   const updateFunc = (runner, particles) => {
-    setTimeout(()=>{
+    setTimeout(() => {
       runner();
-    }, 100 * particles.length);
-  }
+    }, 10 * particles.length);
+  };
 
   let runSim = false;
   const runner = () => {
     if (!runSim) {
       return;
     }
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 10; i++) {
       space.update(updateFunc);
     }
     window.requestAnimationFrame(() => {
@@ -106,6 +133,8 @@ const setUpComputeSim = () => {
 
   computeSim.addEventListener("click", () => {
     runSim = !runSim;
+    console.log("Compute Stats");
+    console.log(calculateStats(space.particles));
     runner();
   });
 

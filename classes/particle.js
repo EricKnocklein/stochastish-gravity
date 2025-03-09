@@ -1,11 +1,11 @@
-const attractionStrength = 25;
+const attractionStrength = .005;
 const repulsionStrength = 0;
 
-const equilibriumDistance = 150;
+const equilibriumDistance = 100;
 const K = .00001;
 
 const DAMP = 0.995;
-const TEMP = .02;
+const TEMP = 0;
 
 function getRandomBetweenMinusOneAndOne() {
   let num;
@@ -77,6 +77,7 @@ class Particle {
       let dist = Math.sqrt(distSq);
 
       let forceMagnitude = K * (dist - equilibriumDistance);
+      forceMagnitude += attractionStrength * (1 / distSq) - repulsionStrength * (1 / dist ** 3);
 
 
       let fx = (forceMagnitude / dist) * dx;
