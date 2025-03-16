@@ -45,7 +45,7 @@ const outBias = () => {
 };
 
 const gradientSelector = () => {
-  const x = highBias();
+  const x = lowBias();
   const y = outBias();
 
   return { x: x, y: y };
@@ -54,7 +54,11 @@ const gradientSelector = () => {
 const setUpGradientSim = () => {
   const gradientSim = document.getElementById("gradient");
 
-  const space = new Space(gradientSim, 24, 12, gradientSelector, 25);
+  const extraOptions = {
+    selectorFunction: gradientSelector,
+    squareWidth: 25,
+  }
+  const space = new Space(gradientSim, 24, 12, extraOptions);
 
   for (let i = 0; i < 30; i++) {
     for (let j = 0; j < 14; j++) {

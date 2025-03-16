@@ -1,13 +1,30 @@
 import Particle from "./particle.js";
 import Square from "./square.js";
+import Circle from "./circle.js";
 
 class Space {
-  constructor(element, width, height, selectorFunction, squareWith) {
+  constructor(element, width, height, extraOptions) {
+
+    const squareWidth = extraOptions?.squareWidth ?? 10;
+    let selectorFunction = extraOptions?.selectorFunction;
+    let radiusSelectorFunction = extraOptions?.radiusSelectorFunction;
+    
+    if (!selectorFunction) {
+      selectorFunction = () => {
+        return { x: Math.random(), y: Math.random() };
+      }
+    }
+    if (!radiusSelectorFunction) {
+      radiusSelectorFunction = () => {
+        return Math.random() * 10;
+      }
+    }
+    
     this.squareHolder = document.createElement('div');
     this.particleHolder = document.createElement('div');
 
-    element.style.width = `${squareWith * width}px`;
-    element.style.height =  `${squareWith * height}px`;
+    element.style.width = `${squareWidth * width}px`;
+    element.style.height =  `${squareWidth * height}px`;
 
     element.appendChild(this.squareHolder);
     element.appendChild(this.particleHolder);
@@ -17,15 +34,17 @@ class Space {
     this.createCenterOfGravity();
 
     this.selectorFunction = selectorFunction;
+    this.radiusSelectorFunction = radiusSelectorFunction;
+
     this.width = width;
     this.height = height;
-    this.squareWidth = squareWith;
+    this.squareWidth = squareWidth;
     this.particles = [];
     this.squares = [];
     for (let i = 0; i < width; i++) {
       this.squares[i] = [];
       for (let j = 0; j < height; j++) {
-        const square = new Square(this.particles, { x: i, y: j }, squareWith);
+        const square = new Square(this.particles, { x: i, y: j }, squareWidth);
         this.squareHolder.appendChild(square.elem);
         this.squares[i][j] = square;
       }
@@ -83,8 +102,21 @@ class Space {
     square.update(updateFunc, callback);
   }
 
-  updateCicle(updateFunc) {
-    
+  updateCircle(updateFunc) {
+    if (!this.cirlce) {
+      this.cirlce = new Circle(
+        this.particles, 
+        this.selectorFunction, 
+        this.radiusSelectorFunction
+      );
+    }
+
+    const callback = () => {
+      this.postUpdateNormalize();
+    }
+
+    this.cirlce.setRandomPositionAndRadius();
+    this.cirlce.update(updateFunc, callback);
   }
 
   postUpdateNormalize() {
