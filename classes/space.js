@@ -16,7 +16,7 @@ class Space {
     }
     if (!radiusSelectorFunction) {
       radiusSelectorFunction = () => {
-        return Math.random() * 10;
+        return Math.random() * 5 * squareWidth;
       }
     }
     
@@ -106,8 +106,6 @@ class Space {
     if (!this.cirlce) {
       this.cirlce = new Circle(
         this.particles, 
-        this.selectorFunction, 
-        this.radiusSelectorFunction
       );
     }
 
@@ -115,7 +113,14 @@ class Space {
       this.postUpdateNormalize();
     }
 
-    this.cirlce.setRandomPositionAndRadius();
+    const selection = this.selectorFunction();
+    const sqW = this.squareWidth;
+    const x = Math.floor(selection.x * this.width * sqW);
+    const y = Math.floor(selection.y * this.height * sqW);
+
+    const r = this.radiusSelectorFunction()
+
+    this.cirlce.setPositionAndRadius(x, y, r);
     this.cirlce.update(updateFunc, callback);
   }
 

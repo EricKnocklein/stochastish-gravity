@@ -88,7 +88,6 @@ const setUpGradientSim = () => {
 
   gradientSim.addEventListener("click", () => {
     runSim = !runSim;
-    console.log('Gradient Stats');
     runner();
   });
 
@@ -97,10 +96,14 @@ const setUpGradientSim = () => {
 
 setUpGradientSim();
 
-const setUpComputeSim = () => {
-  const computeSim = document.getElementById("constant");
+const setUpCirlceSim = () => {
+  const circleSim = document.getElementById("circle");
 
-  const space = new Space(computeSim, 12, 6, gradientSelector, 50);
+  const extraOptions = {
+    selectorFunction: gradientSelector,
+    squareWidth: 25,
+  }
+  const space = new Space(circleSim, 24, 12, extraOptions);
 
   for (let i = 0; i < 30; i++) {
     for (let j = 0; j < 14; j++) {
@@ -125,8 +128,8 @@ const setUpComputeSim = () => {
     if (!runSim) {
       return;
     }
-    for (let i = 0; i < 10; i++) {
-      space.update(updateFunc);
+    for (let i = 0; i < 1; i++) {
+      space.updateCircle();
     }
     window.requestAnimationFrame(() => {
       // runSim = false;
@@ -134,14 +137,12 @@ const setUpComputeSim = () => {
     });
   };
 
-  computeSim.addEventListener("click", () => {
+  circleSim.addEventListener("click", () => {
     runSim = !runSim;
-    console.log("Compute Stats");
-    console.log(calculateStats(space.particles));
     runner();
   });
 
   window.cParicles = space.particles;
 };
 
-// setUpComputeSim();
+setUpCirlceSim();

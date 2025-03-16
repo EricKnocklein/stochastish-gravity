@@ -1,18 +1,9 @@
 class Circle {
-  constructor(particles, positionSelectionFunc, radiusSelectionFunc) {
+  constructor(particles) {
     this.particles = particles;
     this.x = 0;
     this.y = 0;
-    this.radius = 1;
-
-    this.positionSelectionFunc = positionSelectionFunc;
-    this.radiusSelectionFunc = radiusSelectionFunc;
-  }
-  setRandomPositionAndRadius() {
-    const {x, y} = this.positionSelectionFunc();
-    const r = this.radiusSelectionFunc();
-
-    this.setPositionAndRadius(x, y, r);
+    this.r = 1;
   }
   setPositionAndRadius(x, y, r) {
     this.x = x;
@@ -22,7 +13,7 @@ class Circle {
   getParticles() {
     const cy = this.y;
     const cx = this.x;
-    const r = this.radius;
+    const r = this.r;
 
     return this.particles.filter((particle) => {
       const x = particle.position.x;
