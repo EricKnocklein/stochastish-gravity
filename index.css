@@ -28,6 +28,7 @@
   background-color: red;
   display: block;
   transform: translate(-50%, -50%);
+  transition: background-color 0.2s;
 }
 
 .particle.updating::after {

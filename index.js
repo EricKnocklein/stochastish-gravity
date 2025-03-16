@@ -45,8 +45,8 @@ const outBias = () => {
 };
 
 const gradientSelector = () => {
-  const x = lowBias();
-  const y = outBias();
+  const x = midBias();
+  const y = midBias();
 
   return { x: x, y: y };
 };
