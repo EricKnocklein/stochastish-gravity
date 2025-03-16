@@ -45,8 +45,8 @@ const outBias = () => {
 };
 
 const gradientSelector = () => {
-  const x = midBias();
-  const y = midBias();
+  const x = noBias();
+  const y = noBias();
 
   return { x: x, y: y };
 };
@@ -117,12 +117,6 @@ const setUpCirlceSim = () => {
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
 
-  const updateFunc = (runner, particles) => {
-    setTimeout(() => {
-      runner();
-    }, 10 * particles.length);
-  };
-
   let runSim = false;
   const runner = () => {
     if (!runSim) {
@@ -146,3 +140,54 @@ const setUpCirlceSim = () => {
 };
 
 setUpCirlceSim();
+
+const setUpComputeSim = () => {
+  const computeSim = document.getElementById("compute");
+
+  const extraOptions = {
+    selectorFunction: gradientSelector,
+    squareWidth: 25,
+  }
+  const space = new Space(computeSim, 24, 12, extraOptions);
+
+  for (let i = 0; i < 30; i++) {
+    for (let j = 0; j < 14; j++) {
+      const x = i * 10 + 150;
+      const y = j * 10 + 80;
+      space.addParticle(x, y);
+    }
+  }
+
+  const originalCneter = space.center.cloneNode();
+  originalCneter.classList.add("original");
+  space.particleHolder.appendChild(originalCneter);
+
+  const updateFunc = (runner, particles) => {
+    setTimeout(() => {
+      runner();
+    }, 10 * particles.length);
+  };
+
+  let runSim = false;
+  const runner = () => {
+    if (!runSim) {
+      return;
+    }
+    for (let i = 0; i < 1; i++) {
+      space.updateCircle(updateFunc);
+    }
+    window.requestAnimationFrame(() => {
+      // runSim = false;
+      runner();
+    });
+  };
+
+  computeSim.addEventListener("click", () => {
+    runSim = !runSim;
+    runner();
+  });
+
+  window.cParicles = space.particles;
+};
+
+setUpComputeSim();

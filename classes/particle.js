@@ -79,7 +79,7 @@ class Particle {
       this.isUpdating = false;
     }
     if (typeof updateWrapper === 'function') {
-      updateWrapper(runUpdate, particles);
+      updateWrapper(runUpdate);
     } else {
       runUpdate();
     }
