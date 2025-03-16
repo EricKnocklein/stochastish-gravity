@@ -2,6 +2,14 @@ import Particle from "./particle.js";
 import Square from "./square.js";
 import Circle from "./circle.js";
 
+function normalRandom(mu = 0, sigma = 1) {
+  let u1 = Math.random();
+  let u2 = Math.random();
+  
+  let z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+  
+  return z0 * sigma + mu;
+}
 class Space {
   constructor(element, width, height, extraOptions) {
 
@@ -16,7 +24,7 @@ class Space {
     }
     if (!radiusSelectorFunction) {
       radiusSelectorFunction = () => {
-        return Math.random() * 5 * squareWidth;
+        return normalRandom(0, squareWidth);
       }
     }
     
