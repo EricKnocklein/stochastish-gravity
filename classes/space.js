@@ -2,7 +2,7 @@ import Particle from "./particle.js";
 import Square from "./square.js";
 
 class Space {
-  constructor(element, width, height, squareSelector, squareWith) {
+  constructor(element, width, height, selectorFunction, squareWith) {
     this.squareHolder = document.createElement('div');
     this.particleHolder = document.createElement('div');
 
@@ -16,7 +16,7 @@ class Space {
 
     this.createCenterOfGravity();
 
-    this.squareSelector = squareSelector;
+    this.selectorFunction = selectorFunction;
     this.width = width;
     this.height = height;
     this.squareWidth = squareWith;
@@ -57,7 +57,7 @@ class Space {
     let square;
     let count = 20;
     while (!square || count < 0) {
-      const selection = this.squareSelector();
+      const selection = this.selectorFunction();
       const x = Math.floor(selection.x * this.width);
       const y = Math.floor(selection.y * this.height);
 
