@@ -1,10 +1,10 @@
-const attractionStrength = .005;
-const repulsionStrength = 0;
+const attractionStrength = 5;
+const repulsionStrength = 4;
 
 const equilibriumDistance = 100;
-const K = .00001;
+const K = 0;
 
-const DAMP = 0.995;
+const DAMP = 0.95;
 const TEMP = 0.1;
 
 function getRandomBetweenMinusOneAndOne() {

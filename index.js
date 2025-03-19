@@ -122,7 +122,7 @@ const setUpCirlceSim = () => {
     if (!runSim) {
       return;
     }
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 10; i++) {
       space.updateCircle();
     }
     window.requestAnimationFrame(() => {
@@ -173,7 +173,7 @@ const setUpComputeSim = () => {
     if (!runSim) {
       return;
     }
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 10; i++) {
       space.updateCircle(updateFunc);
     }
     window.requestAnimationFrame(() => {
@@ -187,7 +187,7 @@ const setUpComputeSim = () => {
     runner();
   });
 
-  window.cParicles = space.particles;
+  window.compParicles = space.particles;
 };
 
 setUpComputeSim();
