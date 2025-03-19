@@ -15,25 +15,29 @@ class Circle {
     const cx = this.x;
     const r = this.r;
 
-    return this.particles.filter((particle) => {
+    const particles_inside = this.particles.filter((particle) => {
       const x = particle.position.x;
       const y = particle.position.y;
       const inside = ( (cx - x) ** 2 + (cy - y) ** 2 ) < ( r ** 2 );
-      const canUpdate = !particle.isUpdating;
-      return canUpdate && inside;
+      return inside;
+    });
+
+    const particles_updateable = particles_inside.filter((particle) => {
+      return !particle.isUpdating;
     })
+    return {inside: particles_inside, updateable: particles_updateable}
   }
   update(updateWrapper, callbackFunc) {
-    const particles = this.getParticles();
+    const {inside, updateable} = this.getParticles();
 
     let newUpdateWrapper;
     if (typeof updateWrapper === 'function') {
       newUpdateWrapper = (runUpdate) => {
-        updateWrapper(runUpdate, particles);
+        updateWrapper(runUpdate, inside.length * 10);
       }
     }
     const runUpdate = () => {
-      for (let particle of particles) {
+      for (let particle of updateable) {
         const force = particle.getForce(this.particles);
         particle.update(force, newUpdateWrapper);
       }

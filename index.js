@@ -162,10 +162,10 @@ const setUpComputeSim = () => {
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
 
-  const updateFunc = (runner, particles) => {
+  const updateFunc = (runner, wait) => {
     setTimeout(() => {
       runner();
-    }, 10 * particles.length);
+    }, wait);
   };
 
   let runSim = false;
