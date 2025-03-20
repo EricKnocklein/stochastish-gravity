@@ -33,7 +33,7 @@ class Circle {
     let newUpdateWrapper;
     if (typeof updateWrapper === 'function') {
       newUpdateWrapper = (runUpdate) => {
-        updateWrapper(runUpdate, inside.length * 10);
+        updateWrapper(runUpdate, updateable.length ** 2);
       }
     }
     const runUpdate = () => {
