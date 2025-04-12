@@ -2,7 +2,7 @@ const attractionStrength = 10;
 const repulsionStrength = 10;
 
 const equilibriumDistance = 100;
-const K = 0;
+const K = 0.00005;
 
 const DAMP = 0.95;
 const TEMP = 0.01;
