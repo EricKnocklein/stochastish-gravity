@@ -6,6 +6,10 @@ body {
   margin: 15px 10%;
 }
 
+body > p {
+  text-align: center;
+}
+
 .square {
   height: calc(var(--width) * 1px);
   width: calc(var(--width) * 1px);
