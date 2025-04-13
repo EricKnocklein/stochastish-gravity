@@ -59,4 +59,6 @@ body {
   background-color: rgb(182, 182, 182);
   margin: 15px;
   margin-bottom: 45px;
+
+  border-radius: 10px;
 }
