@@ -171,6 +171,13 @@ class Space {
   }
 
   updateCenterOfGravity() {
+    const {x, y} = this.getCenterOfGravity();
+
+    this.center.style.setProperty('--x', x);
+    this.center.style.setProperty('--y', y);
+  }
+
+  getCenterOfGravity() {
     const xTotal = this.particles.reduce((acc, cur) => {
       return acc + cur.position.x;
     }, 0);
@@ -181,8 +188,20 @@ class Space {
     const x = xTotal / this.particles.length;
     const y = yTotal / this.particles.length;
 
-    this.center.style.setProperty('--x', x);
-    this.center.style.setProperty('--y', y);
+    return {x: x, y: y}
+  }
+
+  centerParticles() {
+    const {x, y} = this.getCenterOfGravity();
+
+    const dX = x - (this.width * this.squareWidth) / 2;
+    const dY = y - (this.height * this.squareWidth) / 2;
+
+    for (const p of this.particles) {
+      p.position.x -= dX;
+      p.position.y -= dY;
+      p.updateElemPosition();
+    }
   }
 }
 

@@ -68,6 +68,8 @@ const setUpGradientSim = () => {
     }
   }
 
+  space.centerParticles();
+  space.updateCenterOfGravity();
   const originalCneter = space.center.cloneNode();
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
@@ -80,6 +82,7 @@ const setUpGradientSim = () => {
     for (let i = 0; i < 150; i++) {
       space.update();
     }
+    space.centerParticles();
     window.requestAnimationFrame(() => {
       // runSim = false;
       runner();
@@ -113,6 +116,8 @@ const setUpCirlceSim = () => {
     }
   }
 
+  space.centerParticles();
+  space.updateCenterOfGravity();
   const originalCneter = space.center.cloneNode();
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
@@ -125,6 +130,7 @@ const setUpCirlceSim = () => {
     for (let i = 0; i < 10; i++) {
       space.updateCircle();
     }
+    space.centerParticles();
     window.requestAnimationFrame(() => {
       // runSim = false;
       runner();
@@ -157,7 +163,9 @@ const setUpComputeSim = () => {
       space.addParticle(x, y);
     }
   }
-
+  
+  space.centerParticles();
+  space.updateCenterOfGravity();
   const originalCneter = space.center.cloneNode();
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
@@ -176,6 +184,7 @@ const setUpComputeSim = () => {
     for (let i = 0; i < 10; i++) {
       space.updateCircle(updateFunc);
     }
+    space.centerParticles();
     window.requestAnimationFrame(() => {
       // runSim = false;
       runner();
