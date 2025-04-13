@@ -1,3 +1,10 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(116, 116, 116);
+}
+
 .square {
   height: calc(var(--width) * 1px);
   width: calc(var(--width) * 1px);
@@ -48,4 +55,7 @@
 
 .sim {
   position: relative;
+  background-color: rgb(182, 182, 182);
+  margin: 15px;
+  margin-bottom: 45px;
 }
