@@ -65,4 +65,5 @@ body > p {
   margin-bottom: 45px;
 
   border-radius: 10px;
+  overflow: hidden;
 }
