@@ -27,26 +27,28 @@ function calculateStats(particles) {
   };
 }
 
-const noBias = () => {
-  return Math.random();
-};
-const lowBias = () => {
-  return Math.random() ** 2;
-};
-const highBias = () => {
-  return 1 - Math.random() ** 2;
-};
-const midBias = () => {
-  return (Math.random() + Math.random()) / 2;
-};
-const outBias = () => {
-  let x = Math.random();
-  return x < 0.5 ? x * x * 2 : 1 - (1 - x) * (1 - x) * 2;
-};
+const biases = {
+  noBias: () => {
+    return Math.random();
+  },
+  lowBias: () => {
+    return Math.random() ** 2;
+  },
+  highBias: () => {
+    return 1 - Math.random() ** 2;
+  },
+  midBias: () => {
+    return (Math.random() + Math.random()) / 2;
+  },
+  outBias: () => {
+    let x = Math.random();
+    return x < 0.5 ? x * x * 2 : 1 - (1 - x) * (1 - x) * 2;
+  }
+}
 
 const gradientSelector = () => {
-  const x = noBias();
-  const y = noBias();
+  const x = biases['noBias']();
+  const y = biases['noBias']();
 
   return { x: x, y: y };
 };
