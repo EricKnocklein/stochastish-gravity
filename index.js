@@ -1,4 +1,5 @@
 import Space from "./classes/space.js";
+import Grapher from "./classes/grapher.js";
 
 const biases = {
   noBias: () => {
@@ -49,6 +50,8 @@ const setUpGradientSim = () => {
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
 
+  const grapher = new Grapher('gradientChart');
+
   let runSim = false;
   const runner = () => {
     if (!runSim) {
@@ -58,6 +61,11 @@ const setUpGradientSim = () => {
       space.update();
     }
     // space.centerParticles();
+    const stats = space.calculateStatsForParticles();
+    grapher.addPoint({
+      x: stats.t,
+      y: stats.xStats.stdDev
+    })
     window.requestAnimationFrame(() => {
       // runSim = false;
       runner();
