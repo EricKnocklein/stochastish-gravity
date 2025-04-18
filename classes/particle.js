@@ -20,6 +20,7 @@ class Particle {
     this.velocity = { x: v.x, y: v.y };
     this.mass = 1;
     this.createElement(id);
+    this.updateLog = null;
   }
 
   set isUpdating(newVal) {
@@ -76,6 +77,7 @@ class Particle {
       };
       this.updateParticleVelocity(acc);
       this.updateParticlePosition();
+      this.updateLog?.();
       this.isUpdating = false;
     }
     if (typeof updateWrapper === 'function') {

@@ -1,6 +1,7 @@
 import Particle from "./particle.js";
 import Square from "./square.js";
 import Circle from "./circle.js";
+import { getStats } from "./stats.js";
 
 function normalRandom(mu = 0, sigma = 1) {
   let u1 = Math.random();
@@ -12,7 +13,7 @@ function normalRandom(mu = 0, sigma = 1) {
 }
 class Space {
   constructor(element, width, height, extraOptions) {
-
+    this.numParticlesUpdated = 0;
     const squareWidth = extraOptions?.squareWidth ?? 10;
     let selectorFunction = extraOptions?.selectorFunction;
     let radiusSelectorFunction = extraOptions?.radiusSelectorFunction;
@@ -75,6 +76,9 @@ class Space {
       { x: 0, y: 0 },
       this.particles.length
     );
+    particle.updateLog = () => {
+      this.numParticlesUpdated++;
+    }
     this.particles.push(particle);
     this.particleHolder.appendChild(particle.elem)
     this.updateCenterOfGravity();
@@ -202,6 +206,18 @@ class Space {
       p.position.y -= dY;
       p.updateElemPosition();
     }
+  }
+
+  calculateStatsForParticles() {
+    const particles = this.particles;
+    const xValues = particles.map((p) => p.position.x);
+    const yValues = particles.map((p) => p.position.y);
+  
+    return {
+      xStats: getStats(xValues),
+      yStats: getStats(yValues),
+      t: this.numParticlesUpdated,
+    };
   }
 }
 
