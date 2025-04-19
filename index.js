@@ -133,6 +133,7 @@ const setUpCirlceSim = () => {
   };
   circleSim.addEventListener("click", () => {
     args.runSim = !args.runSim;
+    console.log(grapher.getTrendlines());
     runner(args, 10, 45000);
   });
 
@@ -182,6 +183,7 @@ const setUpComputeSim = () => {
   };
   computeSim.addEventListener("click", () => {
     args.runSim = !args.runSim;
+    console.log(grapher.getTrendlines());
     runner(args, 10, 45000);
   });
 
