@@ -9,9 +9,24 @@ export default class Grapher {
       type: 'scatter',
       data: {
         datasets: [{
-          label: 'Particle Pos St Dev Avg',
+          label: 'Average Standard Deviation',
           data: [],
           borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 2,
+          showLine: true,
+          fill: false,
+          tension: 0.3,
+          pointRadius: 3,
+          trendlineLinear: {
+            style: "rgba(75, 192, 192, 0.5)",
+            lineStyle: "dotted",
+            width: 2
+          }
+        },
+        {
+          label: 'Average Span / 2',
+          data: [],
+          borderColor: 'rgb(83, 192, 75)',
           borderWidth: 2,
           showLine: true,
           fill: false,
@@ -41,7 +56,7 @@ export default class Grapher {
             type: 'linear',
             title: {
               display: true,
-              text: 'Standard Deviation'
+              text: 'Standard Deviation or Span'
             },
             beginAtZero: true
           }
@@ -57,7 +72,10 @@ export default class Grapher {
 
   getTrendlines() {
     const datasets = this.chart.data.datasets
-    return getTrendline(datasets[0].data);
+    return {
+      sd: getTrendline(datasets[0].data),
+      span: getTrendline(datasets[1].data),
+    }
   }
 
 }

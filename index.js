@@ -51,6 +51,13 @@ const runner = (args, upf, lim) => {
     },
     0
   );
+  grapher?.addPoint(
+    {
+      x: stats.t,
+      y: ((stats.xStats.max - stats.xStats.min) + (stats.yStats.max - stats.yStats.min)) / 4,
+    },
+    1
+  )
   window.requestAnimationFrame(() => {
     runner(args, upf, lim);
   });
