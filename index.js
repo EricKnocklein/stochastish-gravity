@@ -64,8 +64,12 @@ const setUpGradientSim = () => {
     const stats = space.calculateStatsForParticles();
     grapher.addPoint({
       x: stats.t,
-      y: stats.xStats.stdDev
-    })
+      y: (stats.xStats.stdDev + stats.yStats.stdDev) / 2
+    }, 0);
+    // grapher.addPoint({
+    //   x: stats.t,
+    //   y: stats.yStats.stdDev
+    // }, 1)
     window.requestAnimationFrame(() => {
       // runSim = false;
       runner();
@@ -74,6 +78,7 @@ const setUpGradientSim = () => {
 
   gradientSim.addEventListener("click", () => {
     runSim = !runSim;
+    console.log(grapher.getTrendlines());
     runner();
   });
 

@@ -14,3 +14,16 @@ export function getStats(values) {
 
   return { avg, median, min, max, stdDev };
 }
+
+export function getTrendline(data) {
+  const n = data.length;
+  const sumX = data.reduce((sum, p) => sum + p.x, 0);
+  const sumY = data.reduce((sum, p) => sum + p.y, 0);
+  const sumXY = data.reduce((sum, p) => sum + p.x * p.y, 0);
+  const sumX2 = data.reduce((sum, p) => sum + p.x * p.x, 0);
+
+  const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+  const intercept = (sumY - slope * sumX) / n;
+
+  return { slope, intercept };
+}
