@@ -17,14 +17,43 @@ const biases = {
   outBias: () => {
     let x = Math.random();
     return x < 0.5 ? x * x * 2 : 1 - (1 - x) * (1 - x) * 2;
-  }
-}
+  },
+};
 
 const gradientSelector = () => {
-  const x = biases['noBias']();
-  const y = biases['noBias']();
+  const x = biases["noBias"]();
+  const y = biases["noBias"]();
 
   return { x: x, y: y };
+};
+
+const runner = (args, upf, lim) => {
+  const space = args.space;
+  const grapher = args.grapher;
+
+  if (!args.runSim || space.numParticlesUpdated > lim) {
+    return;
+  }
+  const updateFunc = args.isCircle
+    ? space.updateCircle.bind(space, args.callback)
+    : space.update.bind(space, args.callback);
+  for (let i = 0; i < upf; i++) {
+    updateFunc();
+  }
+  if (args.doCenter) {
+    space.centerParticles();
+  }
+  const stats = space.calculateStatsForParticles();
+  grapher?.addPoint(
+    {
+      x: stats.t,
+      y: (stats.xStats.stdDev + stats.yStats.stdDev) / 2,
+    },
+    0
+  );
+  window.requestAnimationFrame(() => {
+    runner(args, upf, lim);
+  });
 };
 
 const setUpGradientSim = () => {
@@ -33,7 +62,7 @@ const setUpGradientSim = () => {
   const extraOptions = {
     selectorFunction: gradientSelector,
     squareWidth: 25,
-  }
+  };
   const space = new Space(gradientSim, 24, 12, extraOptions);
 
   for (let i = 0; i < 15; i++) {
@@ -50,36 +79,19 @@ const setUpGradientSim = () => {
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
 
-  const grapher = new Grapher('gradientChart');
+  const grapher = new Grapher("gradientChart");
 
-  let runSim = false;
-  const runner = () => {
-    if (!runSim) {
-      return;
-    }
-    for (let i = 0; i < 150; i++) {
-      space.update();
-    }
-    // space.centerParticles();
-    const stats = space.calculateStatsForParticles();
-    grapher.addPoint({
-      x: stats.t,
-      y: (stats.xStats.stdDev + stats.yStats.stdDev) / 2
-    }, 0);
-    // grapher.addPoint({
-    //   x: stats.t,
-    //   y: stats.yStats.stdDev
-    // }, 1)
-    window.requestAnimationFrame(() => {
-      // runSim = false;
-      runner();
-    });
+  const args = {
+    runSim: false,
+    space: space,
+    grapher: grapher,
+    doCenter: false,
+    isCircle: false,
   };
-
   gradientSim.addEventListener("click", () => {
-    runSim = !runSim;
+    args.runSim = !args.runSim;
     console.log(grapher.getTrendlines());
-    runner();
+    runner(args, 150, 45000);
   });
 
   window.gParicles = space.particles;
@@ -93,7 +105,7 @@ const setUpCirlceSim = () => {
   const extraOptions = {
     selectorFunction: gradientSelector,
     squareWidth: 25,
-  }
+  };
   const space = new Space(circleSim, 24, 12, extraOptions);
 
   for (let i = 0; i < 15; i++) {
@@ -110,24 +122,18 @@ const setUpCirlceSim = () => {
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
 
-  let runSim = false;
-  const runner = () => {
-    if (!runSim) {
-      return;
-    }
-    for (let i = 0; i < 10; i++) {
-      space.updateCircle();
-    }
-    // space.centerParticles();
-    window.requestAnimationFrame(() => {
-      // runSim = false;
-      runner();
-    });
-  };
+  const grapher = new Grapher("circleChart");
 
+  const args = {
+    runSim: false,
+    space: space,
+    grapher: grapher,
+    doCenter: false,
+    isCircle: true,
+  };
   circleSim.addEventListener("click", () => {
-    runSim = !runSim;
-    runner();
+    args.runSim = !args.runSim;
+    runner(args, 10, 45000);
   });
 
   window.cParicles = space.particles;
@@ -141,7 +147,7 @@ const setUpComputeSim = () => {
   const extraOptions = {
     selectorFunction: gradientSelector,
     squareWidth: 25,
-  }
+  };
   const space = new Space(computeSim, 24, 12, extraOptions);
 
   for (let i = 0; i < 15; i++) {
@@ -151,7 +157,7 @@ const setUpComputeSim = () => {
       space.addParticle(x, y);
     }
   }
-  
+
   space.centerParticles();
   space.updateCenterOfGravity();
   const originalCneter = space.center.cloneNode();
@@ -164,24 +170,19 @@ const setUpComputeSim = () => {
     }, wait);
   };
 
-  let runSim = false;
-  const runner = () => {
-    if (!runSim) {
-      return;
-    }
-    for (let i = 0; i < 10; i++) {
-      space.updateCircle(updateFunc);
-    }
-    // space.centerParticles();
-    window.requestAnimationFrame(() => {
-      // runSim = false;
-      runner();
-    });
-  };
+  const grapher = new Grapher("computeChart");
 
+  const args = {
+    runSim: false,
+    space: space,
+    grapher: grapher,
+    doCenter: false,
+    isCircle: true,
+    callback: updateFunc,
+  };
   computeSim.addEventListener("click", () => {
-    runSim = !runSim;
-    runner();
+    args.runSim = !args.runSim;
+    runner(args, 10, 45000);
   });
 
   window.compParicles = space.particles;
