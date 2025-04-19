@@ -63,6 +63,16 @@ const runner = (args, upf, lim) => {
   });
 };
 
+const createParticles = (space, xNum, yNum, xSep, ySep) => {
+  for (let i = 0; i < xNum; i++) {
+    for (let j = 0; j < yNum; j++) {
+      const x = i * xSep;
+      const y = j * ySep;
+      space.addParticle(x, y);
+    }
+  }
+}
+
 const setUpGradientSim = () => {
   const gradientSim = document.getElementById("gradient");
 
@@ -72,13 +82,7 @@ const setUpGradientSim = () => {
   };
   const space = new Space(gradientSim, 24, 12, extraOptions);
 
-  for (let i = 0; i < 15; i++) {
-    for (let j = 0; j < 10; j++) {
-      const x = i * 10 + 150;
-      const y = j * 10 + 80;
-      space.addParticle(x, y);
-    }
-  }
+  createParticles(space, 15, 10, 10, 10);
 
   space.centerParticles();
   space.updateCenterOfGravity();
@@ -115,13 +119,7 @@ const setUpCirlceSim = () => {
   };
   const space = new Space(circleSim, 24, 12, extraOptions);
 
-  for (let i = 0; i < 15; i++) {
-    for (let j = 0; j < 10; j++) {
-      const x = i * 10 + 150;
-      const y = j * 10 + 80;
-      space.addParticle(x, y);
-    }
-  }
+  createParticles(space, 15, 10, 10, 10);
 
   space.centerParticles();
   space.updateCenterOfGravity();
@@ -158,13 +156,7 @@ const setUpComputeSim = () => {
   };
   const space = new Space(computeSim, 24, 12, extraOptions);
 
-  for (let i = 0; i < 15; i++) {
-    for (let j = 0; j < 10; j++) {
-      const x = i * 10 + 150;
-      const y = j * 10 + 80;
-      space.addParticle(x, y);
-    }
-  }
+  createParticles(space, 15, 10, 10, 10);
 
   space.centerParticles();
   space.updateCenterOfGravity();
