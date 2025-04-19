@@ -49,9 +49,13 @@ class Square {
   update(updateWrapper, callbackFunc) {
     this.isUpdating = true;
     const particles = this.getParticles();
+    const forces = particles.map(p => {
+      return p.getForce(this.particles);
+    })
     const runUpdate = () => {
-      for (let particle of particles) {
-        const force = particle.getForce(this.particles);
+      for (let i in particles) {
+        const particle = particles[i];
+        const force = forces[i];
         particle.update(force);
       }
       callbackFunc();

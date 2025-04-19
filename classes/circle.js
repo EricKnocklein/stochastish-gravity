@@ -36,9 +36,13 @@ class Circle {
         updateWrapper(runUpdate, (updateable.length / 3) ** 2);
       }
     }
+    const forces = updateable.map(p => {
+      return p.getForce(this.particles);
+    });
     const runUpdate = () => {
-      for (let particle of updateable) {
-        const force = particle.getForce(this.particles);
+      for (let i in updateable) {
+        const particle = updateable[i];
+        const force = forces[i];
         particle.update(force, newUpdateWrapper);
       }
       callbackFunc();
