@@ -76,6 +76,44 @@ const createParticles = (space, xNum, yNum, xSep, ySep) => {
   }
 };
 
+const setUpGlobalSim = () => {
+  const globalSim = document.getElementById("global");
+
+  const extraOptions = {
+    selectorFunction: gradientSelector,
+    squareWidth: 25,
+  };
+  const space = new Space(globalSim, 24, 12, extraOptions);
+
+  createParticles(space, 15, 10, 10, 10);
+
+  space.centerParticles();
+  space.updateCenterOfGravity();
+  const originalCneter = space.center.cloneNode();
+  originalCneter.classList.add("original");
+  space.particleHolder.appendChild(originalCneter);
+
+  const grapher = new Grapher("globalChart");
+
+  const args = {
+    runSim: false,
+    space: space,
+    grapher: grapher,
+    doCenter: false,
+    isCircle: false,
+    doGlobalUpdate: true,
+  };
+  globalSim.addEventListener("click", () => {
+    args.runSim = !args.runSim;
+    console.log(grapher.getTrendlines());
+    runner(args, 1, 45000);
+  });
+
+  window.gParicles = space.particles;
+}
+
+setUpGlobalSim();
+
 const setUpGradientSim = () => {
   const gradientSim = document.getElementById("gradient");
 
