@@ -114,6 +114,17 @@ class Space {
     square.update(updateFunc, callback);
   }
 
+  updateGlobal() {
+    const forces = this.particles.map(p => {
+      return p.getForce(this.particles);
+    });
+    for (let i in this.particles) {
+      const particle = this.particles[i];
+      const force = forces[i];
+      particle.update(force);
+    }
+  }
+
   updateCircle(updateFunc) {
     if (!this.cirlce) {
       this.cirlce = new Circle(

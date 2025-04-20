@@ -34,9 +34,12 @@ const runner = (args, upf, lim) => {
   if (!args.runSim || space.numParticlesUpdated > lim) {
     return;
   }
-  const updateFunc = args.isCircle
+
+  let updateFunc = args.isCircle
     ? space.updateCircle.bind(space, args.callback)
     : space.update.bind(space, args.callback);
+  updateFunc = args.doGlobalUpdate ? space.updateGlobal.bind(space) : updateFunc;
+  
   for (let i = 0; i < upf; i++) {
     updateFunc();
   }
@@ -57,7 +60,7 @@ const runner = (args, upf, lim) => {
       y: ((stats.xStats.max - stats.xStats.min) + (stats.yStats.max - stats.yStats.min)) / 4,
     },
     1
-  )
+  );
   window.requestAnimationFrame(() => {
     runner(args, upf, lim);
   });
@@ -71,7 +74,7 @@ const createParticles = (space, xNum, yNum, xSep, ySep) => {
       space.addParticle(x, y);
     }
   }
-}
+};
 
 const setUpGradientSim = () => {
   const gradientSim = document.getElementById("gradient");
