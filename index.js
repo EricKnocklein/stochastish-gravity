@@ -1,6 +1,8 @@
 import Space from "./classes/space.js";
 import Grapher from "./classes/grapher.js";
 
+const SIM_LIMIT = 90000;
+
 const biases = {
   noBias: () => {
     return Math.random();
@@ -48,7 +50,8 @@ const runner = (args, upf, lim) => {
   }
   const stats = space.calculateStatsForParticles();
   const currentDataset = grapher?.chart.data.datasets[0].data;
-  if (currentDataset.length < 1 || currentDataset[currentDataset.length - 1].x < stats.t) {
+  const notDup = currentDataset.length < 1 || currentDataset[currentDataset.length - 1].x < stats.t;
+  if (notDup && stats.t > 6000) {
     grapher?.addPoint(
       {
         x: stats.t,
@@ -88,7 +91,7 @@ const setUpGlobalSim = () => {
   };
   const space = new Space(globalSim, 24, 12, extraOptions);
 
-  createParticles(space, 15, 10, 10, 10);
+  createParticles(space, 15, 10, 20, 20);
 
   space.centerParticles();
   space.updateCenterOfGravity();
@@ -109,7 +112,7 @@ const setUpGlobalSim = () => {
   globalSim.addEventListener("click", () => {
     args.runSim = !args.runSim;
     console.log(grapher.getTrendlines());
-    runner(args, 1, 45000);
+    runner(args, 1, SIM_LIMIT);
   });
 
   window.gParicles = space.particles;
@@ -126,7 +129,7 @@ const setUpGradientSim = () => {
   };
   const space = new Space(gradientSim, 24, 12, extraOptions);
 
-  createParticles(space, 15, 10, 10, 10);
+  createParticles(space, 15, 10, 20, 20);
 
   space.centerParticles();
   space.updateCenterOfGravity();
@@ -146,7 +149,7 @@ const setUpGradientSim = () => {
   gradientSim.addEventListener("click", () => {
     args.runSim = !args.runSim;
     console.log(grapher.getTrendlines());
-    runner(args, 150, 45000);
+    runner(args, 150, SIM_LIMIT);
   });
 
   window.gParicles = space.particles;
@@ -163,7 +166,7 @@ const setUpCirlceSim = () => {
   };
   const space = new Space(circleSim, 24, 12, extraOptions);
 
-  createParticles(space, 15, 10, 10, 10);
+  createParticles(space, 15, 10, 20, 20);
 
   space.centerParticles();
   space.updateCenterOfGravity();
@@ -183,7 +186,7 @@ const setUpCirlceSim = () => {
   circleSim.addEventListener("click", () => {
     args.runSim = !args.runSim;
     console.log(grapher.getTrendlines());
-    runner(args, 10, 45000);
+    runner(args, 10, SIM_LIMIT);
   });
 
   window.cParicles = space.particles;
@@ -200,7 +203,7 @@ const setUpComputeSim = () => {
   };
   const space = new Space(computeSim, 24, 12, extraOptions);
 
-  createParticles(space, 15, 10, 10, 10);
+  createParticles(space, 15, 10, 20, 20);
 
   space.centerParticles();
   space.updateCenterOfGravity();
@@ -227,7 +230,7 @@ const setUpComputeSim = () => {
   computeSim.addEventListener("click", () => {
     args.runSim = !args.runSim;
     console.log(grapher.getTrendlines());
-    runner(args, 10, 45000);
+    runner(args, 10, SIM_LIMIT);
   });
 
   window.compParicles = space.particles;
