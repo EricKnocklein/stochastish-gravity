@@ -47,20 +47,23 @@ const runner = (args, upf, lim) => {
     space.centerParticles();
   }
   const stats = space.calculateStatsForParticles();
-  grapher?.addPoint(
-    {
-      x: stats.t,
-      y: (stats.xStats.stdDev + stats.yStats.stdDev) / 2,
-    },
-    0
-  );
-  grapher?.addPoint(
-    {
-      x: stats.t,
-      y: ((stats.xStats.max - stats.xStats.min) + (stats.yStats.max - stats.yStats.min)) / 4,
-    },
-    1
-  );
+  const currentDataset = grapher?.chart.data.datasets[0].data;
+  if (currentDataset.length < 1 || currentDataset[currentDataset.length - 1].x < stats.t) {
+    grapher?.addPoint(
+      {
+        x: stats.t,
+        y: (stats.xStats.stdDev + stats.yStats.stdDev) / 2,
+      },
+      0
+    );
+    grapher?.addPoint(
+      {
+        x: stats.t,
+        y: ((stats.xStats.max - stats.xStats.min) + (stats.yStats.max - stats.yStats.min)) / 4,
+      },
+      1
+    );
+  }
   window.requestAnimationFrame(() => {
     runner(args, upf, lim);
   });
