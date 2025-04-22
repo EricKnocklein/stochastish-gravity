@@ -78,4 +78,9 @@ export default class Grapher {
     }
   }
 
+  destroy() {
+    this.chart.destroy();
+    delete this.chart.data;
+  }
+
 }

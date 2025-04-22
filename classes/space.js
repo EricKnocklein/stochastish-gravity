@@ -13,6 +13,7 @@ function normalRandom(mu = 0, sigma = 1) {
 }
 class Space {
   constructor(element, width, height, extraOptions) {
+    this.element = element;
     this.numParticlesUpdated = 0;
     const squareWidth = extraOptions?.squareWidth ?? 10;
     let selectorFunction = extraOptions?.selectorFunction;
@@ -58,6 +59,11 @@ class Space {
         this.squares[i][j] = square;
       }
     }
+  }
+
+  destroy() {
+    delete this.squares;
+    this.element.innerHTML = '<div class="reset"></div>';
   }
 
   setupParticleHolder() {

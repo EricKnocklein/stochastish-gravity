@@ -100,7 +100,6 @@ const setUpGlobalSim = () => {
   space.particleHolder.appendChild(originalCneter);
 
   const grapher = new Grapher("globalChart");
-
   const args = {
     runSim: false,
     space: space,
@@ -109,6 +108,15 @@ const setUpGlobalSim = () => {
     isCircle: false,
     doGlobalUpdate: true,
   };
+  
+  globalSim.querySelector('.reset').addEventListener('click', (e) => {
+    args.runSim = false;
+    e.stopPropagation()
+    space.destroy();
+    grapher.destroy();
+    setUpGlobalSim();
+  });
+
   globalSim.addEventListener("click", () => {
     args.runSim = !args.runSim;
     console.log(grapher.getTrendlines());
@@ -157,7 +165,6 @@ const setUpGradientSim = () => {
   space.particleHolder.appendChild(originalCneter);
 
   const grapher = new Grapher("gradientChart");
-
   const args = {
     runSim: false,
     space: space,
@@ -165,6 +172,15 @@ const setUpGradientSim = () => {
     doCenter: false,
     isCircle: false,
   };
+
+  gradientSim.querySelector('.reset').addEventListener('click', (e) => {
+    args.runSim = false;
+    e.stopPropagation()
+    space.destroy();
+    grapher.destroy();
+    setUpGradientSim();
+  });
+
   gradientSim.addEventListener("click", () => {
     args.runSim = !args.runSim;
     console.log(grapher.getTrendlines());
@@ -194,7 +210,6 @@ const setUpCirlceSim = () => {
   space.particleHolder.appendChild(originalCneter);
 
   const grapher = new Grapher("circleChart");
-
   const args = {
     runSim: false,
     space: space,
@@ -202,6 +217,15 @@ const setUpCirlceSim = () => {
     doCenter: false,
     isCircle: true,
   };
+
+  circleSim.querySelector('.reset').addEventListener('click', (e) => {
+    args.runSim = false;
+    e.stopPropagation()
+    space.destroy();
+    grapher.destroy();
+    setUpCirlceSim();
+  });
+
   circleSim.addEventListener("click", () => {
     args.runSim = !args.runSim;
     console.log(grapher.getTrendlines());
@@ -237,7 +261,6 @@ const setUpComputeSim = () => {
   };
 
   const grapher = new Grapher("computeChart");
-
   const args = {
     runSim: false,
     space: space,
@@ -246,6 +269,15 @@ const setUpComputeSim = () => {
     isCircle: true,
     callback: updateFunc,
   };
+
+  computeSim.querySelector('.reset').addEventListener('click', (e) => {
+    args.runSim = false;
+    e.stopPropagation()
+    space.destroy();
+    grapher.destroy();
+    setUpComputeSim();
+  });
+
   computeSim.addEventListener("click", () => {
     args.runSim = !args.runSim;
     console.log(grapher.getTrendlines());
