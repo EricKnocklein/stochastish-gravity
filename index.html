@@ -14,6 +14,29 @@
     <div id="global" class="sim"></div>
     <canvas id="globalChart" width="600" height="300"></canvas>
     <p>Here is the first simulation, which has one thread that is more likely to update tiles on the left side of the sim, basically forming a temporal gradient.</p>
+    <div id="selectionOptions">
+      <div>
+        <label for="x-bias-select">Choose an X-Direction Selection Bias:</label>
+        <select id="x-bias-select">
+          <option value="noBias">No Bias</option>
+          <option value="lowBias">Bias for Low Values</option>
+          <option value="highBias">Bias for Low Values</option>
+          <option value="midBias">Bias for Middle Values</option>
+          <option value="outBias">Bias for Outer Values</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="y-bias-select">Choose a Y-Direction Selection Bias:</label>
+        <select id="y-bias-select">
+          <option value="noBias">No Bias</option>
+          <option value="lowBias">Bias for Low Values</option>
+          <option value="highBias">Bias for High Values</option>
+          <option value="midBias">Bias for Middle Values</option>
+          <option value="outBias">Bias for Outer Values</option>
+        </select>
+      </div>
+    </div>
     <div id="gradient" class="sim"></div>
     <canvas id="gradientChart" width="600" height="300"></canvas>
     <p>This second gradient is similar, but the particles are updated in circles instead of in squares. Each time they update, a random circle is chosen with a random position and a random radius. All particles within that circle are updated.</p>

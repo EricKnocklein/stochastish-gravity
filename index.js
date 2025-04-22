@@ -129,6 +129,25 @@ const setUpGradientSim = () => {
   };
   const space = new Space(gradientSim, 24, 12, extraOptions);
 
+  const xBiasSelect = document.getElementById('x-bias-select');
+  const yBiasSelect = document.getElementById('y-bias-select');
+
+  const onInputChange = () => {
+    const xInput = xBiasSelect?.value ?? 'noBias';
+    const yInput = yBiasSelect?.value ?? 'noBias';
+    space.selectorFunction = () => {
+      const x = biases[xInput]();
+      const y = biases[yInput]();
+
+      return { x: x, y: y };
+    }
+  }
+
+  xBiasSelect.addEventListener('change', onInputChange);
+  yBiasSelect.addEventListener('change', onInputChange);
+
+  document.getElementById('x-bias-select')
+
   createParticles(space, 15, 10, 20, 20);
 
   space.centerParticles();
