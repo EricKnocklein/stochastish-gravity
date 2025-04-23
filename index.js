@@ -92,7 +92,7 @@ const setUpRR = (sim, args, upf, space, grapher, setupF) => {
   const reset = sim.querySelector('.reset');
   const resetF = (e) => {
     args.runSim = false;
-    globalSim.removeEventListener('click', runnerClick);
+    sim.removeEventListener('click', runnerClick);
     reset.removeEventListener('click', resetF);
     e.stopPropagation()
     space.destroy();
