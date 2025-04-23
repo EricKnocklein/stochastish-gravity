@@ -108,20 +108,23 @@ const setUpGlobalSim = () => {
     isCircle: false,
     doGlobalUpdate: true,
   };
-  
-  globalSim.querySelector('.reset').addEventListener('click', (e) => {
-    args.runSim = false;
-    e.stopPropagation()
-    space.destroy();
-    grapher.destroy();
-    setUpGlobalSim();
-  });
 
-  globalSim.addEventListener("click", () => {
+  const runnerClick = () => {
     args.runSim = !args.runSim;
     console.log(grapher.getTrendlines());
     runner(args, 1, SIM_LIMIT);
+  }
+
+  globalSim.querySelector('.reset').addEventListener('click', (e) => {
+    args.runSim = false;
+    globalSim.removeEventListener('click', runnerClick);
+    e.stopPropagation()
+    space.destroy();
+    grapher.destroy();
+    setUpGradientSim();
   });
+
+  globalSim.addEventListener("click", runnerClick);
 
   window.gParicles = space.particles;
 }
@@ -173,19 +176,22 @@ const setUpGradientSim = () => {
     isCircle: false,
   };
 
+  const runnerClick = () => {
+    args.runSim = !args.runSim;
+    console.log(grapher.getTrendlines());
+    runner(args, 150, SIM_LIMIT);
+  }
+
   gradientSim.querySelector('.reset').addEventListener('click', (e) => {
     args.runSim = false;
+    gradientSim.removeEventListener('click', runnerClick);
     e.stopPropagation()
     space.destroy();
     grapher.destroy();
     setUpGradientSim();
   });
 
-  gradientSim.addEventListener("click", () => {
-    args.runSim = !args.runSim;
-    console.log(grapher.getTrendlines());
-    runner(args, 150, SIM_LIMIT);
-  });
+  gradientSim.addEventListener("click", runnerClick);
 
   window.gParicles = space.particles;
 };
@@ -218,19 +224,22 @@ const setUpCirlceSim = () => {
     isCircle: true,
   };
 
+  const runnerClick = () => {
+    args.runSim = !args.runSim;
+    console.log(grapher.getTrendlines());
+    runner(args, 15, SIM_LIMIT);
+  }
+
   circleSim.querySelector('.reset').addEventListener('click', (e) => {
     args.runSim = false;
+    circleSim.removeEventListener('click', runnerClick);
     e.stopPropagation()
     space.destroy();
     grapher.destroy();
-    setUpCirlceSim();
+    setUpGradientSim();
   });
 
-  circleSim.addEventListener("click", () => {
-    args.runSim = !args.runSim;
-    console.log(grapher.getTrendlines());
-    runner(args, 10, SIM_LIMIT);
-  });
+  circleSim.addEventListener("click", runnerClick);
 
   window.cParicles = space.particles;
 };
@@ -270,19 +279,22 @@ const setUpComputeSim = () => {
     callback: updateFunc,
   };
 
+  const runnerClick = () => {
+    args.runSim = !args.runSim;
+    console.log(grapher.getTrendlines());
+    runner(args, 15, SIM_LIMIT);
+  }
+
   computeSim.querySelector('.reset').addEventListener('click', (e) => {
     args.runSim = false;
+    computeSim.removeEventListener('click', runnerClick);
     e.stopPropagation()
     space.destroy();
     grapher.destroy();
-    setUpComputeSim();
+    setUpGradientSim();
   });
 
-  computeSim.addEventListener("click", () => {
-    args.runSim = !args.runSim;
-    console.log(grapher.getTrendlines());
-    runner(args, 10, SIM_LIMIT);
-  });
+  computeSim.addEventListener("click", runnerClick);
 
   window.compParicles = space.particles;
 };
