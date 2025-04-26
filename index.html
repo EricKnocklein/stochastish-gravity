@@ -153,5 +153,17 @@
       </div>
     </div>
     <canvas id="computeChart" width="600" height="300"></canvas>
+    <p>
+      After running both of these simulations, it looks like the theory I laid out does work as I expected, and I hope that you see similar results.
+    </p>
+    <p class="hint">
+      Because the implementation is based on a timeout in seconds and not a certain number of updates, the faster your browser is, the more other particles can be updated while a certain circle is waiting for an update. This might make the effect more pronounced on faster machines.
+    </p>
+    <p>
+      For me, the standard deviation hovers around 15, only rarely spiking over 20. Sometimes, though, the selection is quite unlucky, allowing many of the particles to update in quick succession. Because the steady state of this simulation looks to be more compact than the steady state of the previous simulation, when this happens, the particles explode outwards because of the pent-up pressure when they are all crammed together.
+    </p>
+    <p>
+      My hope is that as more particles are added into the simulation, it becomes less likely that one of these events happens.
+    </p>
   </body>
 </html>
