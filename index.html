@@ -127,7 +127,23 @@
       </div>
     </div>
     <canvas id="circleChart" width="600" height="300"></canvas>
-    <p>Compute Sim</p>
+    <p>
+      Take note of the trendline for the standard deviation of the particles in this simulation. If this simulation functions the same on your browser as it does on mine, then the trendline should hover around 17. Keep this number in mind.
+    </p>
+    <p>
+      We need this number because if adding different ticking speeds into this simulation causes “gravity” to appear, then we would expect the particles to be pulled towards each other, resulting in a lower standard deviation of their positions.
+    </p>
+    <p>
+      So how can we add different ticking speeds to this simulation? The solution I went with is that, before the particles are allowed to update, they have to wait a time proportional to the number of other updateable particles in the circle. While they are waiting, these particles cannot be selected again.
+    </p>
+    <p class="hint">
+      When I first came up with this idea, I thought about it as multiple threads all selecting circles at the same time. Larger circles would naturally take longer to compute, meaning that particles selected within a dense region would take longer to update. I think that this is a much more natural explanation for this than manually waiting a length of time proportional to the square of the particles being updated, but this is the solution I came up with given the limitations of JavaScript.
+      <br></br>
+      The biggest part of this setup that irks me is that the length of time is proportional to the square of the number of particles being updated. Computationally, it doesn’t make sense that calculating the positions would not be proportional to the number of particles. I’m not sure what algorithm to compute the new positions could be inefficient enough to cause this effect, but I do think it’s funny to think that our reality (or this constructed reality that we are imagining) runs really inefficiently.
+    </p>
+    <p>
+      If you run the simulation below, hopefully you will see the standard deviation of the particles stay consistently lower than that of the above simulation.
+    </p>
     <div class="simHolder">
       <div id="compute" class="sim">
         <div class="reset"></div>
