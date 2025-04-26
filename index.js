@@ -183,7 +183,7 @@ const setUpGradientSim = () => {
     isCircle: false,
   };
 
-  setUpRR(gradientSim, args, 150, space, grapher, setUpGradientSim);
+  setUpRR(gradientSim, args, 250, space, grapher, setUpGradientSim);
 
   window.gParicles = space.particles;
 };
