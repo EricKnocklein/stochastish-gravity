@@ -8,10 +8,10 @@ const biases = {
     return Math.random();
   },
   lowBias: () => {
-    return Math.random() ** 2;
+    return 1 - biases.highBias();
   },
   highBias: () => {
-    return 1 - Math.random() ** 2;
+    return Math.random() ** (1 / 2);
   },
   midBias: () => {
     return (Math.random() + Math.random()) / 2;
