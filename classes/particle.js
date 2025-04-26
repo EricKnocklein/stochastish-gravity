@@ -5,7 +5,7 @@ const equilibriumDistance = 100;
 const K = 0.00005;
 
 const DAMP = 0.75;
-const TEMP = 0.01;
+const TEMP = 0;
 
 function getRandomBetweenMinusOneAndOne() {
   let num;
