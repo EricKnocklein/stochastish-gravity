@@ -165,8 +165,7 @@ const setUpGradientSim = () => {
   xBiasSelect.addEventListener('change', onInputChange);
   yBiasSelect.addEventListener('change', onInputChange);
 
-  document.getElementById('x-bias-select')
-
+  onInputChange();
   createParticles(space, 15, 10, 20, 20);
 
   space.centerParticles();
