@@ -144,8 +144,8 @@ class Space {
 
     const selection = this.selectorFunction();
     const sqW = this.squareWidth;
-    const x = Math.floor(selection.x * this.width * sqW);
-    const y = Math.floor(selection.y * this.height * sqW);
+    const x = selection.x * (this.width + 1) * sqW - (sqW / 2);
+    const y = selection.y * (this.height + 1) * sqW - (sqW / 2);
 
     const r = this.radiusSelectorFunction()
 
