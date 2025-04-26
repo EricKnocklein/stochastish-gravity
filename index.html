@@ -87,7 +87,40 @@
       </div>
     </div>
     <canvas id="gradientChart" width="600" height="300"></canvas>
-    <p>This second gradient is similar, but the particles are updated in circles instead of in squares. Each time they update, a random circle is chosen with a random position and a random radius. All particles within that circle are updated.</p>
+    <p>
+      If you messed around with the simulation, you would have seen exactly what I described above happening. Setting a bias for lower values makes the particles move to the right. Setting a bias for higher values makes the particles move to the left. Setting a bias for middle values makes particles move either left or right like they’re rolling off of a ridge.
+    </p>
+    <p>
+      Originally this is where I was going to end this article. I wanted to find an intuitive explanation of how time dilation causes gravity. Though this is not at all rigorous, it satisfied the thought I first had about this when I wondered whether time dilation caused gravity instead of the other way around. The “temporal gradient” causes particles to move in a certain direction as though they are being acted on by a force.
+    </p>
+    <p>
+      Imagine that there was a large planet just off of the left side of the simulation, its gravity would cause a gradient of ticking speed similar to what selecting “Bias for High Values” might look like, causing the particles to be “pulled” towards the planet.
+    </p>
+    <p>
+      But there is something lacking from this explanation: what is causing the temporal gradient? Why does space near the planet tick less often than space farther away? I wanted to see whether I could think of answers to these questions using the same framework as we have been using in this article.
+    </p>
+    <h2>Computational Gravity</h2>
+    <p>
+      From a very high level it makes sense that areas with fewer particles would take less time to tick. There is less to calculate, fewer forces to compute, fewer particles to move, etc. Would this be enough to get the particles to attract one another?
+    </p>
+    <p>
+      To answer this question, I modified the previous simulation so that each square takes a certain amount of time to tick based on the number of particles inside the square. But this did not give me a worthwhile result because this did not create a temporal gradient at all.
+    </p>
+    <p>
+      The square that took a long time to tick did not attract other particles to it because the squares adjacent to it did not necessarily take a long time to update, and so did not pull particles. If a particle randomly entered the square, it would take a while to get out again, so there was a little bit of a pull from that.
+    </p>
+    <p>
+      After messing with this setup some more (increasing particle counts, increasing and correlating square sizes, etc.), I decided to take a different approach where the size of the update region is not constant.
+    </p>
+    <p>
+      In the simulation below, I pick a random point in the space of the simulation region. From there I pick a random distance. All particles within this distance will be updated at once. Once that is done, I repeat the process by picking a new point and a new distance.
+    </p>
+    <p>
+      This setup allows for a more far-reaching gradient to form because the selection region could be very large, but it still allows particles to be differentiated from one another because the selection region could be very small.
+    </p>
+    <p>
+      Before we add the computational component to this simulation, let’s get familiar with how this new setup works. In this example, whenever a circle is chosen, the particles within are immediately updated. There should be no gravity here because there is no gradient. This is our control.
+    </p>
     <div class="simHolder">
       <div id="circle" class="sim">
         <div class="reset"></div>
