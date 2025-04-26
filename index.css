@@ -28,6 +28,14 @@ select {
   border: 1px solid #a8a8a8;
 }
 
+canvas {
+  margin-bottom: 40px;
+}
+
+#selectionOptions {
+  margin-top: 1em;
+}
+
 .square {
   height: calc(var(--width) * 1px);
   width: calc(var(--width) * 1px);
@@ -40,7 +48,7 @@ select {
 }
 
 .square.updating {
-  background-color: rgba(0, 128, 0, 0.351);
+  background-color: rgba(0, 196, 0, 0.351);
   transition: background-color 0s;
 }
 
@@ -76,11 +84,18 @@ select {
   z-index: 1;
 }
 
+.simHolder {
+  max-width: 100%;
+  overflow: auto;
+  margin: 15px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+
+}
+
 .sim {
   position: relative;
   background-color: rgb(51, 51, 51);
-  margin: 15px;
-  margin-bottom: 45px;
 
   border-radius: 10px;
   overflow: hidden;

@@ -35,8 +35,10 @@
     <p class="hint">
       While particles are updating they will be shown in yellow. Otherwise they will be shown in red. The green point is the average position of the particles, and the blue point is the current average position of the particles.
     </p>
-    <div id="global" class="sim">
-      <div class="reset"></div>
+    <div class="simHolder">
+      <div id="global" class="sim">
+        <div class="reset"></div>
+      </div>
     </div>
     <canvas id="globalChart" width="600" height="300"></canvas>
     <p>Here is the first simulation, which has one thread that is more likely to update tiles on the left side of the sim, basically forming a temporal gradient.</p>
@@ -63,18 +65,24 @@
         </select>
       </div>
     </div>
-    <div id="gradient" class="sim">
-      <div class="reset"></div>
+    <div class="simHolder">
+      <div id="gradient" class="sim">
+        <div class="reset"></div>
+      </div>
     </div>
     <canvas id="gradientChart" width="600" height="300"></canvas>
     <p>This second gradient is similar, but the particles are updated in circles instead of in squares. Each time they update, a random circle is chosen with a random position and a random radius. All particles within that circle are updated.</p>
-    <div id="circle" class="sim">
-      <div class="reset"></div>
+    <div class="simHolder">
+      <div id="circle" class="sim">
+        <div class="reset"></div>
+      </div>
     </div>
     <canvas id="circleChart" width="600" height="300"></canvas>
     <p>Compute Sim</p>
-    <div id="compute" class="sim">
-      <div class="reset"></div>
+    <div class="simHolder">
+      <div id="compute" class="sim">
+        <div class="reset"></div>
+      </div>
     </div>
     <canvas id="computeChart" width="600" height="300"></canvas>
   </body>
