@@ -16,6 +16,19 @@
     <p>
       I was struck by an idea that I could not get out of my head, and I wanted to prove to myself that it makes sense whether or not it has any practical application besides the programming practice that I got making it.
     </p>
+    <h1>Stochastic Gravity</h1>
+    <p>
+      The basis of this “Stochastic Gravity” as I decided to call it is that all particles feel a force from all other particles, but they are only allowed to experience this force in discrete time steps. Think of these time steps as the ticks of a clock. Each particle can only update its position when its clock ticks.
+    </p>
+    <p>
+      If all of the particles have the same clock, then we have the setup to a regular particle simulation. Because of computation limitations, particle simulations always progress in discrete time steps like this. 60 times per seconds, for example, the particles calculate the forces that they experience, their acceleration, then their velocity, which gives them their new position. Step by step, the simulation continues in this manner. If the time steps are small enough, these simulations give the illusion of continuous motion.
+    </p>
+    <p>
+      This is what we have in the first simulation below. Once per frame, all of the particle’s have their clocks tick. They feel an attractive force to one another that is inversely proportional to their distance from one another squared, and a repulsive force that is inversely proportional to their distance from one another cubed.
+    </p>
+    <p>
+      As the simulation runs, you can see how the center of gravity of the particles (shown in blue) changes. Because there are no external forces acting on these particles, the center of gravity should not move from its original location (shown in green underneath the blue). These particles will just swirl around until they run out of energy (I added a small amount of damping to the system), but the simulation will cut off long before that happens.
+    </p>
     <div id="global" class="sim">
       <div class="reset"></div>
     </div>
