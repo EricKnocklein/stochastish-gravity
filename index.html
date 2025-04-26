@@ -14,8 +14,7 @@
       For the sake of curiosity, I threw out all of what I know about physics. Conservation of energy, gone. Symmetric forces, gone. Deterministic behavior, gone. Fundamentally, the demonstration below has very little to offer for those trying to learn physics because that is not what it’s intended for.
     </p>
     <p>
-      I was struck by an idea that I could not get out of my head, and I wanted to prove to myself that it makes sense whether or not it has any practical application besides the programming practice that I got making it.
-    </p>
+      I was struck by an idea that I could not get out of my head, and I wanted to prove to myself that it makes sense whether or not it has any practical application besides the programming practice that I got making it. Could I create a logical explanation for something like gravity and time dilation where the first does not cause the latter but the latter causes the first? And could I convince myself that I could invent a computational reason behind why matter causes the latter?    </p>
     <h1>Stochastic Gravity</h1>
     <p>
       The basis of this “Stochastic Gravity” as I decided to call it is that all particles feel a force from all other particles, but they are only allowed to experience this force in discrete time steps. Think of these time steps as the ticks of a clock. Each particle can only update its position when its clock ticks.
@@ -41,7 +40,24 @@
       </div>
     </div>
     <canvas id="globalChart" width="600" height="300"></canvas>
-    <p>Here is the first simulation, which has one thread that is more likely to update tiles on the left side of the sim, basically forming a temporal gradient.</p>
+    <p>
+      This is fairly boring because every simulation, the results will be the exact same. This is a completely deterministic system because all of the particles tick at the same rate. What happens when the particles do not all tick at the same rate?
+    </p>
+    <p>
+      Before we see that, let’s try to understand what the consequences of this would be. Most importantly, if the particles do not all tick at the same rate, then the forces between the particles will no longer be symmetric. For example, if we have two particles that feel an attractive force, the particle that ticks more frequently will have the ability to experience that force more often, and therefore it will appear as though it experiences a stronger force.
+    </p>
+    <p>
+      Extrapolating this concept, if we have a gradient of ticking speeds, then we would expect particles to move to areas where the ticking speed is slower. This is very similar to one explanation of real-world gravity called the Law of Cosmic Laziness. Time moves slower in regions of high gravity, so the fact that matter is pulled into these regions by gravity makes matter tend to places where time moves slowest. Same thing happens in this simulation even without any built-in force of gravity.
+    </p>
+    <p>
+      In the simulation, we randomly select a square and tick all of the particles within that square. By changing the way we pick these squares, we can change where the areas of “laziness” are, and we can see whether the particles do tend to move in this direction. If we select the right side of the simulation more often than the left side, then the particles should move left, for example.
+    </p>
+    <p class="hint">
+      Change the options in the selection to change the gradient. If you select “Bias for High Values” for the X direction, squares on the right side of the simulation are more likely to be selected, and squares on the left side will be “lazy” and update less often.
+    </p>
+    <p class="hint">
+      When a square updates, it will flash green.
+    </p>
     <div id="selectionOptions">
       <div>
         <label for="x-bias-select">Choose an X-Direction Selection Bias:</label>
