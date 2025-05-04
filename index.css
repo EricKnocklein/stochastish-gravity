@@ -8,6 +8,15 @@ body {
   align-items: center;
   background-color: rgb(242, 242, 242);
   margin: 15px 10%;
+  background-image: linear-gradient(
+    to right, 
+    rgb(230, 230, 230), 
+    #ffff0000, 
+    #ffff0000, 
+    #ffff0000, 
+    #ffff0000, 
+    rgb(230, 230, 230)
+  );
 }
 
 body > p {
