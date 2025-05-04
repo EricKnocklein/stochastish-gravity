@@ -17,7 +17,7 @@
       I was struck by an idea that I could not get out of my head, and I wanted to prove to myself that it makes sense whether or not it has any practical application besides the programming practice that I got making it. Could I create a logical explanation for something like gravity and time dilation where the first does not cause the latter but the latter causes the first? And could I convince myself that I could invent a computational reason behind why matter causes the latter?    </p>
     <h1>Stochastic Gravity</h1>
     <p>
-      The basis of this “Stochastic Gravity” as I decided to call it is that all particles feel a force from all other particles, but they are only allowed to experience this force in discrete time steps. Think of these time steps as the ticks of a clock. Each particle can only update its position when its clock ticks.
+      The basis of this “Stochastic Gravity” as I have decided to call it is that all particles feel a force from all other particles, but they are only allowed to experience this force in discrete time steps. Think of these time steps as the ticks of a clock. Each particle can only update its position when its clock ticks.
     </p>
     <p>
       If all of the particles have the same clock, then we have the setup to a regular particle simulation. Because of computation limitations, particle simulations always progress in discrete time steps like this. 60 times per seconds, for example, the particles calculate the forces that they experience, their acceleration, then their velocity, which gives them their new position. Step by step, the simulation continues in this manner. If the time steps are small enough, these simulations give the illusion of continuous motion.
@@ -164,6 +164,9 @@
     </p>
     <p>
       My hope is that as more particles are added into the simulation, it becomes less likely that one of these events happens.
+    </p>
+    <p>
+      Interestingly, it seems like the gradient simulation with the squares when it is set to have no selection bias has the largest average standard deviation at around 20 on my machine. The globally updating simulation has a standard deviation of around 17 for me, just like the first circle-based simulation.
     </p>
   </body>
 </html>
