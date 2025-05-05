@@ -8,6 +8,7 @@ body {
   align-items: center;
   background-color: rgb(242, 242, 242);
   margin: 15px 10%;
+  margin-bottom: 0px;
   background-image: linear-gradient(
     to right, 
     rgb(230, 230, 230), 
@@ -163,4 +164,14 @@ canvas {
 
 a {
   color: var(--link-color);
+}
+
+footer {
+  color: #a8a8a8;
+}
+
+footer p {
+  margin-block-start: 2em;
+  margin-block-end: 2em;
+  font-size: 0.8em;
 }
