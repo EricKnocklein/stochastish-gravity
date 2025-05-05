@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stochastic Gravity</title>
+    <title>Stochastish Gravity</title>
+    <meta name="keywords" content="gravity, stochastic, stochastish, computation, computational, physics, exploration">
+    <meta name="description" content="Look at gravity differently after reading this article exploring how a temporal gradient could cause gravity without the need for curvature. Though not mathematically rigorous, explore simulations supporting these strange ideas">
     <link rel="stylesheet" href="index.css" />
     <script src="index.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -14,7 +16,7 @@
       For the sake of curiosity, I threw out all of what I know about physics. Conservation of energy, gone. Symmetric forces, gone. Deterministic behavior, gone. Fundamentally, the demonstration below has very little to offer for those trying to learn physics because that is not what it’s intended for.
     </p>
     <p>
-      I was struck by an idea that I could not get out of my head, and I wanted to prove to myself that it makes sense whether or not it has any practical application besides the programming practice that I got making it. Could I create a logical explanation for something like gravity and time dilation where the first does not cause the latter but the latter causes the first? And could I convince myself that I could invent a computational reason behind why matter causes the latter?    </p>
+      I was struck by an idea that I could not get out of my head, and I wanted to prove to myself that it makes sense whether or not it has any practical application besides the programming practice that I got making it. Could I create a logical explanation for something like gravity and time dilation where the first does not cause the latter but the latter causes the first? And could I convince myself that I could invent a computational reason behind why matter causes the latter?</p>
     <h1>Stochastish Gravity</h1>
     <p>
       The basis of this “Stochastish Gravity” as I have decided to call it (in order to differentiate it from <a href="https://arxiv.org/abs/gr-qc/0307032" target="_blank">stochastic gravity</a>, which is an actual thing) is that all particles feel a force from all other particles, but they are only allowed to experience this force in discrete and somewhat random time steps. Think of these time steps as the ticks of a clock. Each particle can only update its position when its clock ticks.
