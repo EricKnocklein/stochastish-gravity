@@ -1,0 +1,35 @@
+@media (width <= 650px) {
+  div#menu {
+    position: relative;
+    display: flex;
+    top: 0;
+    left: 0;
+  }
+
+  div#menu a {
+    margin: 0px 5px 8px 5px;
+  }
+}
+
+#menu {
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  --icon-size: 25px;
+}
+
+#menu a {
+  display: block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-size: var(--icon-size);
+  margin-bottom: calc(var(--icon-size) / 3);
+}
+
+#ericknock {
+  background: url("https://ericknock.dev/favicon.ico");
+}
+
+#eklittlehill {
+  background: url("https://eklittlehill.com/favicon.ico");
+}
