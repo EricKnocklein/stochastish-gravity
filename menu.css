@@ -23,7 +23,22 @@
   width: var(--icon-size);
   height: var(--icon-size);
   background-size: var(--icon-size);
+  background-repeat: no-repeat;
   margin-bottom: calc(var(--icon-size) / 3);
+
+  opacity: 0.5;
+
+  border-radius: 100%;
+  border: solid 2px;
+  box-sizing: content-box;
+  border-color: transparent;
+
+  transition: all 0.5s;
+}
+
+#menu a:hover {
+  background-color: var(--link-color);
+  border-color: var(--link-color);
 }
 
 #ericknock {

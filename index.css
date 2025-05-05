@@ -17,6 +17,8 @@ body {
     #ffff0000, 
     rgb(230, 230, 230)
   );
+
+  --link-color: rgba(75, 192, 192, 1);
 }
 
 body > p {
@@ -40,7 +42,7 @@ body > p {
   border-radius: 100%;
   border: 1px solid #686868;
   background-color: rgb(213, 212, 212);
-  color: rgba(75, 192, 192, 1);
+  color: var(--link-color);
   position: absolute;
 
   top: -10px;
@@ -154,11 +156,11 @@ canvas {
 .reset {
   cursor: pointer;
   z-index: 1;
-  background-image: url(/assets/reset.svg);
+  background-image: url(./assets/reset.svg);
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 a {
-  color: rgba(75, 192, 192, 1);
+  color: var(--link-color);
 }
