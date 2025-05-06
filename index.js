@@ -85,7 +85,6 @@ const createParticles = (space, xNum, yNum, xSep, ySep) => {
 const setUpRR = (sim, args, upf, space, grapher, setupF) => {
   const runnerClick = () => {
     args.runSim = !args.runSim;
-    console.log(grapher.getTrendlines());
     runner(args, upf, SIM_LIMIT);
   }
 
