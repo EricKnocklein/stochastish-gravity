@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="./menu.css" />
     <script src="./index.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline/dist/chartjs-plugin-trendline.min.js"></script>
+
   </head>
   <body>
     <div id="menu">
@@ -21,7 +22,11 @@
       For the sake of curiosity, I threw out all of what I know about physics. Conservation of energy, gone. Symmetric forces, gone. Deterministic behavior, gone. Fundamentally, the demonstration below has very little to offer for those trying to learn physics because that is not what it’s intended for.
     </p>
     <p>
-      I was struck by an idea that I could not get out of my head, and I wanted to prove to myself that it makes sense whether or not it has any practical application besides the programming practice that I got making it. Could I create a logical explanation for something like gravity and time dilation where the first does not cause the latter but the latter causes the first? And could I convince myself that I could invent a computational reason behind why matter causes the latter?</p>
+      I was struck by an idea that I could not get out of my head, and I wanted to prove to myself that it makes sense whether or not it has any practical application besides the programming practice that I got making it. Could I create a logical explanation for something like gravity and time dilation where the first does not cause the latter but the latter causes the first? And could I convince myself that I could invent a computational reason behind why matter causes the latter?
+    </p>
+    <p>
+      Rather than being a rigorous exploration of the math they may be able to formalize these ideas, this article serves as a demonstration of using code to expore such problems even if they might not have any merit beyond that. The exploration itself and how progamming can be used to verify these ideas is the point of this article. My hope is that this can inspre you to explore your own ideas, no matter how silly or absurd they may seem.
+    </p>
     <h1>Stochastish Gravity</h1>
     <p>
       The basis of this “Stochastish Gravity” as I have decided to call it (in order to differentiate it from <a href="https://arxiv.org/abs/gr-qc/0307032" target="_blank">stochastic gravity</a>, which is an actual thing) is that all particles feel a force from all other particles, but they are only allowed to experience this force in discrete and somewhat random time steps. Think of these time steps as the ticks of a clock. Each particle can only update its position when its clock ticks.
@@ -177,10 +182,10 @@
     </p>
     <h2>Conclusion</h2>
     <p>
-      My hope is that this exploration was interesting even if it was not rigorous. If anyone reading this has the technical know-how to formalize this concept in a mathematical way, I would love to know what some consequences of this sort of gravity would be if it were to work this way in an actual setting. I think it would be interesting to use this sort of gravity in the setting of a story and explore what consequences this would have for the characters, and maybe I could even incorporate it into some of my ongoing writing projects, which you can find <a href="https://www.eklittlehill.com/" target="_blank">here</a>. That page also has a form to contact me if you have any ideas.
+      My hope is that this exploration was interesting even if it was not rigorous. If anyone reading this has the technical know-how to formalize this concept in a mathematical way, I would love to know what some consequences of this sort of gravity would be if it were to work this way in an actual setting. I think it would be interesting to use this sort of gravity in the setting of a story and explore what consequences this would have for the characters, and maybe I could even incorporate it into some of my ongoing writing projects, which you can find <a href="https://eklittlehill.com/" target="_blank">here</a>. That page also has a form to contact me if you have any ideas.
     </p>
     <footer>
-      <p>Eric Knocklein - May 2025</p>
+      <p><a href="https://ericknock.dev/" target="_blank">Eric Knocklein</a> - May 2025</p>
     </footer>
   </body>
 </html>
