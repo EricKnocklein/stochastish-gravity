@@ -1,3 +1,5 @@
+import Force from "./force.js";
+
 const attractionStrength = 20;
 const repulsionStrength = 20;
 
@@ -96,15 +98,13 @@ class Particle {
       let dx = otherPosition.x - thisPosition.x;
       let dy = otherPosition.y - thisPosition.y;
 
-      if (dx === 0 && dy === 0) {
-        continue;
+      let distSq = dx * dx + dy * dy;
+      if (distSq < 10) {
+        distSq = 10;
       }
 
-      let distSq = dx * dx + dy * dy;
       let dist = Math.sqrt(distSq);
-
-      let forceMagnitude = attractionStrength * (1 / distSq) - repulsionStrength * (1 / dist ** 3);
-
+      let forceMagnitude = Force.calculateForceMagnitude(dist);
 
       let fx = (forceMagnitude / dist) * dx;
       let fy = (forceMagnitude / dist) * dy;
