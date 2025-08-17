@@ -91,14 +91,6 @@ class Force {
       renderCoefficients();
     };
 
-    // Save button
-    const saveBtn = document.createElement('button');
-    saveBtn.textContent = 'Save Coefficients';
-    saveBtn.onclick = () => {
-      Force.setCoefficients([...Force.coefficients]);
-      alert('Coefficients saved!');
-    };
-
     // Layout
     container.appendChild(list);
     container.appendChild(addBtn);
