@@ -7,6 +7,28 @@ const ForceMenu = document.getElementById("forceMenu");
 if (ForceMenu) {
   Force.buildMenu(ForceMenu);
 }
+const chartMenu = document.getElementById("chartMenu");
+if (chartMenu) {
+  // Create checkbox
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.id = "showGraphsCheckbox";
+  checkbox.checked = Params.doShowGraphs;
+
+  // Add label for clarity
+  const label = document.createElement("label");
+  label.htmlFor = "showGraphsCheckbox";
+  label.innerText = "Show Graphs";
+
+  // Append to body (or any container)
+  chartMenu.appendChild(checkbox);
+  chartMenu.appendChild(label);
+
+  // Add a generic change listener
+  checkbox.addEventListener("change", (event) => {
+    Params.doShowGraphs = event.target.checked;
+  });
+}
 
 const gradientSelector = () => {
   const x = Params.biases["noBias"]();

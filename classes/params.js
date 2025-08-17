@@ -19,13 +19,17 @@ class Params {
     },
   };
 
-  static _doShowGraphs = true;
+  static _doShowGraphs = false;
   static set doShowGraphs(val) {
     Params._doShowGraphs = val;
-    const graphs = document.querySelectorAll('graph');
+    const graphs = document.querySelectorAll('.graph');
     graphs.forEach((graph) => {
       graph.style.display = val ? 'block' : 'none';
     });
+  }
+
+  static get doShowGraphs() {
+    return Params._doShowGraphs;
   }
 }
 
