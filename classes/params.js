@@ -18,6 +18,15 @@ class Params {
       return x < 0.5 ? x * x * 2 : 1 - (1 - x) * (1 - x) * 2;
     },
   };
+
+  static _doShowGraphs = true;
+  static set doShowGraphs(val) {
+    Params._doShowGraphs = val;
+    const graphs = document.querySelectorAll('graph');
+    graphs.forEach((graph) => {
+      graph.style.display = val ? 'block' : 'none';
+    });
+  }
 }
 
 export default Params;

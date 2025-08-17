@@ -55,14 +55,13 @@
 div#menus {
   box-sizing: border-box;
   overflow: hidden;
-  width: 0px;
-  height: 0px;
+  width: 20px;
+  height: 20px;
   position: fixed;
   right: 20px;
   bottom: 20px;
   z-index: 1;
 
-  padding: 1em;
   border: 1px solid #686868;
   background-color: rgb(213, 212, 212);
   border-radius: 10px;
@@ -70,7 +69,17 @@ div#menus {
   transition: width 0.5s, height 0.5s;
 }
 
-#forceMenuTitle {
+.holder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+  padding: 1em;
+}
+
+#menus .title {
   text-align: center;
   font-weight: bold;
   padding-bottom: 5px;
@@ -79,17 +88,31 @@ div#menus {
 div#menus:hover {
   width: 200px;
   height: 200px;
+}
+div#menus:hover .holder {
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 div#menus::before {
-  content: "Menu";
+  content: "m";
   position: absolute;
-  top: -20px;
-  left: 10px;
-
+  top: -2px;
+  left: 2.5px;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1em;
+  color: var(--link-color);
+  opacity: 1;
+
+  transition: opacity 0.5s;
+}
+
+div#menus:hover::before {
+  opacity: 0;
+}
+
+#forceMenu {
+  margin-bottom: 10px;
 }
 
 #forceMenu ul {

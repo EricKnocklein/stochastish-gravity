@@ -19,8 +19,12 @@
       <a href="https://eklittlehill.com/" target="_blank" id="eklittlehill"></a>
     </div>
     <div id="menus">
-      <div id="forceMenuTitle">Force Coefficients</div>
-      <div id="forceMenu"></div>
+      <div class="holder">
+        <div class="title" id="forceMenuTitle">Force Coefficients</div>
+        <div id="forceMenu"></div>
+        <div class="title" id="showChartTitle">Show Charts</div>
+        <div id="forceMenu"></div>
+      </div>
       <div></div>
     </div>
     <p>
@@ -59,7 +63,7 @@
         <div class="reset"></div>
       </div>
     </div>
-    <canvas id="globalChart" width="600" height="300"></canvas>
+    <canvas class="graph" id="globalChart" width="600" height="300"></canvas>
     <p>
       This is fairly boring because every simulation, the results will be the exact same. This is a completely deterministic system because all of the particles tick at the same rate. What happens when the particles do not all tick at the same rate?
     </p>
@@ -106,7 +110,7 @@
         <div class="reset"></div>
       </div>
     </div>
-    <canvas id="gradientChart" width="600" height="300"></canvas>
+    <canvas class="graph" id="gradientChart" width="600" height="300"></canvas>
     <p>
       If you messed around with the simulation, you would have seen exactly what I described above happening. Setting a bias for lower values makes the particles move to the right. Setting a bias for higher values makes the particles move to the left. Setting a bias for middle values makes particles move either left or right like they’re rolling off of a ridge.
     </p>
@@ -146,7 +150,7 @@
         <div class="reset"></div>
       </div>
     </div>
-    <canvas id="circleChart" width="600" height="300"></canvas>
+    <canvas class="graph" id="circleChart" width="600" height="300"></canvas>
     <p>
       Take note of the trendline for the standard deviation of the particles in this simulation. If this simulation functions the same on your browser as it does on mine, then the trendline should hover around 17. Keep this number in mind.
     </p>
@@ -169,7 +173,7 @@
         <div class="reset"></div>
       </div>
     </div>
-    <canvas id="computeChart" width="600" height="300"></canvas>
+    <canvas class="graph" id="computeChart" width="600" height="300"></canvas>
     <p>
       After running both of these simulations, it looks like the theory I laid out does work as I expected, and I hope that you see similar results.
     </p>
