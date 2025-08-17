@@ -22,8 +22,6 @@ class Force {
 
     // Create the list of coefficient inputs
     const list = document.createElement('ul');
-    list.style.listStyle = 'none';
-    list.style.padding = '0';
 
     // Helper to render the coefficient inputs
     function renderCoefficients() {
@@ -43,9 +41,12 @@ class Force {
           Force.coefficients[idx] = parseFloat(input.value);
         };
 
+        const btnDiv = document.createElement('div');
+        btnDiv.style.display = 'flex';
+        btnDiv.style.flexWrap = 'no-wrap';
         // Remove button
         const removeBtn = document.createElement('button');
-        removeBtn.textContent = 'Remove';
+        removeBtn.textContent = 'X';
         removeBtn.onclick = () => {
           Force.coefficients.splice(idx, 1);
           renderCoefficients();
@@ -53,6 +54,7 @@ class Force {
 
         // Move up button
         const upBtn = document.createElement('button');
+        upBtn.classList.add('up-btn');
         upBtn.textContent = '↑';
         upBtn.disabled = idx === 0;
         upBtn.onclick = () => {
@@ -64,6 +66,7 @@ class Force {
 
         // Move down button
         const downBtn = document.createElement('button');
+        downBtn.classList.add('down-btn');
         downBtn.textContent = '↓';
         downBtn.disabled = idx === Force.coefficients.length - 1;
         downBtn.onclick = () => {
@@ -74,8 +77,9 @@ class Force {
         };
 
         item.appendChild(input);
-        item.appendChild(upBtn);
-        item.appendChild(downBtn);
+        btnDiv.appendChild(upBtn);
+        btnDiv.appendChild(downBtn);
+        item.appendChild(btnDiv);
         item.appendChild(removeBtn);
         list.appendChild(item);
       });
@@ -85,6 +89,7 @@ class Force {
 
     // Add coefficient button
     const addBtn = document.createElement('button');
+    addBtn.classList.add('add-coefficient-btn');
     addBtn.textContent = 'Add Coefficient';
     addBtn.onclick = () => {
       Force.coefficients.push(0);
@@ -94,7 +99,6 @@ class Force {
     // Layout
     container.appendChild(list);
     container.appendChild(addBtn);
-    container.appendChild(saveBtn);
   }
 }
 

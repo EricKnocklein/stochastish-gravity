@@ -5,7 +5,7 @@ class Params {
       return Math.random();
     },
     lowBias: () => {
-      return 1 - biases.highBias();
+      return 1 - Params.biases.highBias();
     },
     highBias: () => {
       return Math.random() ** (1 / 2);

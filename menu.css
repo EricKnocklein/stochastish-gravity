@@ -1,24 +1,24 @@
 @media (width <= 675px) {
-  div#menu {
+  div#links {
     position: relative;
     display: flex;
     top: 0;
     left: 0;
   }
 
-  div#menu a {
+  div#links a {
     margin: 0px 5px 8px 5px;
   }
 }
 
-#menu {
+#links {
   position: fixed;
   left: 20px;
   top: 20px;
   --icon-size: 25px;
 }
 
-#menu a {
+#links a {
   display: block;
   width: var(--icon-size);
   height: var(--icon-size);
@@ -35,8 +35,11 @@
 
   transition: all 0.5s;
 }
+#links:hover a {
+  opacity: 1;
+}
 
-#menu a:hover {
+#links a:hover {
   background-color: var(--link-color);
   border-color: var(--link-color);
 }
@@ -47,4 +50,82 @@
 
 #eklittlehill {
   background: url("https://eklittlehill.com/favicon.ico");
+}
+
+div#menus {
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 0px;
+  height: 0px;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1;
+
+  padding: 1em;
+  border: 1px solid #686868;
+  background-color: rgb(213, 212, 212);
+  border-radius: 10px;
+
+  transition: width 0.5s, height 0.5s;
+}
+
+#forceMenuTitle {
+  text-align: center;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+div#menus:hover {
+  width: 200px;
+  height: 200px;
+  overflow-y: auto;
+}
+
+div#menus::before {
+  content: "Menu";
+  position: absolute;
+  top: -20px;
+  left: 10px;
+
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+#forceMenu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#forceMenu li {
+  justify-content: space-between;
+}
+
+#forceMenu button {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+#forceMenu button, #forceMenu input {
+  border-color: var(--link-color);
+  border-style: solid;
+  border-radius: 5px;
+}
+
+#forceMenu .up-btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right-width: 1px;
+  margin-left: 5px;
+}
+#forceMenu .down-btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left-width: 1px;
+  margin-right: 5px;
+}
+
+#forceMenu .add-coefficient-btn {
+  width: 100%;
 }
