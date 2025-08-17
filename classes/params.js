@@ -19,7 +19,7 @@ class Params {
     },
   };
 
-  static _doShowGraphs = false;
+  static _doShowGraphs = true;
   static set doShowGraphs(val) {
     Params._doShowGraphs = val;
     const graphs = document.querySelectorAll('.graph');

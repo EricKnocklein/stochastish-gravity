@@ -29,6 +29,31 @@ if (chartMenu) {
     Params.doShowGraphs = event.target.checked;
   });
 }
+const paramMenu = document.getElementById("paramMenu");
+if (paramMenu) {
+  // Create label
+  const label = document.createElement("label");
+  label.htmlFor = "simLimit";
+  label.innerText = "Simulation Limit: ";
+
+  // Create input
+  const input = document.createElement("input");
+  input.type = "number";
+  input.id = "simLimit";
+  input.step = "1";
+  input.min = "0";
+  input.style.width = "100%";
+  input.value = Params.sim_limit;
+
+  // Append to body
+  paramMenu.appendChild(label);
+  paramMenu.appendChild(input);
+
+  // Listen for changes
+  input.addEventListener("input", (event) => {
+    Params.sim_limit = parseInt(event.target.value, 10);
+  });
+}
 
 const gradientSelector = () => {
   const x = Params.biases["noBias"]();

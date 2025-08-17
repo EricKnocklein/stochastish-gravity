@@ -134,7 +134,7 @@ div#menus:hover .holder {
   cursor: pointer;
 }
 
-#forceMenu button, #forceMenu input {
+#menus button, #menus input {
   border-color: var(--link-color);
   border-style: solid;
   border-radius: 5px;
