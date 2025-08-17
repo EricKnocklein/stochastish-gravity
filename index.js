@@ -1,30 +1,16 @@
 import Space from "./classes/space.js";
 import Grapher from "./classes/grapher.js";
+import Force from "./classes/force.js";
+import Params from "./classes/params.js";
 
-const SIM_LIMIT = 90000;
-
-const biases = {
-  noBias: () => {
-    return Math.random();
-  },
-  lowBias: () => {
-    return 1 - biases.highBias();
-  },
-  highBias: () => {
-    return Math.random() ** (1 / 2);
-  },
-  midBias: () => {
-    return (Math.random() + Math.random()) / 2;
-  },
-  outBias: () => {
-    let x = Math.random();
-    return x < 0.5 ? x * x * 2 : 1 - (1 - x) * (1 - x) * 2;
-  },
-};
+const ForceMenu = document.getElementById("forceMenu");
+if (ForceMenu) {
+  Force.buildMenu(ForceMenu);
+}
 
 const gradientSelector = () => {
-  const x = biases["noBias"]();
-  const y = biases["noBias"]();
+  const x = Params.biases["noBias"]();
+  const y = Params.biases["noBias"]();
 
   return { x: x, y: y };
 };
@@ -85,7 +71,7 @@ const createParticles = (space, xNum, yNum, xSep, ySep) => {
 const setUpRR = (sim, args, upf, space, grapher, setupF) => {
   const runnerClick = () => {
     args.runSim = !args.runSim;
-    runner(args, upf, SIM_LIMIT);
+    runner(args, upf, Params.sim_limit);
   }
 
   const reset = sim.querySelector('.reset');
@@ -154,8 +140,8 @@ const setUpGradientSim = () => {
     const xInput = xBiasSelect?.value ?? 'noBias';
     const yInput = yBiasSelect?.value ?? 'noBias';
     space.selectorFunction = () => {
-      const x = biases[xInput]();
-      const y = biases[yInput]();
+      const x = Params.biases[xInput]();
+      const y = Params.biases[yInput]();
 
       return { x: x, y: y };
     }
