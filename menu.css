@@ -77,6 +77,7 @@ div#menus {
   overflow-x: hidden;
 
   padding: 1em;
+  opacity: 0;
 }
 
 #menus .title {
@@ -110,8 +111,11 @@ div#menus::before {
 div#menus:hover::before {
   opacity: 0;
 }
+div#menus:hover .holder {
+  opacity: 1;
+}
 
-#forceMenu {
+.menu {
   margin-bottom: 10px;
 }
 
