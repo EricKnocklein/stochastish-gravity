@@ -1,9 +1,6 @@
 const attractionStrength = 20;
 const repulsionStrength = 20;
 
-const equilibriumDistance = 100;
-const K = 0.0000;
-
 const DAMP = 0.75;
 const TEMP = 0;
 
@@ -94,16 +91,19 @@ class Particle {
     for (let other of particles) {
       if (other === this) continue;
 
-      let dx = other.position.x - this.position.x;
-      let dy = other.position.y - this.position.y;
+      const thisPosition = this.position;
+      const otherPosition = other.position;
+      let dx = otherPosition.x - thisPosition.x;
+      let dy = otherPosition.y - thisPosition.y;
+
+      if (dx === 0 && dy === 0) {
+        continue;
+      }
+
       let distSq = dx * dx + dy * dy;
-
-      if (distSq < 10) continue;
-
       let dist = Math.sqrt(distSq);
 
-      let forceMagnitude = K * (dist - equilibriumDistance);
-      forceMagnitude += attractionStrength * (1 / distSq) - repulsionStrength * (1 / dist ** 3);
+      let forceMagnitude = attractionStrength * (1 / distSq) - repulsionStrength * (1 / dist ** 3);
 
 
       let fx = (forceMagnitude / dist) * dx;
