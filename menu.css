@@ -67,6 +67,11 @@ div#menus {
   border-radius: 10px;
 
   transition: width 0.5s, height 0.5s;
+  transition-delay: 1s;
+}
+
+div#menus * {
+  transition-delay: 1s;
 }
 
 .holder {
@@ -89,10 +94,12 @@ div#menus {
 div#menus:hover {
   width: 200px;
   height: 200px;
+  transition-delay: 0s;
 }
 div#menus:hover .holder {
   overflow-y: auto;
   overflow-x: hidden;
+  transition-delay: 0s;
 }
 
 div#menus::before {
@@ -106,13 +113,16 @@ div#menus::before {
   opacity: 1;
 
   transition: opacity 0.5s;
+  transition-delay: 1s;
 }
 
 div#menus:hover::before {
   opacity: 0;
+  transition-delay: 0s;
 }
 div#menus:hover .holder {
   opacity: 1;
+  transition-delay: 0s;
 }
 
 .menu {
