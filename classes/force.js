@@ -103,7 +103,10 @@ class Force {
     showEquationBtn.classList.add('add-coefficient-btn');
     showEquationBtn.textContent = 'Show Equation';
     showEquationBtn.onclick = () => {
-      new Modal(Force.renderForceEquation());
+      const holder = document.createElement('div');
+      holder.append(Force.renderForceEquation());
+      holder.append(Force.renderForceGraph());
+      new Modal(holder);
     };
 
     // Layout
@@ -155,6 +158,40 @@ class Force {
 
     equation.appendChild(list);
     return equation;
+  }
+  
+  static renderForceGraph() {
+    const graph = document.createElement('div');
+    graph.className = 'force-graph';
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'forceGraphCanvas';
+    graph.appendChild(canvas);
+
+    if (window.Chart) {
+      const ctx = canvas.getContext('2d');
+      new window.Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: Array.from({ length: 50 }, (_, i) => i + 1),
+          datasets: [{
+            label: 'Force Magnitude',
+            data: Array.from({ length: 50 }, (_, i) => Force.calculateForceMagnitude(i + 1)),
+            borderColor: 'rgba(75, 192, 192, 1)',
+            fill: false,
+          }],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: { title: { display: true, text: 'Distance' } },
+            y: { title: { display: true, text: 'Force Magnitude' } },
+          },
+        },
+      });
+    }
+
+    return graph;
   }
 }
 

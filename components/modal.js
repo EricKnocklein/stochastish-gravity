@@ -37,8 +37,8 @@ class Modal {
   }
 
   destroy() {
-    this.backdrop.remove();
-    this.modal.remove();
+    // this.backdrop.remove();
+    // this.modal.remove();
   }
 }
 
