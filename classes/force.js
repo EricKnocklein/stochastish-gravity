@@ -1,3 +1,5 @@
+import Modal from "../components/modal.js";
+
 class Force {
   // Global array of coefficients for a force function
   static coefficients = [0, 20, -20]; // Example default coefficients
@@ -96,9 +98,57 @@ class Force {
       renderCoefficients();
     };
 
+    // Show Equation button
+    const showEquationBtn = document.createElement('button');
+    showEquationBtn.classList.add('add-coefficient-btn');
+    showEquationBtn.textContent = 'Show Equation';
+    showEquationBtn.onclick = () => {
+      new Modal(Force.renderForceEquation());
+    };
+
     // Layout
     container.appendChild(list);
     container.appendChild(addBtn);
+    container.appendChild(showEquationBtn);
+  }
+
+  static renderForceEquation() {
+    const equation = document.createElement('div');
+    equation.className = 'force-equation';
+    if (!equation) return;
+
+    const list = document.createElement('div');
+
+    let terms = '';
+    let first = true;
+    Force.coefficients.forEach((coeff, idx) => {
+      const power = idx + 1;
+      if (coeff === 0) return; // Skip zero coefficients
+      if (!first && coeff > 0) {
+        terms += ' + ';
+      } else if (!first && coeff < 0) {
+        terms += ' - ';
+      }
+      first = false;
+      terms += `${Math.abs(coeff)} \\cdot \\frac{1}{r_{ij}^{${power}}}`;
+    });
+
+    const latex = `
+    F_i = \\sum_{j \\neq i} \\left( ${terms} \\right)
+    `;
+
+    const katexDiv = document.createElement('div');
+    katexDiv.className = 'katex-equation';
+    if (window.katex) {
+      window.katex.render(latex, katexDiv, { throwOnError: false });
+    } else {
+      katexDiv.textContent = latex;
+    }
+
+    list.appendChild(katexDiv);
+
+    equation.appendChild(list);
+    return equation;
   }
 }
 
