@@ -130,7 +130,13 @@ class Force {
         terms += ' - ';
       }
       first = false;
-      terms += `${Math.abs(coeff)} \\cdot \\frac{1}{r_{ij}^{${power}}}`;
+      const abs = Math.abs(coeff);
+      if (abs !== 1) {
+        terms += `${abs} \\cdot `;
+      } else {
+        terms += '';
+      }
+      terms += `\\frac{1}{r_{ij}^{${power}}}`;
     });
 
     const latex = `
