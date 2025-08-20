@@ -172,7 +172,9 @@ class Force {
     console.log('Creating force graph with labels:', labels);
     const data = labels.map(label => Force.calculateForceMagnitude(label));
 
-    
+    const filteredData = data.filter((n) => !isNaN(n));
+    const maxValue = filteredData.reduce((a, b) => Math.abs(b) > Math.abs(a) ? b : a, filteredData[0]);
+    console.log('Max value for force graph:', maxValue);
 
     console.log('Force data:', data);
     new window.Chart(ctx, {
@@ -195,8 +197,8 @@ class Force {
               display: true, 
               text: 'Force Magnitude' 
             },
-            min: -1 * Math.log(Math.abs(data[1])),
-            max: Math.log(Math.abs(data[1])),
+            min: maxValue < 0 ? -1 * Math.log(Math.abs(maxValue)) : null,
+            max: maxValue > 0 ? Math.log(maxValue) : null,
           },
         },
       },
