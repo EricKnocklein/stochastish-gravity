@@ -168,13 +168,20 @@ class Force {
   }
 
   static createForceGraph(ctx) {
+    const labels = Array.from({ length: 50 }, (_, i) => i / 8);
+    console.log('Creating force graph with labels:', labels);
+    const data = labels.map(label => Force.calculateForceMagnitude(label));
+
+    
+
+    console.log('Force data:', data);
     new window.Chart(ctx, {
       type: 'line',
       data: {
-        labels: Array.from({ length: 50 }, (_, i) => i + 1),
+        labels: labels,
         datasets: [{
-          label: 'Force Magnitude',
-          data: Array.from({ length: 50 }, (_, i) => Force.calculateForceMagnitude(i + 1)),
+          label: 'Force Magnitude Between a Pair of Particles',
+          data: data,
           borderColor: 'rgba(75, 192, 192, 1)',
           fill: false,
         }],
@@ -183,7 +190,14 @@ class Force {
         responsive: true,
         scales: {
           x: { title: { display: true, text: 'Distance' } },
-          y: { title: { display: true, text: 'Force Magnitude' } },
+          y: { 
+            title: { 
+              display: true, 
+              text: 'Force Magnitude' 
+            },
+            min: -1 * Math.log(Math.abs(data[1])),
+            max: Math.log(Math.abs(data[1])),
+          },
         },
       },
     });
