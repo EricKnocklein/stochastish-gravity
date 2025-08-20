@@ -104,6 +104,13 @@ class Force {
     showEquationBtn.textContent = 'Show Equation';
     showEquationBtn.onclick = () => {
       const holder = document.createElement('div');
+      holder.className = 'force-equation-holder';
+      holder.style.display = 'flex';
+      holder.style.flexDirection = 'column';
+      holder.style.alignItems = 'center';
+      holder.style.justifyContent = 'center';
+      holder.style.width = '100%';
+
       holder.append(Force.renderForceEquation());
       holder.append(Force.renderForceGraph());
       new Modal(holder);
@@ -159,6 +166,28 @@ class Force {
     equation.appendChild(list);
     return equation;
   }
+
+  static createForceGraph(ctx) {
+    new window.Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: Array.from({ length: 50 }, (_, i) => i + 1),
+        datasets: [{
+          label: 'Force Magnitude',
+          data: Array.from({ length: 50 }, (_, i) => Force.calculateForceMagnitude(i + 1)),
+          borderColor: 'rgba(75, 192, 192, 1)',
+          fill: false,
+        }],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: { title: { display: true, text: 'Distance' } },
+          y: { title: { display: true, text: 'Force Magnitude' } },
+        },
+      },
+    });
+  }
   
   static renderForceGraph() {
     const graph = document.createElement('div');
@@ -166,29 +195,15 @@ class Force {
 
     const canvas = document.createElement('canvas');
     canvas.id = 'forceGraphCanvas';
+    canvas.width = 400;
+    canvas.height = 300;
     graph.appendChild(canvas);
 
     if (window.Chart) {
-      const ctx = canvas.getContext('2d');
-      new window.Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: Array.from({ length: 50 }, (_, i) => i + 1),
-          datasets: [{
-            label: 'Force Magnitude',
-            data: Array.from({ length: 50 }, (_, i) => Force.calculateForceMagnitude(i + 1)),
-            borderColor: 'rgba(75, 192, 192, 1)',
-            fill: false,
-          }],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: { title: { display: true, text: 'Distance' } },
-            y: { title: { display: true, text: 'Force Magnitude' } },
-          },
-        },
-      });
+      window.setTimeout(() => {
+        const ctx = canvas.getContext('2d');
+        Force.createForceGraph(ctx);
+      }, 100); // Delay to ensure DOM is ready
     }
 
     return graph;
