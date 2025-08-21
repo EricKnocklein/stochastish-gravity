@@ -168,7 +168,8 @@ class Force {
   }
 
   static createForceGraph(ctx) {
-    const labels = Array.from({ length: 50 }, (_, i) => i / 8);
+    const maxAbsCoeff = Math.max(...Force.coefficients.map(Math.abs));
+    const labels = Array.from({ length: 50 }, (_, i) => i * (maxAbsCoeff / 50)); // Avoid zero to prevent division by zero
     console.log('Creating force graph with labels:', labels);
     const data = labels.map(label => Force.calculateForceMagnitude(label));
 
