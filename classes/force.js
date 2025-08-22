@@ -3,6 +3,8 @@ import Modal from "../components/modal.js";
 class Force {
   // Global array of coefficients for a force function
   static coefficients = [0, 20, -20]; // Example default coefficients
+  static dampening = 0.75;
+  static extraTemperature = 0;
 
   // Method to update the coefficients array
   static setCoefficients(newCoefficients) {
@@ -89,6 +91,10 @@ class Force {
 
     renderCoefficients();
 
+    const coefTitle = document.createElement('div');
+    coefTitle.classList.add('title');
+    coefTitle.textContent = 'Force Coefficients';
+
     // Add coefficient button
     const addBtn = document.createElement('button');
     addBtn.classList.add('add-coefficient-btn');
@@ -116,10 +122,63 @@ class Force {
       new Modal(holder);
     };
 
-    // Layout
+    container.appendChild(coefTitle);
     container.appendChild(list);
     container.appendChild(addBtn);
     container.appendChild(showEquationBtn);
+
+    const otherParamTitle = document.createElement('div');
+    otherParamTitle.classList.add('title');
+    otherParamTitle.textContent = 'Physics Options';
+
+    // Dampening input
+    const dampeningDiv = document.createElement('div');
+    dampeningDiv.style.margin = '8px 0';
+    dampeningDiv.style.display = 'flex';
+    dampeningDiv.style.alignItems = 'center';
+
+    const dampeningLabel = document.createElement('label');
+    dampeningLabel.textContent = 'Dampening:';
+    dampeningLabel.style.marginRight = '8px';
+    dampeningLabel.style.width = '50%';
+
+    const dampeningInput = document.createElement('input');
+    dampeningInput.type = 'number';
+    dampeningInput.step = '0.01';
+    dampeningInput.style.width = '50%';
+    dampeningInput.value = Force.dampening;
+    dampeningInput.onchange = () => {
+      Force.dampening = parseFloat(dampeningInput.value);
+    };
+
+    dampeningDiv.appendChild(dampeningLabel);
+    dampeningDiv.appendChild(dampeningInput);
+
+    // Temperature input
+    const tempDiv = document.createElement('div');
+    tempDiv.style.display = 'flex';
+    tempDiv.style.alignItems = 'center';
+
+    const tempLabel = document.createElement('label');
+    tempLabel.textContent = 'Temp:';
+    tempLabel.style.marginRight = '8px';
+    tempLabel.style.width = '50%';
+
+    const tempInput = document.createElement('input');
+    tempInput.type = 'number';
+    tempInput.step = '0.01';
+    tempInput.style.width = '50%';
+    tempInput.value = Force.extraTemperature;
+    tempInput.onchange = () => {
+      Force.extraTemperature = parseFloat(tempInput.value);
+    };
+
+    tempDiv.appendChild(tempLabel);
+    tempDiv.appendChild(tempInput);
+
+    container.appendChild(otherParamTitle);
+    container.appendChild(dampeningDiv);
+    container.appendChild(tempDiv);
   }
 
   static renderForceEquation() {
@@ -181,7 +240,7 @@ class Force {
     new window.Chart(ctx, {
       type: 'line',
       data: {
-        labels: labels,
+        labels: labels.map((l) => l.toFixed(2)),
         datasets: [{
           label: 'Force Magnitude Between a Pair of Particles',
           data: data,

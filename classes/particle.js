@@ -3,7 +3,6 @@ import Force from "./force.js";
 const attractionStrength = 20;
 const repulsionStrength = 20;
 
-const DAMP = 0.75;
 const TEMP = 0;
 
 function getRandomBetweenMinusOneAndOne() {
@@ -59,8 +58,8 @@ class Particle {
     this.velocity.x += acc.x;
     this.velocity.y += acc.y;
 
-    this.velocity.x *= DAMP;
-    this.velocity.y *= DAMP;
+    this.velocity.x *= Force.dampening;
+    this.velocity.y *= Force.dampening;
 
     this.velocity.x += getRandomBetweenMinusOneAndOne() * TEMP;
     this.velocity.y += getRandomBetweenMinusOneAndOne() * TEMP;
