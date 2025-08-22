@@ -8,15 +8,19 @@ class Force {
 
   // Method to update the coefficients array
   static setCoefficients(newCoefficients) {
-    Force.coefficients = Array.isArray(newCoefficients)
-      ? newCoefficients
-      : Force.coefficients;
+    if (newCoefficients !== Force.coefficients) {
+      Force.coefficients = Array.isArray(newCoefficients)
+        ? newCoefficients
+        : Force.coefficients;
+    }
+
+    document.querySelectorAll('.force-equation').forEach((el) => {
+      el.replaceWith(Force.renderForceEquation());
+    });
   }
 
   static calculateForceMagnitude(dist) {
-    // console.log(`Calculating force for distance: ${dist}`);
     return Force.coefficients.reduce((sum, coeff, idx) => {
-      // return sum + coeff * Math.pow(dist, 1 / (idx + 1));
       return sum + coeff * (1 / Math.pow(dist, idx + 1));
     }, 0);
   }
@@ -43,6 +47,7 @@ class Force {
         input.style.width = "80px";
         input.onchange = () => {
           Force.coefficients[idx] = parseFloat(input.value);
+          Force.setCoefficients(Force.coefficients);
         };
 
         const btnDiv = document.createElement("div");
@@ -53,6 +58,7 @@ class Force {
         removeBtn.textContent = "X";
         removeBtn.onclick = () => {
           Force.coefficients.splice(idx, 1);
+          Force.setCoefficients(Force.coefficients);
           renderCoefficients();
         };
 

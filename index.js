@@ -55,6 +55,10 @@ if (paramMenu) {
   });
 }
 
+setTimeout(() => {
+  Force.setCoefficients(Force.coefficients);
+}, 1000);
+
 const gradientSelector = () => {
   const x = Params.biases["noBias"]();
   const y = Params.biases["noBias"]();

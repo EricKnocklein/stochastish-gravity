@@ -195,3 +195,7 @@ footer p {
   margin-block-end: 2em;
   font-size: 0.8em;
 }
+
+.force-equation {
+  margin: 10px 0;
+}
