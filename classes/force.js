@@ -5,6 +5,7 @@ class Force {
   static coefficients = [0, 20, -20]; // Example default coefficients
   static dampening = 0.75;
   static extraTemperature = 0;
+  static inefficienctyFactor = 2;
 
   // Method to update the coefficients array
   static setCoefficients(newCoefficients) {
@@ -152,7 +153,7 @@ class Force {
     dampeningDiv.style.alignItems = "center";
 
     const dampeningLabel = document.createElement("label");
-    dampeningLabel.textContent = "Dampening:";
+    dampeningLabel.textContent = "Damp:";
     dampeningLabel.style.marginRight = "8px";
     dampeningLabel.style.width = "50%";
 
@@ -186,13 +187,36 @@ class Force {
     tempInput.onchange = () => {
       Force.extraTemperature = parseFloat(tempInput.value);
     };
-
+    
     tempDiv.appendChild(tempLabel);
     tempDiv.appendChild(tempInput);
+
+    // Temperature input
+    const ineffDiv = document.createElement("div");
+    ineffDiv.style.display = "flex";
+    ineffDiv.style.alignItems = "center"
+
+    const ineffLabel = document.createElement("label");
+    ineffLabel.textContent = "Inefficiency Factor:";
+    ineffLabel.style.marginRight = "8px";
+    ineffLabel.style.width = "50%";
+
+    const ineffInput = document.createElement("input");
+    ineffInput.type = "number";
+    ineffInput.step = "0.01";
+    ineffInput.style.width = "50%";
+    ineffInput.value = Force.inefficienctyFactor;
+    ineffInput.onchange = () => {
+      Force.inefficienctyFactor = parseFloat(ineffInput.value);
+    };
+
+    ineffDiv.appendChild(ineffLabel);
+    ineffDiv.appendChild(ineffInput);
 
     container.appendChild(otherParamTitle);
     container.appendChild(dampeningDiv);
     container.appendChild(tempDiv);
+    container.appendChild(ineffDiv);
   }
 
   static renderForceEquation() {

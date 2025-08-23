@@ -1,3 +1,5 @@
+import Force from "./force.js";
+
 class Circle {
   constructor(particles) {
     this.particles = particles;
@@ -18,25 +20,29 @@ class Circle {
     const particles_inside = this.particles.filter((particle) => {
       const x = particle.position.x;
       const y = particle.position.y;
-      const inside = ( (cx - x) ** 2 + (cy - y) ** 2 ) < ( r ** 2 );
+      const inside = (cx - x) ** 2 + (cy - y) ** 2 < r ** 2;
       return inside;
     });
 
     const particles_updateable = particles_inside.filter((particle) => {
       return !particle.isUpdating;
-    })
-    return {inside: particles_inside, updateable: particles_updateable}
+    });
+    return { inside: particles_inside, updateable: particles_updateable };
   }
   update(updateWrapper, callbackFunc) {
-    const {inside, updateable} = this.getParticles();
+    const { inside, updateable } = this.getParticles();
 
     let newUpdateWrapper;
-    if (typeof updateWrapper === 'function') {
+    if (typeof updateWrapper === "function") {
       newUpdateWrapper = (runUpdate) => {
-        updateWrapper(runUpdate, (updateable.length / 3) ** 2);
-      }
+        updateWrapper(
+          runUpdate,
+          (updateable.length) **
+            Force.inefficienctyFactor / (Force.inefficienctyFactor ** 2)
+        );
+      };
     }
-    const forces = updateable.map(p => {
+    const forces = updateable.map((p) => {
       return p.getForce(this.particles);
     });
     const runUpdate = () => {
@@ -46,7 +52,7 @@ class Circle {
         particle.update(force, newUpdateWrapper);
       }
       callbackFunc();
-    }
+    };
     runUpdate();
   }
 }

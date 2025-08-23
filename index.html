@@ -141,7 +141,7 @@
       Click anywhere within the simulation to start and stop it. While hovering over the simulation, a button will appear in the top left. Clicking this button will reset the simulation. 
     </p>
     <p class="hint">  
-      After some time, the standard deviation of the particles will be graphed in the graph below the simulation along with the average distance between the most extreme particles, which I call the span.
+      The standard deviation of the particles' positions is graphed below the simulation. The distance between the 2 most distant particles, which I call the <i>span</i>, is also graphed. The data is plotted after a small delay to allow the simulation to stabilize a little.
     </p>
     <p class="hint">
       While particles are updating they will be shown in yellow. Otherwise they will be shown in red. The green point is the average position of the particles, and the blue point is the current average position of the particles.
@@ -153,13 +153,14 @@
     </div>
     <canvas class="graph" id="globalChart" width="600" height="300"></canvas>
     <p>
-      This is fairly boring because every simulation, the results will be the exact same. This is a completely deterministic system because all of the particles tick at the same rate. What happens when the particles do not all tick at the same rate?
+      By messing with the paramaeters in the menu, you can generate some interesting simulations. But these are pretty standard simulations, so let's see what happens when we change when the particles are allowed to update.
     </p>
+    <h2>Temporal Gradient</h2>
     <p>
       Before we see that, let’s try to understand what the consequences of this would be. Most importantly, if the particles do not all tick at the same rate, then the forces between the particles will no longer be symmetric. For example, if we have two particles that feel an attractive force, the particle that ticks more frequently will have the ability to experience that force more often, and therefore it will appear as though it experiences a stronger force.
     </p>
     <p>
-      Extrapolating this concept, if we have a gradient of ticking speeds, then we would expect particles to move to areas where the ticking speed is slower. This is very similar to one explanation of real-world gravity called the <a href="https://youtu.be/Xc4xYacTu-E?si=61Ahr55EUk497JtE" target="_blank">Law of Cosmic Laziness</a>. Time moves slower in regions of high gravity, so the fact that matter is pulled into these regions by gravity makes matter tend to places where time moves slowest. Same thing happens in this simulation even without any built-in force of gravity.
+      Extrapolating this concept, if we have a gradient of ticking speeds, then we would expect particles to move to areas where the ticking speed is slower (if the force is primarily attractive). This is very similar to one explanation of real-world gravity called the <a href="https://youtu.be/Xc4xYacTu-E?si=61Ahr55EUk497JtE" target="_blank">Law of Cosmic Laziness</a>. Time moves slower in regions of high gravity, so the fact that matter is pulled into these regions by gravity makes matter tend to places where time moves slowest. Same thing happens in this simulation even without any built-in force of gravity. We replace gravity with a temporal gradient, and the particles move as though they are being pulled by a force.
     </p>
     <p>
       In the simulation, we randomly select a square and tick all of the particles within that square. By changing the way we pick these squares, we can change where the areas of “laziness” are, and we can see whether the particles do tend to move in this direction. If we select the right side of the simulation more often than the left side, then the particles should move left, for example.
@@ -200,8 +201,45 @@
     </div>
     <canvas class="graph" id="gradientChart" width="600" height="300"></canvas>
     <p>
-      If you messed around with the simulation, you would have seen exactly what I described above happening. Setting a bias for lower values makes the particles move to the right. Setting a bias for higher values makes the particles move to the left. Setting a bias for middle values makes particles move either left or right like they’re rolling off of a ridge.
+      If you messed around with the simulation, you would have seen exactly what I described above happening. Setting a bias for lower values makes the particles move to the right. Setting a bias for higher values makes the particles move to the left. Setting a bias for middle values makes particles move either left or right like they’re rolling off of a hill.
     </p>
+    <p>
+      If you are curious aboout how the biasing works, I have provided the code below. The <i>Params.biases</i> object contains functions that return a random number between <i>0</i> and <i>1</i> with the specified bias. The selection function for the simulation (which is defined by the <i>space</i> object) is updated whenever one of the dropdowns is changed.:
+    </p>
+    <pre><code class="language-js">static biases = {
+  noBias: () => {
+    return Math.random();
+  },
+  lowBias: () => {
+    return 1 - Params.biases.highBias();
+  },
+  highBias: () => {
+    return Math.random() ** (1 / 2);
+  },
+  midBias: () => {
+    return (Math.random() + Math.random()) / 2;
+  },
+  outBias: () => {
+    let x = Math.random();
+    return x < 0.5 ? x * x * 2 : 1 - (1 - x) * (1 - x) * 2;
+  },
+};</code></pre>
+    <pre><code class="language-js">const xBiasSelect = document.getElementById('x-bias-select');
+const yBiasSelect = document.getElementById('y-bias-select');
+
+const onInputChange = () => {
+  const xInput = xBiasSelect?.value ?? 'noBias';
+  const yInput = yBiasSelect?.value ?? 'noBias';
+  space.selectorFunction = () => {
+    const x = Params.biases[xInput]();
+    const y = Params.biases[yInput]();
+
+    return { x: x, y: y };
+  }
+}
+
+xBiasSelect.addEventListener('change', onInputChange);
+yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     <p>
       Originally this is where I was going to end this article. I wanted to find an intuitive explanation of how time dilation causes gravity. Though this is not at all rigorous, it satisfied the thought I first had about this when I wondered whether time dilation caused gravity instead of the other way around. The “temporal gradient” causes particles to move in a certain direction as though they are being acted on by a force.
     </p>
@@ -216,16 +254,16 @@
       From a very high level it makes sense that areas with fewer particles would take less time to tick. There is less to calculate, fewer forces to compute, fewer particles to move, etc. Would this be enough to get the particles to attract one another?
     </p>
     <p>
-      To answer this question, I modified the previous simulation so that each square takes a certain amount of time to tick based on the number of particles inside the square. But this did not give me a worthwhile result because this did not create a temporal gradient at all.
+      To answer this question, I modified the previous simulation so that each square takes a certain amount of time to tick based on the number of particles inside the square. But this did not give me a worthwhile result because it did not even create a temporal gradient.
     </p>
     <p>
-      The square that took a long time to tick did not attract other particles to it because the squares adjacent to it did not necessarily take a long time to update, and so did not pull particles. If a particle randomly entered the square, it would take a while to get out again, so there was a little bit of a pull from that.
+      The square that took a long time to tick did not attract other particles to it because the squares adjacent to it updated at a completely inpedpendent speed. This only created transient pockets of laziness that did not have any lasting effect on the particles.
     </p>
     <p>
       After messing with this setup some more (increasing particle counts, increasing and correlating square sizes, etc.), I decided to take a different approach where the size of the update region is not constant.
     </p>
     <p>
-      In the simulation below, I pick a random point in the space of the simulation region. From there I pick a random distance. All particles within this distance will be updated at once. Once that is done, I repeat the process by picking a new point and a new distance.
+      In the simulation below, I pick a random point in the space of the simulation region. From there I pick a random distance. All particles within this distance will be marked as being updated. Once that is done, I repeat the process by picking a new point and a new distance. The particles that are marked as being updated will not be able to be selected again until they finish updating, which will happen after an adjutable delay.
     </p>
     <p>
       This setup allows for a more far-reaching gradient to form because the selection region could be very large, but it still allows particles to be differentiated from one another because the selection region could be very small.
@@ -240,13 +278,13 @@
     </div>
     <canvas class="graph" id="circleChart" width="600" height="300"></canvas>
     <p>
-      Take note of the trendline for the standard deviation of the particles in this simulation. If this simulation functions the same on your browser as it does on mine, then the trendline should hover around 17. Keep this number in mind.
+      Take note of the trendline for the standard deviation of the particles in this simulation. If this simulation functions the same on your browser as it does on mine, and if you have the deafault parameters, then the trendline should hover around 17. Keep this number in mind.
     </p>
     <p>
       We need this number because if adding different ticking speeds into this simulation causes “gravity” to appear, then we would expect the particles to be pulled towards each other, resulting in a lower standard deviation of their positions.
     </p>
     <p>
-      So how can we add different ticking speeds to this simulation? The solution I went with is that, before the particles are allowed to update, they have to wait a time proportional to the number of other updateable particles in the circle. While they are waiting, these particles cannot be selected again.
+      So how can we add different ticking speeds to this simulation? The solution I went with is that, before the particles are allowed to update, they have to wait a time proportional to the quare of the number of other updateable particles in the circle. While they are waiting, these particles cannot be selected again.
     </p>
     <p class="hint">
       When I first came up with this idea, I thought about it as multiple threads all selecting circles at the same time. Larger circles would naturally take longer to compute, meaning that particles selected within a dense region would take longer to update. I think that this is a much more natural explanation for this than manually waiting a length of time proportional to the square of the particles being updated, but this is the solution I came up with given the limitations of JavaScript.
