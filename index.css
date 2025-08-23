@@ -42,7 +42,26 @@ body {
   --link-color: rgba(75, 192, 192, 1);
 }
 
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+}
+
+hr {
+  width: calc(100vw - 50px);
+  border: none;
+  border-top: 1px solid #a8a8a8;
+  margin: 0;
+}
+
+hr.start {
+  margin-top: 1em;
+}
+hr.end {
+  margin-bottom: 1em;
+}
+
 body pre, body code {
+  max-width: 100%;
   background-color: rgb(51, 51, 51) !important;
   text-shadow: none !important;
   color:#eeeeee !important;

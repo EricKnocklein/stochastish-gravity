@@ -73,6 +73,7 @@ class Force {
               Force.coefficients[idx],
               Force.coefficients[idx - 1],
             ];
+            Force.setCoefficients(Force.coefficients);
             renderCoefficients();
           }
         };
@@ -88,6 +89,7 @@ class Force {
               Force.coefficients[idx],
               Force.coefficients[idx + 1],
             ];
+            Force.setCoefficients(Force.coefficients);
             renderCoefficients();
           }
         };
@@ -207,7 +209,8 @@ class Force {
       if (coeff === 0) return; // Skip zero coefficients
       if (!first && coeff > 0) {
         terms += " + ";
-      } else if (!first && coeff < 0) {
+      }
+      if (coeff < 0) {
         terms += " - ";
       }
       first = false;

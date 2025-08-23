@@ -46,10 +46,13 @@
     <p>
       Rather than being a rigorous exploration of the math they may be able to formalize these ideas, this article serves as a demonstration of using code to expore such problems even if they might not have any merit beyond that. The exploration itself and how progamming can be used to verify these ideas is the point of this article. My hope is that this can inspre you to explore your own ideas, no matter how silly or absurd they may seem.
     </p>
+    <hr class="start"/>
     <h1>Stochastish Gravity</h1>
+    <hr class="end"/>
     <p>
       The basis of this “Stochastish Gravity” as I have decided to call it (in order to differentiate it from <a href="https://arxiv.org/abs/gr-qc/0307032" target="_blank">stochastic gravity</a>, which is an actual thing) is that all particles feel a force from all other particles, but they are only allowed to experience this force in discrete and somewhat random time steps. Think of these time steps as the ticks of a clock. Each particle can only update its position when its clock ticks.
     </p>
+    <h2>Introduction (Particle Simulations)</h2>
     <p>
       If all of the particles have the same clock, then we have the setup to a regular particle simulation. Because of computation limitations, particle simulations always progress in discrete time steps like this. 60 times per seconds, for example, the particles calculate the forces that they experience, their acceleration, then their velocity, which gives them their new position. Step by step, the simulation continues in this manner. If the time steps are small enough, these simulations give the illusion of continuous motion.
     </p>
@@ -101,8 +104,8 @@
       Once we know the force on a given particle, we can compute the accelration on that particle using Newton’s second law, <i>F = ma</i>, or <i>a = F/m</i>. The code for this is really simple. And the outcome is also really simple considering that all of the particles are defined as having a mass of <i>1</i>, but I wanted to keep the code generic enough that I could change some of the masses later if I wanted to.
     </p>
     <pre><code class="language-js">const acceleration = {
-  x: force.x / particle.mass,
-  y: force.y / particle.mass,
+  x: force.x / this.mass,
+  y: force.y / this.mass,
 };</code></pre>
     <p>
       Since the acceleration is the change in velocity over time, we can update the velocity of the particle by adding the acceleration to the current velocity. This is done in the code below. However, we mix in some extra parameters here to control how the simulation behaves. The damping factor controls how much energy is lost in the system each time a particle moves. If the damping factor is <i>1</i>, then no energy is lost, and if it is <i>0</i>, then all energy is lost. The temperatute controls how much random velocity is added to the particle each time it moves. This is similar to the concept of temperature in real-world physics, where higher temperatures correspond to more random motion.
@@ -114,8 +117,8 @@
   this.velocity.x *= Force.dampening;
   this.velocity.y *= Force.dampening;
 
-  this.velocity.x += getRandomBetweenMinusOneAndOne() * Force.TEMP;
-  this.velocity.y += getRandomBetweenMinusOneAndOne() * Force.TEMP;
+  this.velocity.x += getRandomBetweenMinusOneAndOne() * Force.extraTemperature;
+  this.velocity.y += getRandomBetweenMinusOneAndOne() * Force.extraTemperature;
 }</code></pre>
     <p>
       Finally, we can update the position of the particle by adding the velocity to the current position. This is done in the code below. <i>updateElemPosition</i> is a function to update the position of the HTML element representing the particle on the screen.
@@ -162,7 +165,7 @@
       In the simulation, we randomly select a square and tick all of the particles within that square. By changing the way we pick these squares, we can change where the areas of “laziness” are, and we can see whether the particles do tend to move in this direction. If we select the right side of the simulation more often than the left side, then the particles should move left, for example.
     </p>
     <p class="hint">
-      Change the options in the selection to change the gradient. If you select “Bias for High Values” for the X direction, squares on the right side of the simulation are more likely to be selected, and squares on the left side will be “lazy” and update less often.
+      Change the options in the selection to change the gradient. If you select “Bias for High Values” for the <i>x</i> direction, squares on the right side of the simulation are more likely to be selected, and squares on the left side will be “lazy” and update less often.
     </p>
     <p class="hint">
       When a square updates, it will flash green.

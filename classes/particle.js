@@ -59,8 +59,8 @@ class Particle {
     this.velocity.x *= Force.dampening;
     this.velocity.y *= Force.dampening;
 
-    this.velocity.x += getRandomBetweenMinusOneAndOne() * Force.TEMP;
-    this.velocity.y += getRandomBetweenMinusOneAndOne() * Force.TEMP;
+    this.velocity.x += getRandomBetweenMinusOneAndOne() * Force.extraTemperature;
+    this.velocity.y += getRandomBetweenMinusOneAndOne() * Force.extraTemperature;
   }
 
   update(force, updateWrapper) {
