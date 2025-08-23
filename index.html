@@ -9,9 +9,15 @@
     <link rel="stylesheet" href="./index.css" />
     <link rel="stylesheet" href="./menu.css" />
     <link rel="stylesheet" href="./components/modal.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+
+
     <script src="./index.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline/dist/chartjs-plugin-trendline.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
@@ -48,12 +54,83 @@
       If all of the particles have the same clock, then we have the setup to a regular particle simulation. Because of computation limitations, particle simulations always progress in discrete time steps like this. 60 times per seconds, for example, the particles calculate the forces that they experience, their acceleration, then their velocity, which gives them their new position. Step by step, the simulation continues in this manner. If the time steps are small enough, these simulations give the illusion of continuous motion.
     </p>
     <p>
-      This is what we have in the first simulation below. Once per frame, all of the particle’s have their clocks tick. They (currently) feel an attractive force to one another that is inversely proportional to their distance from one another squared, and a repulsive force that is inversely proportional to their distance from one another cubed.
-    </p>
-    <p>
-      Below is the equation for the force that a specific particle <i>i</i> feels from every other particle. If you want to change which values are used in this equation, you can do so in the menu on the right side of the screen. I'd suggest changing them around and seeing how the similation changes. The menu also has other options to change the simulation like the damping factor, which controls how much energy is lost in the system each time a particle moves.
+      Below is the equation for the force that a specific particle <i>i</i> feels from every other particle. If you want to change which values are used in this equation, you can do so in the menu on the right side of the screen.
     </p>
     <div class="force-equation"></div>
+    <p>
+      The equation gives us a a good template for what to implement in the code. If you read the code provided below, you can find each part of the above equation represtned. But we also have to bend the rules a little to prevent singularities and extreme forces when particles get very close to one another.
+    </p>
+    <pre><code class="language-js">getForce(particles) {
+  let forceX = 0;
+  let forceY = 0;
+
+  for (let other of particles) {
+    if (other === this) continue; // j !== i
+
+    // Calculate distance components
+    const thisPosition = this.position;
+    const otherPosition = other.position;
+    let dx = otherPosition.x - thisPosition.x;
+    let dy = otherPosition.y - thisPosition.y;
+
+    let distSq = dx * dx + dy * dy;
+    if (distSq < 10) { // Prevent singularity and extreme forces
+      distSq = 10;
+    }
+
+    let dist = Math.sqrt(distSq); // Distance between particles (x^2 + y^2 = r^2)
+    let forceMagnitude = Force.calculateForceMagnitude(dist);
+
+    // Convert magnitude and direction to x and y components
+    let fx = (forceMagnitude / dist) * dx;
+    let fy = (forceMagnitude / dist) * dy;
+
+    // Accumulate forces
+    forceX += fx;
+    forceY += fy;
+  }
+
+  return { x: forceX, y: forceY };
+}</code></pre>
+    <pre><code class="language-js">static calculateForceMagnitude(dist) {
+  return Force.coefficients.reduce((sum, coeff, idx) => {
+    return sum + coeff * (1 / Math.pow(dist, idx + 1));
+  }, 0);
+}</code></pre>
+    <p>
+      Once we know the force on a given particle, we can compute the accelration on that particle using Newton’s second law, <i>F = ma</i>, or <i>a = F/m</i>. The code for this is really simple. And the outcome is also really simple considering that all of the particles are defined as having a mass of <i>1</i>, but I wanted to keep the code generic enough that I could change some of the masses later if I wanted to.
+    </p>
+    <pre><code class="language-js">const acceleration = {
+  x: force.x / particle.mass,
+  y: force.y / particle.mass,
+};</code></pre>
+    <p>
+      Since the acceleration is the change in velocity over time, we can update the velocity of the particle by adding the acceleration to the current velocity. This is done in the code below. However, we mix in some extra parameters here to control how the simulation behaves. The damping factor controls how much energy is lost in the system each time a particle moves. If the damping factor is <i>1</i>, then no energy is lost, and if it is <i>0</i>, then all energy is lost. The temperatute controls how much random velocity is added to the particle each time it moves. This is similar to the concept of temperature in real-world physics, where higher temperatures correspond to more random motion.
+    </p>
+    <pre><code class="language-js">updateParticleVelocity(acceleration) {
+  this.velocity.x += acceleration.x;
+  this.velocity.y += acceleration.y;
+
+  this.velocity.x *= Force.dampening;
+  this.velocity.y *= Force.dampening;
+
+  this.velocity.x += getRandomBetweenMinusOneAndOne() * Force.TEMP;
+  this.velocity.y += getRandomBetweenMinusOneAndOne() * Force.TEMP;
+}</code></pre>
+    <p>
+      Finally, we can update the position of the particle by adding the velocity to the current position. This is done in the code below. <i>updateElemPosition</i> is a function to update the position of the HTML element representing the particle on the screen.
+    </p>
+    <pre><code class="language-js">updateParticlePosition() {
+  this.position.x += this.velocity.x;
+  this.position.y += this.velocity.y;
+  this.updateElemPosition();
+}</code></pre>
+    <p>
+      In the menu on the right ride of the screen, you can also change the temperature and dampening constants shown above along with the force equation coefficients. I'd suggest changing them around and seeing how the similation changes.
+    </p>
+    <p>
+      This is what we have in the first simulation below. Once per frame, all of the particle’s have their clocks tick.
+    </p>
     <p>
       As the simulation runs, you can see how the average position of the particles (shown in blue) changes. Because there are no external forces acting on these particles, the average position should not move from its original location (shown in green underneath the blue). These particles will just swirl around until they run out of energy (I added a small amount of damping to the system), but the simulation will cut off long before that happens.
     </p>

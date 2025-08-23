@@ -3,8 +3,6 @@ import Force from "./force.js";
 const attractionStrength = 20;
 const repulsionStrength = 20;
 
-const TEMP = 0;
-
 function getRandomBetweenMinusOneAndOne() {
   let num;
   do {
@@ -54,26 +52,26 @@ class Particle {
     this.updateElemPosition();
   }
 
-  updateParticleVelocity(acc) {
-    this.velocity.x += acc.x;
-    this.velocity.y += acc.y;
+  updateParticleVelocity(acceleration) {
+    this.velocity.x += acceleration.x;
+    this.velocity.y += acceleration.y;
 
     this.velocity.x *= Force.dampening;
     this.velocity.y *= Force.dampening;
 
-    this.velocity.x += getRandomBetweenMinusOneAndOne() * TEMP;
-    this.velocity.y += getRandomBetweenMinusOneAndOne() * TEMP;
+    this.velocity.x += getRandomBetweenMinusOneAndOne() * Force.TEMP;
+    this.velocity.y += getRandomBetweenMinusOneAndOne() * Force.TEMP;
   }
 
   update(force, updateWrapper) {
     this.isUpdating = true;
     const runUpdate = () => {
       this.updateParticlePosition();
-      const acc = {
+      const acceleration = {
         x: force.x / this.mass,
         y: force.y / this.mass,
       };
-      this.updateParticleVelocity(acc);
+      this.updateParticleVelocity(acceleration);
       this.updateParticlePosition();
       this.updateLog?.();
       this.isUpdating = false;
@@ -90,24 +88,27 @@ class Particle {
     let forceY = 0;
 
     for (let other of particles) {
-      if (other === this) continue;
+      if (other === this) continue; // j !== i
 
+      // Calculate distance components
       const thisPosition = this.position;
       const otherPosition = other.position;
       let dx = otherPosition.x - thisPosition.x;
       let dy = otherPosition.y - thisPosition.y;
 
       let distSq = dx * dx + dy * dy;
-      if (distSq < 10) {
+      if (distSq < 10) { // Prevent singularity and extreme forces
         distSq = 10;
       }
 
-      let dist = Math.sqrt(distSq);
+      let dist = Math.sqrt(distSq); // Distance between particles (x^2 + y^2 = r^2)
       let forceMagnitude = Force.calculateForceMagnitude(dist);
 
+      // Convert magnitude and direction to x and y components
       let fx = (forceMagnitude / dist) * dx;
       let fy = (forceMagnitude / dist) * dy;
 
+      // Accumulate forces
       forceX += fx;
       forceY += fy;
     }
