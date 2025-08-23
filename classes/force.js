@@ -1,4 +1,5 @@
 import Modal from "../components/modal.js";
+import forceinput from "../components/forceInput.js";
 
 class Force {
   // Global array of coefficients for a force function
@@ -147,71 +148,13 @@ class Force {
     otherParamTitle.textContent = "Physics Options";
 
     // Dampening input
-    const dampeningDiv = document.createElement("div");
-    dampeningDiv.style.margin = "8px 0";
-    dampeningDiv.style.display = "flex";
-    dampeningDiv.style.alignItems = "center";
-
-    const dampeningLabel = document.createElement("label");
-    dampeningLabel.textContent = "Damp:";
-    dampeningLabel.style.marginRight = "8px";
-    dampeningLabel.style.width = "50%";
-
-    const dampeningInput = document.createElement("input");
-    dampeningInput.type = "number";
-    dampeningInput.step = "0.01";
-    dampeningInput.style.width = "50%";
-    dampeningInput.value = Force.dampening;
-    dampeningInput.onchange = () => {
-      Force.dampening = parseFloat(dampeningInput.value);
-    };
-
-    dampeningDiv.appendChild(dampeningLabel);
-    dampeningDiv.appendChild(dampeningInput);
+    const dampeningDiv = forceinput.createinput("dampening", "Damp:");
 
     // Temperature input
-    const tempDiv = document.createElement("div");
-    tempDiv.style.display = "flex";
-    tempDiv.style.alignItems = "center";
-
-    const tempLabel = document.createElement("label");
-    tempLabel.textContent = "Temp:";
-    tempLabel.style.marginRight = "8px";
-    tempLabel.style.width = "50%";
-
-    const tempInput = document.createElement("input");
-    tempInput.type = "number";
-    tempInput.step = "0.01";
-    tempInput.style.width = "50%";
-    tempInput.value = Force.extraTemperature;
-    tempInput.onchange = () => {
-      Force.extraTemperature = parseFloat(tempInput.value);
-    };
-    
-    tempDiv.appendChild(tempLabel);
-    tempDiv.appendChild(tempInput);
+    const tempDiv = forceinput.createinput("extraTemperature", "Temp:");
 
     // Temperature input
-    const ineffDiv = document.createElement("div");
-    ineffDiv.style.display = "flex";
-    ineffDiv.style.alignItems = "center"
-
-    const ineffLabel = document.createElement("label");
-    ineffLabel.textContent = "Inefficiency Factor:";
-    ineffLabel.style.marginRight = "8px";
-    ineffLabel.style.width = "50%";
-
-    const ineffInput = document.createElement("input");
-    ineffInput.type = "number";
-    ineffInput.step = "0.01";
-    ineffInput.style.width = "50%";
-    ineffInput.value = Force.inefficienctyFactor;
-    ineffInput.onchange = () => {
-      Force.inefficienctyFactor = parseFloat(ineffInput.value);
-    };
-
-    ineffDiv.appendChild(ineffLabel);
-    ineffDiv.appendChild(ineffInput);
+    const ineffDiv = forceinput.createinput("inefficienctyFactor", "Ineff:");
 
     container.appendChild(otherParamTitle);
     container.appendChild(dampeningDiv);
