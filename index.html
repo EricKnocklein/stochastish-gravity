@@ -284,7 +284,7 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
       We need this number because if adding different ticking speeds into this simulation causes “gravity” to appear, then we would expect the particles to be pulled towards each other, resulting in a lower standard deviation of their positions.
     </p>
     <p>
-      So how can we add different ticking speeds to this simulation? The solution I went with is that, before the particles are allowed to update, they have to wait a time proportional to the square of the number of other updateable particles in the circle (but you can change this power in the menu). While they are waiting, these particles cannot be selected again.
+      So how can we add different ticking speeds to this simulation? The solution I went with is that, before the particles are allowed to update, they have to wait a time proportional to the square of the number of other updateable particles in the circle (but you can change this factor of proportionality in the menu under <i>Prop</i>). While they are waiting, these particles cannot be selected again.
     </p>
     <p class="hint">
       When I first came up with this idea, I thought about it as multiple threads all selecting circles at the same time. Larger circles would naturally take longer to compute, meaning that particles selected within a dense region would take longer to update. I think that this is a much more natural explanation for this than manually waiting a length of time proportional to the square of the particles being updated, but this is the solution I came up with given the limitations of JavaScript.
@@ -319,7 +319,7 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     <p>
       To be a bit more rigorous about this, I ran 3 simulations for a set of values for the factor of proportionality for the wait time (which is set to <i>2</i> by default). I plotted the average and median standard deviations for all of the data in those simulations (each point in the graphs that are built while the simulation runs). My data is plotted below.
     </p>
-    <div id="dataDisplay" style="margin-top: 40px;">
+    <div id="dataDisplay">
       <canvas class="graph"  id="dataDisplayChart" width="600" height="400"></canvas>
     </div>
     <p>
@@ -327,6 +327,15 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     </p>
     <p>
       Secondly, the mean was always higher than the median. This is probably due to the fact that all simulations start with the particles further apart than their equilibrium position, meaning that the standard deviation will be higher at the start of the simulation. The mean is more sensitive to these high values than the median, so it makes sense that the mean would be higher. Because of this, the median is probably a better representation of the steady state of the simulation.
+    </p>
+    <p>
+      As we would expect, the higher the proportionality factor, the lower the mean and median standard deviations. This makes sense because the higher the proportionality factor, the more pronounced the temporal gradient will be. Therefore, the strong the "gravity" produced by the particles will be.
+    </p>
+    <p>
+      Interestingly, though, the data from proportionality factors below 1 did not seem to exhibit the opposite effect. I would have expected the standard deviation to be higher than that of the control simulation, but it seems to be about the same. My guess here is that the inverse effect (with denser areas updating faster) is does not reinforce itself because these dense areas will tend to spread out, meaning that the density itself, which caused the fast update, will be reduced or destroyed. The effect is not self-reinforcing, so it does not have a lasting impact on the particles.
+    </p>
+    <p>
+      Meanwhile, the effect of denser areas updating slower is self-reinforcing because the particles are pulled closer together, making the area denser, which makes it update slower, which pulls the particles closer together, and so on.
     </p>
     <h2>Conclusion</h2>
     <p>

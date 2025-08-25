@@ -154,7 +154,7 @@ class Force {
     const tempDiv = forceinput.createinput("extraTemperature", "Temp:");
 
     // Temperature input
-    const ineffDiv = forceinput.createinput("inefficienctyFactor", "Ineff:");
+    const ineffDiv = forceinput.createinput("inefficienctyFactor", "Prop:");
 
     container.appendChild(otherParamTitle);
     container.appendChild(dampeningDiv);

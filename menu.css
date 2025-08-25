@@ -170,3 +170,7 @@ div#menus:hover .holder {
 .add-coefficient-btn {
   margin-bottom: 8px;
 }
+
+#dataDisplay canvas {
+  margin-top: 40px;
+}
