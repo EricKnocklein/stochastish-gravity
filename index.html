@@ -315,6 +315,19 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     <p>
       Interestingly, it seems like the gradient simulation with the squares when it is set to have no selection bias has the largest average standard deviation at around 20 on my machine. The globally updating simulation has a standard deviation of around 17 for me, just like the first circle-based simulation.
     </p>
+    <h3>Data</h3>
+    <p>
+      To be a bit more rigorous about this, I ran 3 simulations for a set of values for the factor of proportionality for the wait time (which is set to <i>2</i> by default). I plotted the average and median standard deviations for all of the data in those simulations (each point in the graphs that are built while the simulation runs). My data is plotted below.
+    </p>
+    <div id="dataDisplay" style="margin-top: 40px;">
+      <canvas class="graph"  id="dataDisplayChart" width="600" height="400"></canvas>
+    </div>
+    <p>
+      There are some interesting things to notice in this graph. Firstly, there is one run for each of the proportionality factos that has a much higher mean and median than the other 2 rus. This run was made while I was showinng the simulation element in the DOM, which made the simulation much slower. I think that the increased computation time to update the DOM diminished the effect because there was less idle time. In an ideal world, the actualy computation and simulation would be instant, meaning that the wait time is completely independent of the computation time.
+    </p>
+    <p>
+      Secondly, the mean was always higher than the median. This is probably due to the fact that all simulations start with the particles further apart than their equilibrium position, meaning that the standard deviation will be higher at the start of the simulation. The mean is more sensitive to these high values than the median, so it makes sense that the mean would be higher. Because of this, the median is probably a better representation of the steady state of the simulation.
+    </p>
     <h2>Conclusion</h2>
     <p>
       My hope is that this exploration was interesting even if it was not rigorous. If anyone reading this has the technical know-how to formalize this concept in a mathematical way, I would love to know what some consequences of this sort of gravity would be if it were to work this way in an actual setting. I think it would be interesting to use this sort of gravity in the setting of a story and explore what consequences this would have for the characters, and maybe I could even incorporate it into some of my ongoing writing projects, which you can find <a href="https://eklittlehill.com/" target="_blank">here</a>. That page also has a form to contact me if you have any ideas.

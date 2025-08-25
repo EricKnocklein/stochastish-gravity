@@ -2,6 +2,7 @@ import Space from "./classes/space.js";
 import Grapher from "./classes/grapher.js";
 import Force from "./classes/force.js";
 import Params from "./classes/params.js";
+import createDataDisplay from "./components/dataDisplay.js";
 
 const ForceMenu = document.getElementById("forceMenu");
 if (ForceMenu) {
@@ -298,3 +299,9 @@ const setUpComputeSim = () => {
 };
 
 setUpComputeSim();
+
+const dataDisplay = document.getElementById("dataDisplay");
+if (dataDisplay) {
+  const canvas = createDataDisplay("dataDisplayChart");
+  dataDisplay.appendChild(canvas);
+};
