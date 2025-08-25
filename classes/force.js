@@ -7,6 +7,7 @@ class Force {
   static dampening = 0.75;
   static extraTemperature = 0;
   static inefficienctyFactor = 2;
+  static unit = 1;
 
   // Method to update the coefficients array
   static setCoefficients(newCoefficients) {
@@ -22,6 +23,7 @@ class Force {
   }
 
   static calculateForceMagnitude(dist) {
+    dist = dist / Force.unit
     return Force.coefficients.reduce((sum, coeff, idx) => {
       return sum + coeff * (1 / Math.pow(dist, idx + 1));
     }, 0);
@@ -146,6 +148,9 @@ class Force {
     const otherParamTitle = document.createElement("div");
     otherParamTitle.classList.add("title");
     otherParamTitle.textContent = "Physics Options";
+    
+    // Unit input
+    const unitDiv = forceinput.createinput('unit', 'Unit:');
 
     // Dampening input
     const dampeningDiv = forceinput.createinput("dampening", "Damp:");
@@ -157,6 +162,7 @@ class Force {
     const ineffDiv = forceinput.createinput("inefficienctyFactor", "Prop:");
 
     container.appendChild(otherParamTitle);
+    container.appendChild(unitDiv);
     container.appendChild(dampeningDiv);
     container.appendChild(tempDiv);
     container.appendChild(ineffDiv);

@@ -96,10 +96,14 @@
   return { x: forceX, y: forceY };
 }</code></pre>
     <pre><code class="language-js">static calculateForceMagnitude(dist) {
+  dist = dist / Force.unit
   return Force.coefficients.reduce((sum, coeff, idx) => {
     return sum + coeff * (1 / Math.pow(dist, idx + 1));
   }, 0);
 }</code></pre>
+    <p class="hint">
+      The <i>Force.unit</i> parameter defines how many pixels are in a unit. If it is set to <i>2</i>, then there are 2 pixels in a unit, simulating a setup where all the particles are closer together.
+    </p>
     <p>
       Once we know the force on a given particle, we can compute the acceleration on that particle using Newton’s second law, <i>F = ma</i>, or <i>a = F/m</i>. The code for this is really simple. And the outcome is also really simple considering that all of the particles are defined as having a mass of <i>1</i>, but I wanted to keep the code generic enough that I could change some of the masses later if I wanted to.
     </p>
