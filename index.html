@@ -44,7 +44,7 @@
       I was struck by an idea that I could not get out of my head, and I wanted to prove to myself that it makes sense whether or not it has any practical application besides the programming practice that I got making it. Could I create a logical explanation for something like gravity and time dilation where the first does not cause the latter but the latter causes the first? And could I convince myself that I could invent a computational reason behind why matter causes the latter?
     </p>
     <p>
-      Rather than being a rigorous exploration of the math they may be able to formalize these ideas, this article serves as a demonstration of using code to expore such problems even if they might not have any merit beyond that. The exploration itself and how progamming can be used to verify these ideas is the point of this article. My hope is that this can inspre you to explore your own ideas, no matter how silly or absurd they may seem.
+      Rather than being a rigorous exploration of the math they may be able to formalize these ideas, this article serves as a demonstration of using code to explore such problems even if they might not have any merit beyond that. The exploration itself and how programming can be used to verify these ideas is the point of this article. My hope is that this can inspire you to explore your own ideas, no matter how silly or absurd they may seem.
     </p>
     <hr class="start"/>
     <h1>Stochastish Gravity</h1>
@@ -61,7 +61,7 @@
     </p>
     <div class="force-equation"></div>
     <p>
-      The equation gives us a a good template for what to implement in the code. If you read the code provided below, you can find each part of the above equation represtned. But we also have to bend the rules a little to prevent singularities and extreme forces when particles get very close to one another.
+      The equation gives us a good template for what to implement in the code. If you read the code provided below, you can find each part of the above equation represented. But we also have to bend the rules a little to prevent singularities and extreme forces when particles get very close to one another.
     </p>
     <pre><code class="language-js">getForce(particles) {
   let forceX = 0;
@@ -101,14 +101,14 @@
   }, 0);
 }</code></pre>
     <p>
-      Once we know the force on a given particle, we can compute the accelration on that particle using Newton’s second law, <i>F = ma</i>, or <i>a = F/m</i>. The code for this is really simple. And the outcome is also really simple considering that all of the particles are defined as having a mass of <i>1</i>, but I wanted to keep the code generic enough that I could change some of the masses later if I wanted to.
+      Once we know the force on a given particle, we can compute the acceleration on that particle using Newton’s second law, <i>F = ma</i>, or <i>a = F/m</i>. The code for this is really simple. And the outcome is also really simple considering that all of the particles are defined as having a mass of <i>1</i>, but I wanted to keep the code generic enough that I could change some of the masses later if I wanted to.
     </p>
     <pre><code class="language-js">const acceleration = {
   x: force.x / this.mass,
   y: force.y / this.mass,
 };</code></pre>
     <p>
-      Since the acceleration is the change in velocity over time, we can update the velocity of the particle by adding the acceleration to the current velocity. This is done in the code below. However, we mix in some extra parameters here to control how the simulation behaves. The damping factor controls how much energy is lost in the system each time a particle moves. If the damping factor is <i>1</i>, then no energy is lost, and if it is <i>0</i>, then all energy is lost. The temperatute controls how much random velocity is added to the particle each time it moves. This is similar to the concept of temperature in real-world physics, where higher temperatures correspond to more random motion.
+      Since the acceleration is the change in velocity over time, we can update the velocity of the particle by adding the acceleration to the current velocity. This is done in the code below. However, we mix in some extra parameters here to control how the simulation behaves. The damping factor controls how much energy is lost in the system each time a particle moves. If the damping factor is <i>1</i>, then no energy is lost, and if it is <i>0</i>, then all energy is lost. The temperature controls how much random velocity is added to the particle each time it moves. This is similar to the concept of temperature in real-world physics, where higher temperatures correspond to more random motion, but I will have this set to <i>0</i> for this whole article.
     </p>
     <pre><code class="language-js">updateParticleVelocity(acceleration) {
   this.velocity.x += acceleration.x;
@@ -129,10 +129,10 @@
   this.updateElemPosition();
 }</code></pre>
     <p>
-      In the menu on the right ride of the screen, you can also change the temperature and dampening constants shown above along with the force equation coefficients. I'd suggest changing them around and seeing how the similation changes.
+      In the menu on the right ride of the screen, you can also change the temperature and dampening constants shown above along with the force equation coefficients. I'd suggest changing them around and seeing how the simulation changes.
     </p>
     <p>
-      This is what we have in the first simulation below. Once per frame, all of the particle’s have their clocks tick.
+      This is what we have in the first simulation below. Once per frame, all of the particles have their clocks tick.
     </p>
     <p>
       As the simulation runs, you can see how the average position of the particles (shown in blue) changes. Because there are no external forces acting on these particles, the average position should not move from its original location (shown in green underneath the blue). These particles will just swirl around until they run out of energy (I added a small amount of damping to the system), but the simulation will cut off long before that happens.
@@ -153,14 +153,14 @@
     </div>
     <canvas class="graph" id="globalChart" width="600" height="300"></canvas>
     <p>
-      By messing with the paramaeters in the menu, you can generate some interesting simulations. But these are pretty standard simulations, so let's see what happens when we change when the particles are allowed to update.
+      By messing with the parameters in the menu, you can generate some interesting simulations. But these are pretty standard simulations, so let's see what happens when we change when the particles are allowed to update.
     </p>
     <h2>Temporal Gradient</h2>
     <p>
       Before we see that, let’s try to understand what the consequences of this would be. Most importantly, if the particles do not all tick at the same rate, then the forces between the particles will no longer be symmetric. For example, if we have two particles that feel an attractive force, the particle that ticks more frequently will have the ability to experience that force more often, and therefore it will appear as though it experiences a stronger force.
     </p>
     <p>
-      Extrapolating this concept, if we have a gradient of ticking speeds, then we would expect particles to move to areas where the ticking speed is slower (if the force is primarily attractive). This is very similar to one explanation of real-world gravity called the <a href="https://youtu.be/Xc4xYacTu-E?si=61Ahr55EUk497JtE" target="_blank">Law of Cosmic Laziness</a>. Time moves slower in regions of high gravity, so the fact that matter is pulled into these regions by gravity makes matter tend to places where time moves slowest. Same thing happens in this simulation even without any built-in force of gravity. We replace gravity with a temporal gradient, and the particles move as though they are being pulled by a force.
+      Extrapolating this concept, if we have a gradient of ticking speeds, then we would expect particles to move to areas where the ticking speed is slower (if the force is primarily attractive). This is very similar to one explanation of real-world gravity called the <a href="https://youtu.be/Xc4xYacTu-E?si=61Ahr55EUk497JtE" target="_blank">Law of Cosmic Laziness</a>. Time moves slower in regions of high gravity, so the fact that matter is pulled into these regions by gravity makes matter tend to places where time moves slowest. The same thing happens in this simulation even without any built-in force of gravity. We replace gravity with a temporal gradient, and the particles move as though they are being pulled by a force.
     </p>
     <p>
       In the simulation, we randomly select a square and tick all of the particles within that square. By changing the way we pick these squares, we can change where the areas of “laziness” are, and we can see whether the particles do tend to move in this direction. If we select the right side of the simulation more often than the left side, then the particles should move left, for example.
@@ -204,7 +204,7 @@
       If you messed around with the simulation, you would have seen exactly what I described above happening. Setting a bias for lower values makes the particles move to the right. Setting a bias for higher values makes the particles move to the left. Setting a bias for middle values makes particles move either left or right like they’re rolling off of a hill.
     </p>
     <p>
-      If you are curious aboout how the biasing works, I have provided the code below. The <i>Params.biases</i> object contains functions that return a random number between <i>0</i> and <i>1</i> with the specified bias. The selection function for the simulation (which is defined by the <i>space</i> object) is updated whenever one of the dropdowns is changed.:
+      If you are curious about how the biasing works, I have provided the code below. The <i>Params.biases</i> object contains functions that return a random number between <i>0</i> and <i>1</i> with the specified bias. The selection function for the simulation (which is defined by the <i>space</i> object) is updated whenever one of the dropdowns is changed.:
     </p>
     <pre><code class="language-js">static biases = {
   noBias: () => {
@@ -257,13 +257,13 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
       To answer this question, I modified the previous simulation so that each square takes a certain amount of time to tick based on the number of particles inside the square. But this did not give me a worthwhile result because it did not even create a temporal gradient.
     </p>
     <p>
-      The square that took a long time to tick did not attract other particles to it because the squares adjacent to it updated at a completely inpedpendent speed. This only created transient pockets of laziness that did not have any lasting effect on the particles.
+      The square that took a long time to tick did not attract other particles to it because the squares adjacent to it updated at a completely independent speed. This only created transient pockets of laziness that did not have any lasting effect on the particles.
     </p>
     <p>
       After messing with this setup some more (increasing particle counts, increasing and correlating square sizes, etc.), I decided to take a different approach where the size of the update region is not constant.
     </p>
     <p>
-      In the simulation below, I pick a random point in the space of the simulation region. From there I pick a random distance. All particles within this distance will be marked as being updated. Once that is done, I repeat the process by picking a new point and a new distance. The particles that are marked as being updated will not be able to be selected again until they finish updating, which will happen after an adjutable delay.
+      In the simulation below, I pick a random point in the space of the simulation region. From there I pick a random distance. All particles within this distance will be marked as being updated. Once that is done, I repeat the process by picking a new point and a new distance. The particles that are marked as being updated will not be able to be selected again until they finish updating, which will happen after an adjustable delay.
     </p>
     <p>
       This setup allows for a more far-reaching gradient to form because the selection region could be very large, but it still allows particles to be differentiated from one another because the selection region could be very small.
@@ -278,7 +278,7 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     </div>
     <canvas class="graph" id="circleChart" width="600" height="300"></canvas>
     <p>
-      Take note of the trendline for the standard deviation of the particles in this simulation. If this simulation functions the same on your browser as it does on mine, and if you have the deafault parameters, then the trendline should hover around 17. Keep this number in mind.
+      Take note of the trendline for the standard deviation of the particles in this simulation. If this simulation functions the same on your browser as it does on mine, and if you have the default parameters, then the trendline should hover around 17. Keep this number in mind.
     </p>
     <p>
       We need this number because if adding different ticking speeds into this simulation causes “gravity” to appear, then we would expect the particles to be pulled towards each other, resulting in a lower standard deviation of their positions.
@@ -323,16 +323,16 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
       <canvas class="graph"  id="dataDisplayChart" width="600" height="400"></canvas>
     </div>
     <p>
-      There are some interesting things to notice in this graph. Firstly, there is one run for each of the proportionality factos that has a much higher mean and median than the other 2 rus. This run was made while I was showinng the simulation element in the DOM, which made the simulation much slower. I think that the increased computation time to update the DOM diminished the effect because there was less idle time. In an ideal world, the actualy computation and simulation would be instant, meaning that the wait time is completely independent of the computation time.
+      There are some interesting things to notice in this graph. Firstly, there is one run for each of the proportionality factors that has a much higher mean and median than the other 2 rus. This run was made while I was showing the simulation element in the DOM, which made the simulation much slower. I think that the increased computation time to update the DOM diminished the effect because there was less idle time. In an ideal world, the actual computation and simulation would be instant, meaning that the wait time is completely independent of the computation time.
     </p>
     <p>
       Secondly, the mean was always higher than the median. This is probably due to the fact that all simulations start with the particles further apart than their equilibrium position, meaning that the standard deviation will be higher at the start of the simulation. The mean is more sensitive to these high values than the median, so it makes sense that the mean would be higher. Because of this, the median is probably a better representation of the steady state of the simulation.
     </p>
     <p>
-      As we would expect, the higher the proportionality factor, the lower the mean and median standard deviations. This makes sense because the higher the proportionality factor, the more pronounced the temporal gradient will be. Therefore, the strong the "gravity" produced by the particles will be.
+      As we would expect, the higher the proportionality factor, the lower the mean and median standard deviations. This makes sense because the higher the proportionality factor, the more pronounced the temporal gradient will be. Therefore, the stronger the "gravity" produced by the particles will be.
     </p>
     <p>
-      Interestingly, though, the data from proportionality factors below 1 did not seem to exhibit the opposite effect. I would have expected the standard deviation to be higher than that of the control simulation, but it seems to be about the same. My guess here is that the inverse effect (with denser areas updating faster) is does not reinforce itself because these dense areas will tend to spread out, meaning that the density itself, which caused the fast update, will be reduced or destroyed. The effect is not self-reinforcing, so it does not have a lasting impact on the particles.
+      Interestingly, though, the data from proportionality factors below 1 did not seem to exhibit the opposite effect. I would have expected the standard deviation to be higher than that of the control simulation, but it seems to be about the same. My guess here is that the inverse effect (with denser areas updating faster) does not reinforce itself because these dense areas will tend to spread out, meaning that the density itself, which caused the fast update, will be reduced or destroyed. The effect is not self-reinforcing, so it does not have a lasting impact on the particles.
     </p>
     <p>
       Meanwhile, the effect of denser areas updating slower is self-reinforcing because the particles are pulled closer together, making the area denser, which makes it update slower, which pulls the particles closer together, and so on.
