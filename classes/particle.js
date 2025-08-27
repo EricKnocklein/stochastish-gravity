@@ -97,8 +97,8 @@ class Particle {
       let dy = otherPosition.y - thisPosition.y;
 
       let distSq = dx * dx + dy * dy;
-      if (distSq < 10) { // Prevent singularity and extreme forces
-        distSq = 10;
+      if (distSq < 1) { // Prevent singularity and extreme forces
+        distSq = 1;
       }
 
       let dist = Math.sqrt(distSq); // Distance between particles (x^2 + y^2 = r^2)

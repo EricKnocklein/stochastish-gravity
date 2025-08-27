@@ -32,14 +32,19 @@ class Space {
     
     this.squareHolder = document.createElement('div');
     this.particleHolder = document.createElement('div');
+    this.forceField = document.createElement('canvas');
 
     element.style.width = `${squareWidth * width}px`;
     element.style.height =  `${squareWidth * height}px`;
 
     element.appendChild(this.squareHolder);
     element.appendChild(this.particleHolder);
+    element.appendChild(this.forceField);
+
     this.setupParticleHolder();
     this.setupSquareHolder();
+
+    this.setUpForceField();
 
     this.createCenterOfGravity();
 
@@ -74,6 +79,11 @@ class Space {
   setupSquareHolder() {
     const elem = this.squareHolder;
     elem.classList.add('square_holder');
+  }
+
+  setUpForceField() {
+    const elem = this.forceField;
+    elem.classList.add('force-field');
   }
 
   addParticle(x, y) {

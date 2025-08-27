@@ -77,8 +77,8 @@
     let dy = otherPosition.y - thisPosition.y;
 
     let distSq = dx * dx + dy * dy;
-    if (distSq < 10) { // Prevent singularity and extreme forces
-      distSq = 10;
+    if (distSq < 1) { // Prevent singularity and extreme forces
+      distSq = 1;
     }
 
     let dist = Math.sqrt(distSq); // Distance between particles (x^2 + y^2 = r^2)
@@ -323,7 +323,7 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     <p>
       To be a bit more rigorous about this, I ran 3 simulations for a set of values for the factor of proportionality for the wait time (which is set to <i>2</i> by default). I plotted the average and median standard deviations for all of the data in those simulations (each point in the graphs that are built while the simulation runs). My data is plotted below.
     </p>
-    <div id="dataDisplay">
+    <div id="dataDisplay" style="max-width: 100%;">
       <canvas class="graph"  id="dataDisplayChart" width="600" height="400"></canvas>
     </div>
     <p>
