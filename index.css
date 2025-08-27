@@ -221,7 +221,7 @@ canvas {
 
 .reset {
   cursor: pointer;
-  z-index: 1;
+  z-index: 5;
   background-image: url(./assets/reset.svg);
   background-repeat: no-repeat;
   background-size: contain;

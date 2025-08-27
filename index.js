@@ -171,7 +171,7 @@ const setUpGlobalSim = () => {
 
   setUpRR(globalSim, args, 1, space, grapher, setUpGlobalSim);
 
-  window.gParicles = space.particles;
+  window.globalSpace = space;
 }
 
 setUpGlobalSim();
@@ -222,7 +222,7 @@ const setUpGradientSim = () => {
 
   setUpRR(gradientSim, args, 250, space, grapher, setUpGradientSim);
 
-  window.gParicles = space.particles;
+  window.gradientSpace = space;
 };
 
 setUpGradientSim();
@@ -255,7 +255,7 @@ const setUpCirlceSim = () => {
 
   setUpRR(circleSim, args, 15, space, grapher, setUpCirlceSim);
 
-  window.cParicles = space.particles;
+  window.circleSpace = space;
 };
 
 setUpCirlceSim();
@@ -295,7 +295,7 @@ const setUpComputeSim = () => {
 
   setUpRR(computeSim, args, 15, space, grapher, setUpComputeSim);
 
-  window.compParicles = space.particles;
+  window.computeSpace = space;
 };
 
 setUpComputeSim();

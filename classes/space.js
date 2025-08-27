@@ -2,6 +2,7 @@ import Particle from "./particle.js";
 import Square from "./square.js";
 import Circle from "./circle.js";
 import { getStats } from "./stats.js";
+import Force from "./force.js";
 
 function normalRandom(mu = 0, sigma = 1) {
   let u1 = Math.random();
@@ -245,6 +246,67 @@ class Space {
       yStats: getStats(yValues),
       t: this.numParticlesUpdated,
     };
+  }
+
+  renderForceField(step = 4) {
+    const canvas = this.forceField;
+    const ctx = this.resizeCanvasToDisplaySize();
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    let maxForce = 0;
+    const forceGrid = [];
+
+    // Sample starting at step/2 so rects fit inside canvas
+    for (let y = step / 2; y < canvas.height; y += step) {
+      for (let x = step / 2; x < canvas.width; x += step) {
+        let force = 0;
+        for (const p of this.particles) {
+          const dx = x - p.position.x;
+          const dy = y - p.position.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          force += Force.calculateForceMagnitude(dist);
+        }
+        force = Math.log(Math.abs(force) * 10);
+        forceGrid.push({ x, y, force });
+        maxForce = Math.max(maxForce, Math.abs(force));
+      }
+    }
+
+    // Draw each block centered on its sample point
+    for (const point of forceGrid) {
+      const norm = (point.force / maxForce + 1) / 2;
+      const r = Math.floor(255 * norm) / 2;
+      const g = Math.floor(255 * (1 - norm));
+      const b = 0;
+
+      ctx.fillStyle = `rgb(${r},${g},${b})`;
+      ctx.fillRect(point.x - step / 2, point.y - step / 2, step, step);
+    }
+
+    // this.resizeCanvasToDisplaySize();
+  }
+
+  resizeCanvasToDisplaySize() {
+    const canvas = this.forceField;
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // reset any transforms
+    ctx.scale(dpr, dpr); // scale drawing ops so coords match CSS pixels
+
+    return ctx;
+  }
+
+
+  clearForceField() {
+    const canvas = this.forceField;
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 }
 
