@@ -261,14 +261,25 @@ class Space {
     for (let y = step / 2; y < canvas.height; y += step) {
       for (let x = step / 2; x < canvas.width; x += step) {
         let force = 0;
+        let forceX = 0;
+        let forceY = 0;
         for (const p of this.particles) {
           const dx = x - p.position.x;
           const dy = y - p.position.y;
-          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          force += Force.calculateForceMagnitude(dist);
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist === 0) {
+            continue;
+          }
+          const fMag = Force.calculateForceMagnitude(dist);
+          force += fMag
+
+          const nx = dx / dist;
+          const ny = dy / dist;
+          forceX += fMag * nx;
+          forceY += fMag * ny;
         }
-        force = Math.log(Math.abs(force) * 10);
-        forceGrid.push({ x, y, force });
+        force = Math.abs(force);
+        forceGrid.push({ x, y, force, forceX, forceY });
         maxForce = Math.max(maxForce, Math.abs(force));
       }
     }
@@ -276,12 +287,14 @@ class Space {
     // Draw each block centered on its sample point
     for (const point of forceGrid) {
       const norm = (point.force / maxForce + 1) / 2;
-      const r = Math.floor(255 * norm) / 2;
-      const g = Math.floor(255 * (1 - norm));
-      const b = 0;
 
-      ctx.fillStyle = `rgb(${r},${g},${b})`;
-      ctx.fillRect(point.x - step / 2, point.y - step / 2, step, step);
+      const angle = Math.atan2(point.forceY, point.forceX);
+      const hue = (angle * 180 / Math.PI + 360) % 360;
+
+      const saturation = 70; // full saturation
+      const lightness = 50;   // medium brightness
+      ctx.fillStyle = `hsla(${hue}, ${saturation}%, ${lightness}%, ${norm})`;
+      ctx.fillRect(point.x - Math.floor(step / 2), point.y - Math.floor(step / 2), step, step);
     }
 
     // this.resizeCanvasToDisplaySize();
