@@ -3,6 +3,7 @@ import Square from "./square.js";
 import Circle from "./circle.js";
 import { getStats } from "./stats.js";
 import Force from "./force.js";
+import Params from "./params.js";
 
 function normalRandom(mu = 0, sigma = 1) {
   let u1 = Math.random();
@@ -253,6 +254,10 @@ class Space {
     const ctx = this.resizeCanvasToDisplaySize();
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (!Params.doShowForceField) {
+      return;
+    }
 
     let maxForce = 0;
     const forceGrid = [];

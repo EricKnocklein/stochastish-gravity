@@ -8,26 +8,49 @@ const ForceMenu = document.getElementById("forceMenu");
 if (ForceMenu) {
   Force.buildMenu(ForceMenu);
 }
-const chartMenu = document.getElementById("chartMenu");
-if (chartMenu) {
+const showHideMenu = document.getElementById("showHideMenu");
+if (showHideMenu) {
   // Create checkbox
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.id = "showGraphsCheckbox";
-  checkbox.checked = Params.doShowGraphs;
+  const graphCheckbox = document.createElement("input");
+  graphCheckbox.type = "checkbox";
+  graphCheckbox.id = "showGraphsCheckbox";
+  graphCheckbox.checked = Params.doShowGraphs;
 
   // Add label for clarity
-  const label = document.createElement("label");
-  label.htmlFor = "showGraphsCheckbox";
-  label.innerText = "Show Graphs";
+  const graphLabel = document.createElement("label");
+  graphLabel.htmlFor = "showGraphsCheckbox";
+  graphLabel.innerText = "Show Graphs";
 
   // Append to body (or any container)
-  chartMenu.appendChild(checkbox);
-  chartMenu.appendChild(label);
+  const graphDiv = document.createElement('div');
+  graphDiv.appendChild(graphCheckbox);
+  graphDiv.appendChild(graphLabel);
+  showHideMenu.append(graphDiv);
+  // Add a generic change listener
+  graphCheckbox.addEventListener("change", (event) => {
+    Params.doShowGraphs = event.target.checked;
+  });
+
+  // Create checkbox
+  const fieldCheckbox = document.createElement("input");
+  fieldCheckbox.type = "checkbox";
+  fieldCheckbox.id = "showFieldCheckbox";
+  fieldCheckbox.checked = Params.doShowGraphs;
+
+  // Add label for clarity
+  const fieldLabel = document.createElement("label");
+  fieldLabel.htmlFor = "showFieldCheckbox";
+  fieldLabel.innerText = "Show Fields";
+
+  // Append to body (or any container)
+  const fieldDiv = document.createElement('div');
+  fieldDiv.appendChild(fieldCheckbox);
+  fieldDiv.appendChild(fieldLabel);
+  showHideMenu.appendChild(fieldDiv);
 
   // Add a generic change listener
-  checkbox.addEventListener("change", (event) => {
-    Params.doShowGraphs = event.target.checked;
+  fieldCheckbox.addEventListener("change", (event) => {
+    Params.doShowForceField = event.target.checked;
   });
 }
 const paramMenu = document.getElementById("paramMenu");
@@ -123,6 +146,9 @@ const createParticles = (space, xNum, yNum, xSep, ySep) => {
 const setUpRR = (sim, args, upf, space, grapher, setupF) => {
   const runnerClick = () => {
     args.runSim = !args.runSim;
+    if(!args.runSim) {
+      space.renderForceField(2);
+    }
     runner(args, upf, Params.sim_limit);
   }
 

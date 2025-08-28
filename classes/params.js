@@ -31,6 +31,18 @@ class Params {
   static get doShowGraphs() {
     return Params._doShowGraphs;
   }
+
+  static _doShowForceField = true;
+  static set doShowForceField(val) {
+    Params._doShowForceField = val;
+    const forceFields = document.querySelectorAll('.force-field');
+    forceFields.forEach((forceField) => {
+      forceField.style.display = val ? '' : 'none';
+    });
+  }
+  static get doShowForceField() {
+    return Params._doShowForceField;
+  }
 }
 
 export default Params;
