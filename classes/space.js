@@ -296,7 +296,7 @@ class Space {
       const angle = Math.atan2(point.forceY, point.forceX);
       const hue = (angle * 180 / Math.PI + 360) % 360;
 
-      const saturation = 70; // full saturation
+      const saturation = 80; // full saturation
       const lightness = 50;   // medium brightness
       ctx.fillStyle = `hsla(${hue}, ${saturation}%, ${lightness}%, ${norm})`;
       ctx.fillRect(point.x - Math.floor(step / 2), point.y - Math.floor(step / 2), step, step);

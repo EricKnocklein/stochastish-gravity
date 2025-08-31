@@ -144,6 +144,8 @@ canvas {
   box-sizing: border-box;
   transition: background-color 1s;
   z-index: 1;
+
+  pointer-events: none;
 }
 
 .square.updating {
