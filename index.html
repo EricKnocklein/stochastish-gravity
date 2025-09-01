@@ -339,9 +339,25 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     <p>
       Meanwhile, the effect of denser areas updating slower is self-reinforcing because the particles are pulled closer together, making the area denser, which makes it update slower, which pulls the particles closer together, and so on.
     </p>
+    <h2>Further Exploration</h2>
+    <p>
+      What we’ve explored so far is only the first step down this path. There is a lot more that I could do to improve these simulations and get a better handle on how this could be applied or formalized. Since this project is openly available on my github, anyone reading this could also contribute. Here are some potential topics for further exploration:
+    </p>
+    <p>
+      <b>Non-Stochastic Selection:</b> It would not be too difficult to change the last simulations to not be random anymore. You could assign each particle a wait time based on the density in a small area around it. Each time the simulation updates, every particle has their wait time reduced by 1 and is only updated when the wait time is 0. After that, a new wait time is calculated. This is, I think, a more rigorous way of doing it, but it strays from the multi-threading idea.
+    </p>
+    <p>
+      <b>True Multi Threading:</b> Going back to my original conceptualization of this idea, it would be interesting to implement the last simulation in a language that supports multi-threading. That way you can determine whether gravity would arise simply from the differing speeds of updating different sized circles.
+    </p>
+    <p>
+      <b>Mathematical Rigor:</b> I have mentioned multiple times in this article that this is just a fun exploration of a silly idea, but my hope would be that it could somehow be formalized. While I do not have the skills to do that, hopefully one of you reading this will.
+    </p>
+    <p>
+      If you explore any of these concepts in any way, please do not hesitate to shoot me a message. You can <a href="https://eklittlehill.com/contact" target="_blank">contact me</a> from my author’s site.
+    </p>
     <h2>Conclusion</h2>
     <p>
-      My hope is that this exploration was interesting even if it was not rigorous. If anyone reading this has the technical know-how to formalize this concept in a mathematical way, I would love to know what some consequences of this sort of gravity would be if it were to work this way in an actual setting. I think it would be interesting to use this sort of gravity in the setting of a story and explore what consequences this would have for the characters, and maybe I could even incorporate it into some of my ongoing writing projects, which you can find <a href="https://eklittlehill.com/" target="_blank">here</a>. That page also has a form to contact me if you have any ideas.
+      My hope is that this exploration was interesting even if it was not rigorous. If anyone reading this has the technical know-how to formalize this concept in a mathematical way, I would love to know what some consequences of this sort of gravity would be if it were to work this way in an actual setting. I think it would be interesting to use this sort of gravity in the setting of a story and explore what consequences this would have for the characters, and maybe I could even incorporate it into some of my ongoing writing projects, which you can find <a href="https://eklittlehill.com/" target="_blank">here</a>. That page also has a form to contact me if you have any ideas or contribute to this exploration.
     </p>
     <p>
       And if you are interested in the underlying programming for these simulations, you can either dig into it with your browser's Dev Tools, or you can view the code on my <a href="https://github.com/EricKnocklein/stochastic-gravity" target="_blank">GitHub</a>.
