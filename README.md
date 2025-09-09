@@ -1,4 +1,4 @@
-# stochastish-gravity
+# Stochastish Gravity
 
 This [interactive article](https://ericknock.dev/gravity/) uses particle simulations to explore ideas of gravity and time dilation. It explains how the simulations have been designed and provides the reader with parameters that they can change in order to customize the simulation and observe the new behavior therein. The intent is for this to be a useful tool to inspire the reader to explore whatever flights of fancy or silly ideas they might have using programming. As such, it is not mathematically rigorous but focuses more on a general audience with some coding experience.
 
