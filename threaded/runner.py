@@ -55,7 +55,7 @@ def worker():
   while working:
     space.update_circle()
    
-threads = [threading.Thread(target=worker, name=f"Thread-{i}") for i in range(3)]
+threads = [threading.Thread(target=worker, name=f"Thread-{i}") for i in range(1)]
 for thread in threads:
   thread.start()
 
