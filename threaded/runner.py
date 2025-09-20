@@ -1,6 +1,7 @@
 import pyglet
 from space import Space
 import math
+import threading
 
 window = pyglet.window.Window(1200, 800)
 space = Space(window.width, window.height)
@@ -44,11 +45,23 @@ batch = pyglet.graphics.Batch()
 
 @window.event
 def on_draw():
-  space.update_global()
   window.clear()
   space.draw(batch, circleFunction=pyglet.shapes.Circle)
   # Drawing code would go here
   batch.draw()
 
+working = True
+def worker():
+  while working:
+    space.update_circle()
+   
+threads = [threading.Thread(target=worker, name=f"Thread-{i}") for i in range(3)]
+for thread in threads:
+  thread.start()
+
 pyglet.app.run()
+working = False
+for thread in threads:
+  thread.join()
+
 print("DONE")

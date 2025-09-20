@@ -1,11 +1,28 @@
 from force import Force
 from typing import List
 
+import threading
+
 class Particle:
   def __init__(self, pos, v):
+    self._lock = threading.Lock()
+    self._owner = None
+
     self.position = pos
     self.velocity = v
     self.mass = 1
+  
+  def acquire(self, blocking=True):
+    got_it = self._lock.acquire(blocking)
+    if got_it:
+      self._owner = threading.get_ident()
+    return got_it
+  
+  def release(self):
+    if self._owner != threading.get_ident():
+      raise RuntimeError("This thread does not own the lock")
+    self._owner = None
+    self._lock.release()
   
   def update(self, force):
     self.updateParticlePosition()
@@ -33,7 +50,6 @@ class Particle:
     color = (255, 0, 0)
     return circleFunction(x, y, radius, color=color, batch=batch)
 
-  
   def getForce(self, particles: List['Particle']):
     forceX = 0
     forceY = 0

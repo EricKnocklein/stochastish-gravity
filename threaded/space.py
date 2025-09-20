@@ -2,6 +2,7 @@ import random
 import math
 
 from particle import Particle
+from circle import Circle
 
 def normal_random(mu=0, sigma=1):
   u1 = random.random()
@@ -56,3 +57,14 @@ class Space:
     for i, particle in enumerate(self.particles):
       force = forces[i]
       particle.update(force)
+
+  def update_circle(self):
+    circle = Circle(self.particles)
+
+    x = random.uniform(0, self.width)
+    y = random.uniform(0, self.height)
+
+    r = self.radiusSelection()
+    circle.setPositionAndRadius(x, y, r)
+
+    circle.update()
