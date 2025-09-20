@@ -1,0 +1,54 @@
+import pyglet
+from space import Space
+import math
+
+window = pyglet.window.Window(1200, 800)
+space = Space(window.width, window.height)
+
+def create_particles(space: Space, x_num, y_num, x_sep, y_sep):
+  for i in range(x_num):
+    for j in range(y_num):
+      x = i * x_sep
+      y = j * y_sep
+      space.addParticle(x, y)
+
+def spawn_flower_particles(n, angle=137.5, spacing=5, outward_step=0.5):
+    particles = []
+    radians = math.radians(angle)
+
+    for i in range(n):
+        # each new particle is placed further from the center
+        r = spacing * math.sqrt(i + 1)
+        theta = i * radians
+        x = r * math.cos(theta)
+        y = r * math.sin(theta)
+
+        # move all existing particles outward slightly
+        particles = [(px * (1 + outward_step / r if r != 0 else 1),
+                      py * (1 + outward_step / r if r != 0 else 1))
+                     for (px, py) in particles]
+
+        # add the new particle
+        particles.append((x, y))
+
+    return particles
+
+# create_particles(space, 15, 10, 20, 20)
+flower_particles = spawn_flower_particles(50, spacing=20, outward_step=0.1)
+for x, y in flower_particles:
+  space.addParticle(x + window.width / 2, y + window.height / 2)
+
+space.centerParticles()
+
+batch = pyglet.graphics.Batch()
+
+@window.event
+def on_draw():
+  space.update_global()
+  window.clear()
+  space.draw(batch, circleFunction=pyglet.shapes.Circle)
+  # Drawing code would go here
+  batch.draw()
+
+pyglet.app.run()
+print("DONE")

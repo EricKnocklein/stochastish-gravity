@@ -1,8 +1,5 @@
 import Force from "./force.js";
 
-const attractionStrength = 20;
-const repulsionStrength = 20;
-
 function getRandomBetweenMinusOneAndOne() {
   let num;
   do {
@@ -66,7 +63,7 @@ class Particle {
   update(force, updateWrapper) {
     this.isUpdating = true;
     const runUpdate = () => {
-      this.updateParticlePosition();
+      // this.updateParticlePosition();
       const acceleration = {
         x: force.x / this.mass,
         y: force.y / this.mass,
