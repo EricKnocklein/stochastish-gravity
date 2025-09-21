@@ -32,7 +32,7 @@ def spawn_flower_particles(n, angle=137.5, spacing=5, outward_step=0.5):
 
   return particles
 
-def run(t_num):
+def run(t_num, do_plot=True):
   window = pyglet.window.Window(1200, 800)
   space = Space(window.width, window.height)
   # create_particles(space, 15, 10, 20, 20)
@@ -70,20 +70,19 @@ def run(t_num):
   for thread in threads:
     thread.join()
 
-  plotter = InteractiveScatter(
-    space.xdata, 
-    space.distdata, 
-    space.devdata, 
-    labels=["Avg Distance from Center", "Avg Std Dev"]
-  )
-  plotter.plot()
+  if do_plot:
+    plotter = InteractiveScatter(
+      space.xdata, 
+      space.distdata, 
+      space.devdata, 
+      labels=["Avg Distance from Center", "Avg Std Dev"]
+    )
+    plotter.plot()
 
   avg_dist = sum(space.distdata) / len(space.distdata) if space.distdata else 0
   avg_dev = sum(space.devdata) / len(space.devdata) if space.devdata else 0
-  print(f"Average Distance: {avg_dist}")
-  print(f"Average Std Dev: {avg_dev}")
 
-  print("DONE")
+  return {"distance": avg_dist, "stddev": avg_dev}
 
 if __name__ == "__main__":
-  run(t_num=1)
+  run(t_num=1, do_plot=False)
