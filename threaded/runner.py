@@ -15,25 +15,25 @@ def create_particles(space: Space, x_num, y_num, x_sep, y_sep):
       space.addParticle(x, y)
 
 def spawn_flower_particles(n, angle=137.5, spacing=5, outward_step=0.5):
-    particles = []
-    radians = math.radians(angle)
+  particles = []
+  radians = math.radians(angle)
 
-    for i in range(n):
-        # each new particle is placed further from the center
-        r = spacing * math.sqrt(i + 1)
-        theta = i * radians
-        x = r * math.cos(theta)
-        y = r * math.sin(theta)
+  for i in range(n):
+      # each new particle is placed further from the center
+    r = spacing * math.sqrt(i + 1)
+    theta = i * radians
+    x = r * math.cos(theta)
+    y = r * math.sin(theta)
 
-        # move all existing particles outward slightly
-        particles = [(px * (1 + outward_step / r if r != 0 else 1),
-                      py * (1 + outward_step / r if r != 0 else 1))
-                     for (px, py) in particles]
+    # move all existing particles outward slightly
+    particles = [(px * (1 + outward_step / r if r != 0 else 1),
+                  py * (1 + outward_step / r if r != 0 else 1))
+                  for (px, py) in particles]
 
-        # add the new particle
-        particles.append((x, y))
+    # add the new particle
+    particles.append((x, y))
 
-    return particles
+  return particles
 
 # create_particles(space, 15, 10, 20, 20)
 flower_particles = spawn_flower_particles(150, spacing=9, outward_step=0.01)
@@ -51,12 +51,17 @@ def on_draw():
   # Drawing code would go here
   batch.draw()
 
+def stop_after_time(_dt):
+  if space.numParticlesUpdated >= 125000:
+    pyglet.app.exit()
+pyglet.clock.schedule(stop_after_time)
+
 working = True
 def worker():
   while working:
     space.update_circle()
    
-threads = [threading.Thread(target=worker, name=f"Thread-{i}") for i in range(3)]
+threads = [threading.Thread(target=worker, name=f"Thread-{i}") for i in range(4)]
 for thread in threads:
   thread.start()
 
@@ -72,5 +77,10 @@ plotter = InteractiveScatter(
   labels=["Avg Distance from Center", "Avg Std Dev"]
 )
 plotter.plot()
+
+avg_dist = sum(space.distdata) / len(space.distdata) if space.distdata else 0
+avg_dev = sum(space.devdata) / len(space.devdata) if space.devdata else 0
+print(f"Average Distance: {avg_dist}")
+print(f"Average Std Dev: {avg_dev}")
 
 print("DONE")
