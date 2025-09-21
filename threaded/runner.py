@@ -35,7 +35,7 @@ def spawn_flower_particles(n, angle=137.5, spacing=5, outward_step=0.5):
     return particles
 
 # create_particles(space, 15, 10, 20, 20)
-flower_particles = spawn_flower_particles(50, spacing=20, outward_step=0.1)
+flower_particles = spawn_flower_particles(150, spacing=20, outward_step=0.1)
 for x, y in flower_particles:
   space.addParticle(x + window.width / 2, y + window.height / 2)
 

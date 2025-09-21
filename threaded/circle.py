@@ -1,3 +1,6 @@
+import time
+import threading
+
 class Circle:
   def __init__(self, particles):
     self.particles = particles
@@ -20,7 +23,7 @@ class Circle:
 
     particles_updateable = []
     for particle in particles_inside:
-      if particle.acquire():
+      if particle.acquire(False):
         particles_updateable.append(particle)
 
     return particles_updateable

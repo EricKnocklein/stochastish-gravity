@@ -2,7 +2,6 @@ from force import Force
 from typing import List
 
 import threading
-
 class Particle:
   def __init__(self, pos, v):
     self._lock = threading.Lock()
