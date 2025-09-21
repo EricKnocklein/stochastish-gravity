@@ -1,5 +1,6 @@
 import pyglet
 from space import Space
+from plotter import InteractiveScatter
 import math
 import threading
 
@@ -35,7 +36,7 @@ def spawn_flower_particles(n, angle=137.5, spacing=5, outward_step=0.5):
     return particles
 
 # create_particles(space, 15, 10, 20, 20)
-flower_particles = spawn_flower_particles(150, spacing=20, outward_step=0.1)
+flower_particles = spawn_flower_particles(150, spacing=9, outward_step=0.01)
 for x, y in flower_particles:
   space.addParticle(x + window.width / 2, y + window.height / 2)
 
@@ -55,7 +56,7 @@ def worker():
   while working:
     space.update_circle()
    
-threads = [threading.Thread(target=worker, name=f"Thread-{i}") for i in range(1)]
+threads = [threading.Thread(target=worker, name=f"Thread-{i}") for i in range(3)]
 for thread in threads:
   thread.start()
 
@@ -63,5 +64,13 @@ pyglet.app.run()
 working = False
 for thread in threads:
   thread.join()
+
+plotter = InteractiveScatter(
+  space.xdata, 
+  space.distdata, 
+  space.devdata, 
+  labels=["Avg Distance from Center", "Avg Std Dev"]
+)
+plotter.plot()
 
 print("DONE")

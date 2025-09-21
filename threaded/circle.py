@@ -37,3 +37,5 @@ class Circle:
       force = forces[i]
       particle.update(force)
       particle.release()
+    
+    return len(particles)

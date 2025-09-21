@@ -1,5 +1,6 @@
 import random
 import math
+import threading
 
 from particle import Particle
 from circle import Circle
@@ -16,9 +17,13 @@ class Space:
     self.particles = []
     self.width = width
     self.height = height
+    self.xdata, self.distdata, self.devdata = [], [], []
 
     def radiusSelection():
-      return abs(normal_random(0, 150))
+      sel = -1
+      while sel <= 0:
+        sel = normal_random(100, 50)
+      return sel
     
     self.radiusSelection = radiusSelection
 
@@ -67,4 +72,47 @@ class Space:
     r = self.radiusSelection()
     circle.setPositionAndRadius(x, y, r)
 
-    circle.update()
+    particles_updated = circle.update()
+    avgerage_distance = self.average_distance_from_center()
+    std_dev = self.calculate_stddev(sample=True)
+    avg_std = (std_dev['std_x'] + std_dev['std_y']) / 2
+    with threading.Lock():
+      self.numParticlesUpdated += particles_updated
+      self.xdata.append(self.numParticlesUpdated)
+      # std = self.calculate_stddev(sample=True)
+      self.distdata.append(avgerage_distance)
+      self.devdata.append(avg_std)
+
+  def calculate_stddev(self, sample=False):
+    particles = self.particles
+    if not particles:
+      return {"std_x": 0.0, "std_y": 0.0}
+    
+    n = len(particles)
+    mean_x = sum(p.position['x'] for p in particles) / n
+    mean_y = sum(p.position['y'] for p in particles) / n
+
+    var_x = sum((p.position['x'] - mean_x) ** 2 for p in particles)
+    var_y = sum((p.position['y'] - mean_y) ** 2 for p in particles)
+
+    # Population vs Sample
+    denom = n - 1 if sample and n > 1 else n
+
+    std_x = math.sqrt(var_x / denom)
+    std_y = math.sqrt(var_y / denom)
+
+    return {"std_x": std_x, "std_y": std_y}
+
+  def average_distance_from_center(self):
+    if not self.particles:
+      return 0.0
+
+    cx, cy = self.getCenterOfGravity()
+    total_distance = 0.0
+
+    for p in self.particles:
+      dx = p.position['x'] - cx
+      dy = p.position['y'] - cy
+      total_distance += math.sqrt(dx*dx + dy*dy)
+
+    return total_distance / len(self.particles)
