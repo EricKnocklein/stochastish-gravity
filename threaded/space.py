@@ -78,6 +78,8 @@ class Space:
     avg_std = (std_dev['std_x'] + std_dev['std_y']) / 2
     with threading.Lock():
       self.numParticlesUpdated += particles_updated
+      if self.numParticlesUpdated < 30000:
+        return
       self.xdata.append(self.numParticlesUpdated)
       # std = self.calculate_stddev(sample=True)
       self.distdata.append(avgerage_distance)

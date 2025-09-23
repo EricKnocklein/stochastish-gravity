@@ -4,6 +4,8 @@ from plotter import InteractiveScatter
 import math
 import threading
 
+LIMIT = 125000
+
 def create_particles(space: Space, x_num, y_num, x_sep, y_sep):
   for i in range(x_num):
     for j in range(y_num):
@@ -33,28 +35,31 @@ def spawn_flower_particles(n, angle=137.5, spacing=5, outward_step=0.5):
   return particles
 
 def run(t_num, do_plot=True):
-  window = pyglet.window.Window(1200, 800)
-  space = Space(window.width, window.height)
+  width = 1200
+  height = 800
+  space = Space(width, height)
   # create_particles(space, 15, 10, 20, 20)
   flower_particles = spawn_flower_particles(150, spacing=9, outward_step=0.01)
   for x, y in flower_particles:
-    space.addParticle(x + window.width / 2, y + window.height / 2)
+    space.addParticle(x + width / 2, y + height / 2)
 
   space.centerParticles()
 
-  batch = pyglet.graphics.Batch()
+  if do_plot:
+    window = pyglet.window.Window(1200, 800)
+    batch = pyglet.graphics.Batch()
 
-  @window.event
-  def on_draw():
-    window.clear()
-    space.draw(batch, circleFunction=pyglet.shapes.Circle)
-    # Drawing code would go here
-    batch.draw()
+    @window.event
+    def on_draw():
+      window.clear()
+      space.draw(batch, circleFunction=pyglet.shapes.Circle)
+      # Drawing code would go here
+      batch.draw()
 
-  def stop_after_time(_dt):
-    if space.numParticlesUpdated >= 125000:
-      pyglet.app.exit()
-  pyglet.clock.schedule(stop_after_time)
+    def stop_after_time(_dt):
+      if space.numParticlesUpdated >= LIMIT:
+        pyglet.app.exit()
+    pyglet.clock.schedule(stop_after_time)
 
   working = True
   def worker():
@@ -65,7 +70,11 @@ def run(t_num, do_plot=True):
   for thread in threads:
     thread.start()
 
-  pyglet.app.run()
+  if do_plot:
+    pyglet.app.run()
+  else:
+    while space.numParticlesUpdated < LIMIT:
+      pass
   working = False
   for thread in threads:
     thread.join()
@@ -85,4 +94,4 @@ def run(t_num, do_plot=True):
   return {"distance": avg_dist, "stddev": avg_dev}
 
 if __name__ == "__main__":
-  run(t_num=1, do_plot=False)
+  run(t_num=1, do_plot=True)
