@@ -19,10 +19,13 @@ class Space:
     self.height = height
     self.xdata, self.distdata, self.devdata = [], [], []
 
+    self.mean_radius = 100
+    self.stddev_radius = 50
+
     def radiusSelection():
       sel = -1
       while sel <= 0:
-        sel = normal_random(100, 50)
+        sel = normal_random(self.mean_radius, self.stddev_radius)
       return sel
     
     self.radiusSelection = radiusSelection

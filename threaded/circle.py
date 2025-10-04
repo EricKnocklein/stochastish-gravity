@@ -1,6 +1,3 @@
-import time
-import threading
-
 class Circle:
   def __init__(self, particles):
     self.particles = particles

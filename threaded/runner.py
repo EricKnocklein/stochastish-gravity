@@ -34,10 +34,12 @@ def spawn_flower_particles(n, angle=137.5, spacing=5, outward_step=0.5):
 
   return particles
 
-def run(t_num, do_plot=True):
+def run(t_num=2, mean_r=100, std_r=50, do_plot=True):
   width = 1200
   height = 800
   space = Space(width, height)
+  space.mean_radius = mean_r
+  space.stddev_radius = std_r
   # create_particles(space, 15, 10, 20, 20)
   flower_particles = spawn_flower_particles(150, spacing=9, outward_step=0.01)
   for x, y in flower_particles:
