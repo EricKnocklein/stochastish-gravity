@@ -43,7 +43,9 @@ def run_dev_and_radius(num_runs=5, radius_values=[25, 50, 75, 100, 125, 150, 175
   radius_data, dev_data = [], []
   for _ in range(num_runs):
     print(f"============ STARTING RUN {_ + 1} ============")
+    random.shuffle(radius_values)
     for mean_r in radius_values:
+      random.shuffle(dev_values)
       for std_r in dev_values:
         print(f"Running with {mean_r} mean radius and {std_r} standard deviation...")
         results = run(mean_r=mean_r, std_r=std_r, do_plot=False)
@@ -57,7 +59,7 @@ def run_dev_and_radius(num_runs=5, radius_values=[25, 50, 75, 100, 125, 150, 175
   print(radius_data, dev_data, distdata)
 
 
-# run_dev_and_radius(num_runs=5)
+# run_dev_and_radius(num_runs=3)
 run_radius(num_runs=3, values=list(range(25, 325, 25)))
 plotter = InteractiveScatter(xdata, distdata, devdata, labels=["Avg Distance from Center", "Avg Std Dev"])
 plotter.plot()
