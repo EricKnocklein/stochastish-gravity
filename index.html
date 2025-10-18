@@ -486,7 +486,7 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     </p>
     <img src="./assets/t2_over_t_m10000.png" alt="A graph plotting the evolution of a simulation with a mean selection radius of 10,000">
     <p>
-      It would be interesting to see at what point the trend reverses. My guess is that it has to do with the proportion of particles land within a certain selection each time the selection occurs. If only a single particle is selected each time (as could be the case in the peak of the 3D graph), then the temporal gradient cannot form or will be too localized to have a large effect. However, if all but 1 particle are selected, then the gradient will be so blurred as to be almost global or constant.
+      It would be interesting to see at what point the trend reverses. My guess is that it has to do with the proportion of particles that land within a certain selection each time the selection occurs. If only a single particle is selected each time (as could be the case in the peak of the 3D graph), then the temporal gradient cannot form or will be too localized to have a large effect. However, if all but 1 particle are selected, then the gradient will be so blurred as to be almost global or constant.
     </p>
     <p>
       My instinctual guess is that an ideal proportion would be the radius that would best divide the particles among the threads, but I have no way of confirming this assumption. What do you think?
