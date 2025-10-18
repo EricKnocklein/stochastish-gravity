@@ -60,6 +60,13 @@ hr.end {
   margin-bottom: 1em;
 }
 
+img {
+  margin-top: -3em;
+  mix-blend-mode: darken;
+  max-width: 100%;
+  z-index: -1;
+}
+
 body pre, body code {
   max-width: 100%;
   background-color: rgb(51, 51, 51) !important;

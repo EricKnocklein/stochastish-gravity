@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Stochastish Gravity</title>
-    <meta name="keywords" content="gravity, stochastic, stochastish, computation, computational, physics, exploration">
+    <meta name="keywords" content="gravity, stochastic, stochastish, computation, computational, physics, exploration, temporal gradient, computational gravity, threaded gravity">
     <meta name="description" content="Look at gravity differently after reading this interactive article exploring how a temporal gradient could cause gravity without the need for curvature. Though not mathematically rigorous, explore simulations supporting these strange ideas">
     <link rel="stylesheet" href="./index.css" />
     <link rel="stylesheet" href="./menu.css" />
@@ -17,6 +17,7 @@
     <script type="module" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline/dist/chartjs-plugin-trendline.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -242,7 +243,7 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     <p>
       But there is something lacking from this explanation: what is causing the temporal gradient? Why does space near the planet tick less often than space farther away? I wanted to see whether I could think of answers to these questions using the same framework as we have been using in this article.
     </p>
-    <h2>Computational Gravity</h2>
+    <h2 id="computational_gravity">Computational Gravity</h2>
     <p>
       From a very high level it makes sense that areas with fewer particles would take less time to tick. There is less to calculate, fewer forces to compute, fewer particles to move, etc. Would this be enough to get the particles to attract one another?
     </p>
@@ -346,9 +347,153 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     <p>
       If you explore any of these concepts in any way, please do not hesitate to shoot me a message. You can <a href="https://eklittlehill.com/contact" target="_blank">contact me</a> from my <a href="https://eklittlehill.com/" target="_blank">author’s site</a>.
     </p>
+    <h2>Threaded Gravity</h2>
+    <p>
+      This is where this article ended when I submitted it to the Summer of Math Exposition 2025. As I was checking comments on <a href="https://some.3b1b.co/entries/ccec7823-288d-461e-ac9c-bac2c5626b08" target="_blank">my submission</a> and seeing the score I got in the end (21st place), I decided to complete one of the items in the “Further Exploration” section above. I don’t really think this article is complete without actually implementing threading. I probably should have done it from the jump.
+    </p>
+    <p>
+      In the <a href="https://github.com/EricKnocklein/stochastish-gravity" target="_blank">GitHub repo for this project</a>, there is not a threaded folder containing much of the same logic as the JavaScript code but written in Python, allowing it to be truly multi-threaded instead of having the particles sit in “timeout” for a certain period of time dependent on the size of the selection they are a part of.
+    </p>
+    <p>
+      How this threaded simulation works is very similar to the <a href="#computational_gravity">Computational Gravity</a> simulation. Firstly, we have a space that houses our particles. Then we choose a random circle within that space and “tick” each particle within that selection by updating their position and velocity. Particles currently being worked on are marked so that they cannot be selected again while they are updating.
+    </p>
+    <p>
+      The similarities make sense because the Computational Gravity simulation was an approximation of the threaded simulation. However, in actual threading, there are some extra considerations (but a lot of the hacky things I had to do to make the approximation work are no longer necessary).
+    </p>
+    <p>
+      Because all of the threads act on the same group of particles, it is crucial that access to the particles (and any other shared data) is correctly thread locked so that only one thread is reading or writing to the data at one time. If this is not done, then the threads would not share a common understanding of the data because the data could have changed while a thread is using it.
+    </p>
+    <p>
+      For the Particle class, I implemented this by having each particle implement a locking mechanism that threads have to get past before it can be updated. When we try to update the selection, we loop through all of the particles within the selection and attempt to acquire that particle. Only particles that the thread successfully acquired will be updated by that thread. Once the particles are updated, they are released so that other threads can acquire them.
+    </p>
+    <pre><code class="language-py">class Particle:
+  def __init__(self, pos, v):
+    self._lock = threading.Lock()
+    self._owner = None
+
+  def acquire(self, blocking=True):
+    got_it = self._lock.acquire(blocking)
+    if got_it:
+      self._owner = threading.get_ident()
+    return got_it
+  
+  def release(self):
+    if self._owner != threading.get_ident():
+      raise RuntimeError("This thread does not own the lock")
+    self._owner = None
+    self._lock.release()
+  
+  def update(self, force):
+    if self._owner != threading.get_ident():
+      raise RuntimeError("This thread does not own the lock")
+    self.updateParticlePosition()
+    acceleration = {
+      'x': force['x'] / self.mass,
+      'y': force['y'] / self.mass
+    }
+    self.updateParticleVelocity(acceleration)</code></pre>
+    <p>
+      Inside the Circle class, which is the object that does particle selection, you can see exactly the structure I explained above. Acquiring then updating and then releasing.
+    </p>
+    <pre><code class="language-py">class Circle:
+  def update(self):
+    particles = self.getParticles() # Acquiring happens in here
+    forces = [p.getForce(self.particles) for p in particles]
+
+    for i, particle in enumerate(particles):
+      force = forces[i]
+      particle.update(force) # Updating
+    for particle in particles:
+      particle.release() # Releasing
+
+  def getParticles(self):
+    cy = self.y
+    cx = self.x
+    r = self.r
+
+    particles_inside = [
+      particle for particle in self.particles
+      if (cx - particle.position['x']) ** 2 + (cy - particle.position['y']) ** 2 < r ** 2
+    ]
+
+    particles_updateable = []
+    for particle in particles_inside:
+      if particle.acquire(False): # Acquiring 
+        particles_updateable.append(particle)
+
+    return particles_updateable</code></pre>
+    <p>
+      The rest of the machinery to make the simulation run is not terribly interesting, so I will just move on to the results.
+    </p>
+    <h3>Results</h3>
+    <p>
+      Honestly, I was somewhat scared of what the results of this simulation were going to be. Everything made sense in my head, so one part of me was sure that I would see a pseudo-gravitational effect. But the fact that I had to manually make the factor of proportionality in the computational gravity simulation to 2 made me wonder whether threading alone would be enough for the effect to appear.
+    </p>
+    <p>
+      However, when I ran the simulations, it was immediately clear that the theory I’ve been building throughout this article is correct and that the effect is much more evident than in the JavaScript approximation.
+    </p>
+    <p>
+      As evidence of this, I plotted a couple of graphs, and I encourage you to run the python code yourself to see whether or not you get the same results. You can find instructions on how to run the code here.
+    </p>
+    <p>
+      Below is a graph very similar to the graphs that are created when running the simulations on this page. This graph shows a simulation with a single thread. Of course, I cannot run the simulation here, so this will have to suffice. 
+    </p>
+    <img src="./assets/t1_over_t.png" alt="A graph of how the average distance from the center of the particles evolves over time when running the simulation with a single thread">
+    <p>
+      The average distance from the center of the particles hovers around 46 for the whole simulation. This is our control because a single thread will not cause a stable temporal gradient, so the pseudo-gravitational effect should not appear.
+    </p>
+    <p>
+      Contrast this with the same type of plot for 2 threads (shown below). Even with just 2 threads, the effect is clear to see: the average distance from the center hovers around 41.
+    </p>
+    <img src="./assets/t2_over_t.png" alt="A graph of how the average distance from the center of the particles evolves over time when running the simulation with two threads">
+    <p>
+      What’s nice about writing these simulations in python is that it is really easy to set up a script that runs a bunch of simulations and records the results of those simulations for plotting. These next few graphs that I will be showing just plot the average of the average distance from the center across all points in plots like the two above. 
+    </p>
+    <p>
+      Using this metric, we can investigate the different parameters of the simulation. Specifically, I wanted to investigate 3 things.
+    </p>
+    <p>
+      <b>Thread Number:</b> What is the trend as we increase the number of threads executing the simulation? Will the distance continue to decrease when we go past 2 threads? Or will there be some cut off where the distance goes back up?
+    </p>
+    <p>
+      <b>Average Selection Radius:</b> What radius results in the strongest effect? Will we run into issues where the pseudo-gravitational force does not have large enough of a range to cause the effect? If the radius is really large, will the effect diminish?
+    </p>
+    <p>
+      <b>Standard Deviation of the Selection Radius:</b> Does it matter whether or not the selections are different sizes?
+    </p>
+    <p>
+      The first thing I tested is how the number of threads changes the average distance. We already have some evidence that 2 threads lowers the average distance from 1 thread, but here is a graph with 1 up to 8 threads.
+    </p>
+    <img src="./assets/threads_r100_s50.png" alt="A graph plotting the average distance from the center over the entire simulation against the number of threads running the simulation">
+    <p>
+      As you can see from the graph above, the average distance from the center or the spread of the particles decreases as we increase the number of threads. Perhaps going past 8 threads would reverse this trend. If you want to investigate this, there is a <i>tester.py</i> script that you can modify to get the result. For repeatability, the values used for the mean radius and the standard deviation for the radius were 100 and 50 respectively.
+    </p>
+    <p>
+      If we want to run tests on the radius and standard deviation, it makes sense to do that in one shot because the two parameters are interlinked. As such the graph below is a 3D plot where both the mean and standard deviation vary. The y-coordinate is the average distance.
+    </p>
+    <img src="./assets/colored_3d_2t_complete.png" alt="A 3D plot graphing the average distance over both mean radius and the standard deviation of the radius">
+    <p>
+      I find this graph really interesting because it seems like as long as the selection has the possibility of being large enough (either by having a large mean or a large standard deviation), the distance drops out. The specific values do not really seem to matter all that much.
+    </p>
+    <p>
+      With that being said, though, logically it makes sense for there to be a limit to how large the radius can get before the results reverse and the distance begins to grow again.
+    </p>
+    <p>
+      For example, if the radius is double the size of the simulation and the standard deviation is 0, then each selection will select all of the particles that are available to be selected, no matter their positions because the selection will always encompass the entire available space. This would logically eliminate any temporal gradient and eliminate the effect.
+    </p>
+    <p>
+      As a sanity check, I tested this idea, and the results are in the graph below (a run with the mean set to 10,000). And just like I expected, the average distance was once again hovering around 45, just like it was for the single threaded simulation even though I ran this simulation with 2 threads.
+    </p>
+    <img src="./assets/t2_over_t_m10000.png" alt="A graph plotting the evolution of a simulation with a mean selection radius of 10,000">
+    <p>
+      It would be interesting to see at what point the trend reverses. My guess is that it has to do with the proportion of particles land within a certain selection each time the selection occurs. If only a single particle is selected each time (as could be the case in the peak of the 3D graph), then the temporal gradient cannot form or will be too localized to have a large effect. However, if all but 1 particle are selected, then the gradient will be so blurred as to be almost global or constant.
+    </p>
+    <p>
+      My instinctual guess is that an ideal proportion would be the radius that would best divide the particles among the threads, but I have no way of confirming this assumption. What do you think?
+    </p>
     <h2>Conclusion</h2>
     <p>
-      My hope is that this exploration was interesting even if it was not rigorous. If anyone reading this has the technical know-how to formalize this concept in a mathematical way, I would love to know what some consequences of this sort of gravity would be if it were to work this way in an actual setting. I think it would be interesting to use this sort of gravity in the setting of a story and explore what consequences this would have for the characters, and maybe I could even incorporate it into some of my ongoing writing projects, which you can find <a href="https://eklittlehill.com/" target="_blank">here</a>. That page also has a form to contact me if you have any ideas or contribute to this exploration.
+      My hope is that this exploration was interesting even if it was not rigorous. If anyone reading this has the technical know-how to formalize this concept in a mathematical way, I would love to know what some consequences of this sort of gravity would be if it were to work this way in an actual setting. I think it would be interesting to use this sort of gravity in the setting of a story and explore what consequences this would have for the characters, and maybe I could even incorporate it into some of my ongoing writing projects, which you can find <a href="https://eklittlehill.com/" target="_blank">here</a>. That page also has a form to contact me if you have any ideas or want to contribute to this exploration.
     </p>
     <p>
       And if you are interested in the underlying programming for these simulations, you can either dig into it with your browser's Dev Tools, or you can view the code on my <a href="https://github.com/EricKnocklein/stochastic-gravity" target="_blank">GitHub</a>.

@@ -20,20 +20,20 @@ class Circle:
 
     particles_updateable = []
     for particle in particles_inside:
-      if particle.acquire(False):
+      if particle.acquire(False): # Acquiring 
         particles_updateable.append(particle)
 
     return particles_updateable
     return {'inside': particles_inside, 'updateable': particles_updateable}
 
   def update(self):
-    particles = self.getParticles()
+    particles = self.getParticles() # Acquiring happens in here
     forces = [p.getForce(self.particles) for p in particles]
 
     for i, particle in enumerate(particles):
       force = forces[i]
-      particle.update(force)
+      particle.update(force) # Updating
     for particle in particles:
-      particle.release()
+      particle.release() # Releasing
     
     return len(particles)
