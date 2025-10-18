@@ -98,7 +98,7 @@ def run(t_num=2, mean_r=100, std_r=50, do_plot=True):
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Run a threaded particle simulation where particles within a random selection circle are updated each step per thread. The nature of concurrency and the time required to update the particles in the circle cause a sort of gravity to arise. As the program is running, you will see the particle simulation progress. Once it is done running, you will see a graph of some statistics over the progression of the simulation.")
-  parser.add_argument("--t", type=int, default=1, help="The number of threads to run with. Defaults to 1")
+  parser.add_argument("--t", type=int, default=1, help="The number of threads to run with. Defaults to 1.")
   parser.add_argument("--m", type=int, default=100, help="The mean radius of the selection circle. Defaults to 100.")
   parser.add_argument("--s", type=int, default=50, help="The standard deviation of the radius of the selection circle. Defaults to 50.")
 
