@@ -16,11 +16,12 @@ for x, y, z in zip(array1, array2, array3):
 # Generate new arrays with averaged data
 new_array1, new_array2, new_array3 = [], [], []
 for (x, y), values in data.items():
-  if x > 25 and y > 0:
-    continue
+  # if x > 25 and y > 0:
+  #   continue
   new_array1.append(x)
   new_array2.append(y)
   new_array3.append(values["sum"] / values["count"])
 
 plotter = InteractiveScatter(new_array1, new_array2, new_array3, labels=["Avg Distance from Center"], is_3d=True)
+# plotter = InteractiveScatter(array1, array2, array3, labels=["Avg Distance from Center"], is_3d=True)
 plotter.plot()

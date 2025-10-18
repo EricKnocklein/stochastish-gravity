@@ -15,10 +15,10 @@ class InteractiveScatter:
       self.y = self.ys[0]
       self.ys = []
       self.is_3d = True
-      from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
+      from mpl_toolkits.mplot3d import Axes3D 
       self.fig = plt.figure()
       self.ax = self.fig.add_subplot(111, projection='3d')
-      self.ax.scatter(self.x, self.y, self.z, c='red', marker='o')
+      self.ax.scatter(self.x, self.y, self.z, c=self.z, cmap='viridis', marker='o')
     else:
       self.z = None
       self.y = self.ys[0] if self.ys else None
