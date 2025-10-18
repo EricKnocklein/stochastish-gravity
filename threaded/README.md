@@ -1,6 +1,6 @@
 # Threaded Stochastish Gravity
 
-This part of the Stochastish Gravity project explores true threading. It is meant to supplement the exploration in this article and shows proof of the conjecture in that threaded simulations give rise to *gravity-like* behaviors.
+This part of the Stochastish Gravity project explores true threading. It is meant to supplement the exploration in [this article](https://ericknock.dev/gravity/) and shows proof of the conjecture in that threaded simulations give rise to *gravity-like* behaviors.
 
 ## How it Works
 
