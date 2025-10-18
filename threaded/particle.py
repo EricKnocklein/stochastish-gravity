@@ -24,6 +24,8 @@ class Particle:
     self._lock.release()
   
   def update(self, force):
+    if self._owner != threading.get_ident():
+      raise RuntimeError("This thread does not own the lock")
     self.updateParticlePosition()
     acceleration = {
       'x': force['x'] / self.mass,

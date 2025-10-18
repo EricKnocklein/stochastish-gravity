@@ -33,6 +33,7 @@ class Circle:
     for i, particle in enumerate(particles):
       force = forces[i]
       particle.update(force)
+    for particle in particles:
       particle.release()
     
     return len(particles)
