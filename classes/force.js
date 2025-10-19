@@ -216,7 +216,8 @@ class Force {
 
   static createForceGraph(ctx) {
     const maxAbsCoeff = Math.max(...Force.coefficients.map(Math.abs));
-    const labels = Array.from({ length: 50 }, (_, i) => i * (maxAbsCoeff / 50)); // Avoid zero to prevent division by zero
+    const resolution = 200;
+    const labels = Array.from({ length: resolution }, (_, i) => 1 + (i * (maxAbsCoeff - 1)) / (resolution - 1));
     console.log("Creating force graph with labels:", labels);
     const data = labels.map((label) => Force.calculateForceMagnitude(label));
 
@@ -238,6 +239,7 @@ class Force {
             data: data,
             borderColor: "rgba(75, 192, 192, 1)",
             fill: false,
+            pointRadius: 1,
           },
         ],
       },
@@ -250,8 +252,8 @@ class Force {
               display: true,
               text: "Force Magnitude",
             },
-            min: maxValue < 0 ? -1 * Math.log(Math.abs(maxValue)) : null,
-            max: maxValue > 0 ? Math.log(maxValue) : null,
+            // min: maxValue < 0 ? -1 * Math.log(Math.abs(maxValue)) : null,
+            // max: maxValue > 0 ? Math.log(maxValue) : null,
           },
         },
       },

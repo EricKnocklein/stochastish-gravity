@@ -50,6 +50,12 @@
       Below is the equation for the force that a specific particle <i>i</i> feels from every other particle. If you want to change which values are used in this equation, you can do so in the menu on the right side of the screen.
     </p>
     <div class="force-equation"></div>
+    <p class="hint">
+      Note that the default coordinates, which are used for all of the simulations, are <i>0</i>, <i>20</i>, <i>-20</i>.
+    </p>
+    <p class="hint">
+      If you open the force graph using the menu in the bottom right of the screen. Notice that the values displayed end at a distance of 1. This is because the simulations clamp the distance to a minimum of 1 in order to prevent extreme values. You will notice this in the code below as well.
+    </p>
     <p>
       The equation gives us a good template for what to implement in the code. If you read the code provided below, you can find each part of the above equation represented. But we also have to bend the rules a little to prevent singularities and extreme forces when particles get very close to one another.
     </p>
@@ -347,6 +353,7 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     <p>
       If you explore any of these concepts in any way, please do not hesitate to shoot me a message. You can <a href="https://eklittlehill.com/contact" target="_blank">contact me</a> from my <a href="https://eklittlehill.com/" target="_blank">author’s site</a>.
     </p>
+    <hr class="start">
     <h2>Threaded Gravity</h2>
     <p>
       This is where this article ended when I submitted it to the Summer of Math Exposition 2025. As I was checking comments on <a href="https://some.3b1b.co/entries/ccec7823-288d-461e-ac9c-bac2c5626b08" target="_blank">my submission</a> and seeing the score I got in the end (21st place), I decided to complete one of the items in the “Further Exploration” section above. I don’t really think this article is complete without actually implementing threading. I probably should have done it from the jump.
@@ -427,13 +434,16 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     </p>
     <h3>Results</h3>
     <p>
-      Honestly, I was somewhat scared of what the results of this simulation were going to be. Everything made sense in my head, so one part of me was sure that I would see a pseudo-gravitational effect. But the fact that I had to manually make the factor of proportionality in the computational gravity simulation to 2 made me wonder whether threading alone would be enough for the effect to appear.
+      Honestly, I was somewhat scared of what the results of this simulation were going to be. Everything made sense in my head, so one part of me was sure that I would see a pseudo-gravitational effect. But the fact that I had to manually make the factor of proportionality in the computational gravity simulation to <i>2</i> made me wonder whether threading alone would be enough for the effect to appear.
     </p>
     <p>
       However, when I ran the simulations, it was immediately clear that the theory I’ve been building throughout this article is correct and that the effect is much more evident than in the JavaScript approximation.
     </p>
     <p>
       As evidence of this, I plotted a couple of graphs, and I encourage you to run the python code yourself to see whether or not you get the same results. You can find instructions on how to run the code here.
+    </p>
+    <p class="hint">
+      Note that the force equation for all of these python simulations is of the same form as the simulations on this page, but the coordinates are <i>0</i>, <i>20</i>, <i>-50</i>, <i>20</i>
     </p>
     <p>
       Below is a graph very similar to the graphs that are created when running the simulations on this page. This graph shows a simulation with a single thread. Of course, I cannot run the simulation here, so this will have to suffice. 
@@ -466,7 +476,7 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     </p>
     <img src="./assets/threads_r100_s50.png" alt="A graph plotting the average distance from the center over the entire simulation against the number of threads running the simulation">
     <p>
-      As you can see from the graph above, the average distance from the center or the spread of the particles decreases as we increase the number of threads. Perhaps going past 8 threads would reverse this trend. If you want to investigate this, there is a <i>tester.py</i> script that you can modify to get the result. For repeatability, the values used for the mean radius and the standard deviation for the radius were 100 and 50 respectively.
+      As you can see from the graph above, the average distance from the center or the spread of the particles decreases as we increase the number of threads. Perhaps going past 8 threads would reverse this trend. If you want to investigate this, there is a <i>tester.py</i> script that you can modify to get the result. For repeatability, the values used for the mean radius and the standard deviation for the radius were <i>100</i> and <i>50</i> respectively.
     </p>
     <p>
       If we want to run tests on the radius and standard deviation, it makes sense to do that in one shot because the two parameters are interlinked. As such the graph below is a 3D plot where both the mean and standard deviation vary. The y-coordinate is the average distance.
@@ -481,8 +491,11 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
     <p>
       For example, if the radius is double the size of the simulation and the standard deviation is 0, then each selection will select all of the particles that are available to be selected, no matter their positions because the selection will always encompass the entire available space. This would logically eliminate any temporal gradient and eliminate the effect.
     </p>
+    <p class="hint">
+      For context, the simulation dimensions are <i>1200</i> by <i>800</i>, and the center of the selection circle is guaranteed to be within this space. This means that we'd just need a radius a little larger than the simulation to be certain that it will contain all particles (assuming that no particles leave the simulation, which I do not enforce).
+    </p>
     <p>
-      As a sanity check, I tested this idea, and the results are in the graph below (a run with the mean set to 10,000). And just like I expected, the average distance was once again hovering around 45, just like it was for the single threaded simulation even though I ran this simulation with 2 threads.
+      As a sanity check, I tested this idea, and the results are in the graph below (a run with the mean set to <i>10,000</i>). And just like I expected, the average distance was once again hovering around 45, just like it was for the single threaded simulation even though I ran this simulation with 2 threads.
     </p>
     <img src="./assets/t2_over_t_m10000.png" alt="A graph plotting the evolution of a simulation with a mean selection radius of 10,000">
     <p>
@@ -508,7 +521,7 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
       </div>
     </div>
     <footer>
-      <p><a href="https://ericknock.dev/" target="_blank">Eric Knocklein</a> - May 2025</p>
+      <p><a href="https://ericknock.dev/" target="_blank">Eric Knocklein</a> - October 2025</p>
     </footer>
   </body>
 </html>

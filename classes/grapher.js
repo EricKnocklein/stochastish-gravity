@@ -2,6 +2,7 @@ import { getTrendline } from "./stats.js";
 export default class Grapher {
   constructor(elemId) {
     this.elem = document.getElementById(elemId);
+    this.elem.classList.add("loaded");
 
     const ctx = this.elem.getContext('2d');
 
@@ -79,6 +80,7 @@ export default class Grapher {
   }
 
   destroy() {
+    this.elem.classList.remove("loaded");
     this.chart.destroy();
     delete this.chart.data;
   }

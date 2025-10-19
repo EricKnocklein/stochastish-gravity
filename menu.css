@@ -91,6 +91,12 @@ div#menus * {
   padding-bottom: 5px;
 }
 
+#menus .title:not(:first-child) {
+  padding-top: 4px;
+  margin-top: 2px;
+  /* border-top: solid 1px; */
+}
+
 div#menus:hover {
   width: 200px;
   height: 200px;
@@ -125,7 +131,7 @@ div#menus:hover .holder {
   transition-delay: 0s;
 }
 
-.menu {
+.menu:not(:last-child) {
   margin-bottom: 10px;
 }
 
@@ -168,7 +174,7 @@ div#menus:hover .holder {
 }
 
 .add-coefficient-btn {
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 #dataDisplay canvas {

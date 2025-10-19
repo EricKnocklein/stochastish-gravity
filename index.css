@@ -64,7 +64,6 @@ img {
   margin-top: -3em;
   mix-blend-mode: darken;
   max-width: 100%;
-  z-index: -1;
 }
 
 body pre, body code {
@@ -124,6 +123,10 @@ select {
 
 canvas {
   margin-bottom: 40px;
+}
+
+.graph:not(.loaded) {
+  display: none;
 }
 
 .sim .force-field {

@@ -143,8 +143,9 @@ const createParticles = (space, xNum, yNum, xSep, ySep) => {
   }
 };
 
-const setUpRR = (sim, args, upf, space, grapher, setupF) => {
+const setUpRR = (sim, args, upf, space, grapher_name, setupF) => {
   const runnerClick = () => {
+    args.grapher ??= new Grapher(grapher_name);
     args.runSim = !args.runSim;
     if(!args.runSim) {
       space.renderForceField(2);
@@ -159,7 +160,7 @@ const setUpRR = (sim, args, upf, space, grapher, setupF) => {
     reset.removeEventListener('click', resetF);
     e.stopPropagation()
     space.destroy();
-    grapher.destroy();
+    args.grapher?.destroy?.();
     window.setTimeout(() => {
       setupF();
     }, 100);
@@ -185,17 +186,15 @@ const setUpGlobalSim = () => {
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
 
-  const grapher = new Grapher("globalChart");
   const args = {
     runSim: false,
     space: space,
-    grapher: grapher,
     doCenter: false,
     isCircle: false,
     doGlobalUpdate: true,
   };
 
-  setUpRR(globalSim, args, 1, space, grapher, setUpGlobalSim);
+  setUpRR(globalSim, args, 1, space, 'globalChart', setUpGlobalSim);
 
   window.globalSpace = space;
 }
@@ -237,16 +236,14 @@ const setUpGradientSim = () => {
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
 
-  const grapher = new Grapher("gradientChart");
   const args = {
     runSim: false,
     space: space,
-    grapher: grapher,
     doCenter: false,
     isCircle: false,
   };
 
-  setUpRR(gradientSim, args, 250, space, grapher, setUpGradientSim);
+  setUpRR(gradientSim, args, 250, space, "gradientChart", setUpGradientSim);
 
   window.gradientSpace = space;
 };
@@ -270,16 +267,14 @@ const setUpCirlceSim = () => {
   originalCneter.classList.add("original");
   space.particleHolder.appendChild(originalCneter);
 
-  const grapher = new Grapher("circleChart");
   const args = {
     runSim: false,
     space: space,
-    grapher: grapher,
     doCenter: false,
     isCircle: true,
   };
 
-  setUpRR(circleSim, args, 15, space, grapher, setUpCirlceSim);
+  setUpRR(circleSim, args, 15, space, "circleChart", setUpCirlceSim);
 
   window.circleSpace = space;
 };
@@ -309,17 +304,15 @@ const setUpComputeSim = () => {
     }, wait);
   };
 
-  const grapher = new Grapher("computeChart");
   const args = {
     runSim: false,
     space: space,
-    grapher: grapher,
     doCenter: false,
     isCircle: true,
     callback: updateFunc,
   };
 
-  setUpRR(computeSim, args, 15, space, grapher, setUpComputeSim);
+  setUpRR(computeSim, args, 15, space, "computeChart", setUpComputeSim);
 
   window.computeSpace = space;
 };

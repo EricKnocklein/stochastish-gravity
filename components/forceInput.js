@@ -4,7 +4,7 @@ class forceinput {
   static createinput(key, text) {
     //  input
     const holder = document.createElement("div");
-    holder.style.margin = "8px 0";
+    holder.style.margin = "4px 0";
     holder.style.display = "flex";
     holder.style.alignItems = "center";
 
