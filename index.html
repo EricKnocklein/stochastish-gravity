@@ -502,7 +502,17 @@ yBiasSelect.addEventListener('change', onInputChange);</code></pre>
       It would be interesting to see at what point the trend reverses. My guess is that it has to do with the proportion of particles that land within a certain selection each time the selection occurs. If only a single particle is selected each time (as could be the case in the peak of the 3D graph), then the temporal gradient cannot form or will be too localized to have a large effect. However, if all but 1 particle are selected, then the gradient will be so blurred as to be almost global or constant.
     </p>
     <p>
-      My instinctual guess is that an ideal proportion would be the radius that would best divide the particles among the threads, but I have no way of confirming this assumption. What do you think?
+      To test these theories, I ran a number of simulations where I vary the selection radius. These simulations start from a radius of 25 and go up a radius of just under 1200, which is the width of the simulation, and the standard deviation is set to 0 so that it does not influence the results. The simulation was run using 2 threads, and the results are shown in the graph below.
+    </p>
+    <img src="./assets/t2_over_m_s0.png" alt="">
+    <p>
+      As you can see, the hypothesis stated earlier seems to be generally correct. A radius that is too small actually results in the highest distance of any simulation, which is quite surprising to me. I would not have expected there to be a noticeable difference between the really large radius and the really small radius.
+    </p>
+    <p>
+      But that is not the only thing that’s interesting about this graph. What also surprised me is how quickly the distance falls (to a minimum around 200) as the radius increases before slowly plateauing out around 900. I was expecting more of a parabolic shape, but I guess I had no reason to expect that.
+    </p>
+    <p>
+      I could run simulations like this all day, but I have to end this article at some point. And I think this is as good a place as any to do it. If I come up with any other ideas, I will update the article.
     </p>
     <h2>Conclusion</h2>
     <p>
