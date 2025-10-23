@@ -21,7 +21,7 @@ def run_radius(num_runs=5, values=[25, 50, 75, 100, 125, 150, 175, 200]):
     print(f"============ STARTING RUN {_ + 1} ============")
     for mean_r in values:
       print(f"Running with {mean_r} mean radius...")
-      results = run(mean_r==mean_r, std_r=0, do_plot=False)
+      results = run(mean_r=mean_r, std_r=0, do_plot=False)
       xdata.append(mean_r)
       distdata.append(results["distance"])
       devdata.append(results["stddev"])
@@ -59,7 +59,7 @@ def run_dev_and_radius(num_runs=5, radius_values=[25, 50, 75, 100, 125, 150, 175
   print(radius_data, dev_data, distdata)
 
 
-# run_dev_and_radius(num_runs=3)
-run_radius(num_runs=3, values=list(range(25, 325, 25)))
+# run_dev_and_radius(num_runs=3, dev_values=[0], radius_values=)
+run_radius(num_runs=3, values=list(range(25, 1200, 50)))
 plotter = InteractiveScatter(xdata, distdata, devdata, labels=["Avg Distance from Center", "Avg Std Dev"])
 plotter.plot()
