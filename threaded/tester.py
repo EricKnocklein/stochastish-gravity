@@ -21,7 +21,7 @@ def run_radius(num_runs=5, values=[25, 50, 75, 100, 125, 150, 175, 200]):
     print(f"============ STARTING RUN {_ + 1} ============")
     for mean_r in values:
       print(f"Running with {mean_r} mean radius...")
-      results = run(mean_r=mean_r, std_r=0, do_plot=False)
+      results = run(mean_r=mean_r, std_r=25, do_plot=False)
       xdata.append(mean_r)
       distdata.append(results["distance"])
       devdata.append(results["stddev"])
